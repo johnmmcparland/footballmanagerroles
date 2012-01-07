@@ -10,6 +10,8 @@ This page details the design of the application.
 == Process Flow ==
 The process flow is shown in the projects source directory (path trunk/docs/Diagrams/ProcessFlow.jpg)
 
+<img src="https://lh3.googleusercontent.com/-P0haHmQOkL4/TwhvOF8GVmI/AAAAAAAAAwM/8x4uGgjE9yw/s640/ProcessFlow.jpg" title="Process Flow" alt="Process flow through the Football Manager Roles application"/>
+
 It is;
 
    1 Gather the input - i.e. the file with the player
@@ -23,6 +25,8 @@ It is;
 
 The class diagram is shown in the projects source directory (path trunk/docs/Diagrams/Class.jpg).  It shows the interfaces, enums and classes plus the relationships between them.
 
+<img src="https://lh4.googleusercontent.com/-wMqfPc7PSYE/TwhvPL7HUxI/AAAAAAAAAwU/e1HdtBy_HyE/s800/Class.jpg" title="Class Diagram" alt="Class diagram of the football manager roles application showing the relationship between the classes"/>
+
 There are several groups of classes;
 
    * data access (i.e. to databases)
@@ -31,3 +35,23 @@ There are several groups of classes;
    * parsers
    * attributes
    * input
+
+== Database ==
+
+The database contains a number of key tables which are shown in the Entity-Relationship Diagram below.
+
+<img src="https://lh5.googleusercontent.com/-NUoPtNZmCo0/TwhvPJJYYjI/AAAAAAAAAwY/SFzcR_iCtPM/s912/EntityRelationshipDiagram.jpg" title="Entity-Relationship Diagram" alt="Entity-Relationship Diagram for Football Manager roles showing the relationships between the key tables"/>
+
+The main tables are;
+
+   * CategoriesGK
+   * TypeGK
+   * AttributesGK
+   * CategoriesOutfield
+   * TypesOutfield
+   * AttributesOutfield
+   * PitchArea
+   * Role
+   * Side 
+   * Duty
+   * Positions_To_Roles
