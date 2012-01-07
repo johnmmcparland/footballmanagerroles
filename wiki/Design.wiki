@@ -1,0 +1,20 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+This page details the design of the application.
+
+
+= Details =
+
+== Process Flow ==
+The process flow is shown in the diagram below.
+
+It is;
+
+   1 Gather the input - i.e. the file with the player
+   1 Load the Data Access Object and the required data
+   1 Determine whether it is a Football Player or Staff (TBD) parser that is required
+   1 Parse out the player / staff member
+   1 Calculate the suitability for the various roles
+   1 Report the roles
