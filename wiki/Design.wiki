@@ -8,10 +8,7 @@ This page details the design of the application.
 = Details =
 
 == Process Flow ==
-The process flow is shown in the diagram below.
-
-
-<img src="http://code.google.com/p/footballmanagerroles/source/browse/trunk/docs/Diagrams/ProcessFlow.jpg" title="Process Flow"/>
+The process flow is shown in the projects source directory (path trunk/docs/Diagrams/ProcessFlow.jpg)
 
 It is;
 
@@ -24,7 +21,13 @@ It is;
 
 == Class Diagram ==
 
-The class diagram is below.  It shows the interfaces, enums and classes plus the relationships between them.
+The class diagram is shown in the projects source directory (path trunk/docs/Diagrams/Class.jpg).  It shows the interfaces, enums and classes plus the relationships between them.
 
+There are several groups of classes;
 
-<img src="http://code.google.com/p/footballmanagerroles/source/browse/trunk/docs/Diagrams/Class.jpg" title="Class Diagram"/>
+   * data access (i.e. to databases)
+   * roles
+   * people
+   * parsers
+   * attributes
+   * input
