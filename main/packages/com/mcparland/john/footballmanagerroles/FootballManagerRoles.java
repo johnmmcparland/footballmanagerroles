@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mcparland.john.footballmanaerroles;
+package com.mcparland.john.footballmanagerroles;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.ConfigurableApplicationContext;
