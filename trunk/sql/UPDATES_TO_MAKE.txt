@@ -1,0 +1,30 @@
+﻿Updates To ViewName Column in Positions_To_Roles Table
+------------------------------------------------------
+update Positions_To_Roles set ViewName = 'NEW' where ViewName = 'OLD';
+
+FB_S -> FB_SAu
+FS_Au -> FB_SAu
+W_S -> W_SA
+W_A -> W_SA
+
+SWK_D -> SWK_DSA
+SWK_S -> SWK_DSA
+SWK_A -> SWK_DSA
+
+WB_S -> WB_SAu
+WB_Au -> WB_SAu
+
+Additions
+---------
+Views;
+
+SWK_DSA
+FB_D
+FB_A
+WB_D
+WB_SAu
+WB_A
+L_S
+L_A
+SW_D
+BPD_D

@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<!-- Load properties -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="com/mcparland/john/footballmanagerroles/config/${MODE}/footballmanagerroles.properties" />
+	</bean>
+
+	<!-- Database connection -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.jdbcurl}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+	</bean>
+
+	<!-- JDBC Template for accessing the Football Manager Roles database -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="attributesService"
+		class="com.mcparland.john.footballmanagerroles.data.access.PlayerAttributesService">
+		<property name="DAOs" ref="daos" />
+	</bean>
+
+	<util:list id="daos" list-class="java.util.ArrayList">
+		<ref bean="outfieldAttributesDao" />
+		<ref bean="gkAttributesDao" />
+	</util:list>
+
+	<!-- Attributes Data Access Objects -->
+	<bean id="outfieldAttributesDao"
+		class="com.mcparland.john.footballmanagerroles.data.access.DAOImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="queryier" ref="outFieldAttributesQuery" />
+		<property name="query" value="select * from attributesoutfield" />
+	</bean>
+
+	<bean id="gkAttributesDao"
+		class="com.mcparland.john.footballmanagerroles.data.access.DAOImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="queryier" ref="gkAttributesQuery" />
+		<!--  Note the query is different here because we only want the GK attributes -->
+		<property name="query" value="select * from attributesgk where type='Goalkeeping'" />
+	</bean>
+
+	<!-- Attributes Query Objects -->
+	<bean id="outFieldAttributesQuery"
+		class="com.mcparland.john.footballmanagerroles.data.access.AttributesQuery">
+	</bean>
+
+	<bean id="gkAttributesQuery"
+		class="com.mcparland.john.footballmanagerroles.data.access.AttributesQuery">
+	</bean>
+
+	<!-- The input -->
+	<bean id="input"
+		class="com.mcparland.john.footballmanagerroles.input.CmdLineInput" />
+
+	<!-- An error reporter -->
+	<bean id="errorReporter"
+		class="com.mcparland.john.footballmanagerroles.support.CmdLineErrorReporter" />
+
+	<!-- The parser -->
+	<bean id="parser"
+		class="com.mcparland.john.footballmanagerroles.parser.PlayerTextParser">
+		<!-- <property name="attributes" ref="attributes" /> -->
+	</bean>
+
+	<!-- Attributes -->
+	<bean id="attributes"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.PlayerAttributes">
+		<!-- <property name="attributes" ref="playerAttributesCol" /> -->
+	</bean>
+
+	<util:set id="playerAttributesCol" set-class="java.util.LinkedHashSet">
+		<!-- Technical -->
+		<ref bean="Corners" />
+		<ref bean="Crossing" />
+		<ref bean="Dribbling" />
+		<ref bean="Finishing" />
+		<ref bean="FirstTouch" />
+		<ref bean="FreeKickTaking" />
+		<ref bean="Heading" />
+		<ref bean="LongShots" />
+		<ref bean="LongThrows" />
+		<ref bean="Marking" />
+		<ref bean="Passing" />
+		<ref bean="PenaltyTaking" />
+		<ref bean="Tackling" />
+		<ref bean="Technique" />
+		<!-- Mental -->
+		<ref bean="Aggression" />
+		<ref bean="Anticipation" />
+		<ref bean="Bravery" />
+		<ref bean="Composure" />
+		<ref bean="Concentration" />
+		<ref bean="Creativity" />
+		<ref bean="Decisions" />
+		<ref bean="Determination" />
+		<ref bean="Flair" />
+		<ref bean="Influence" />
+		<ref bean="OffTheBall" />
+		<ref bean="Positioning" />
+		<ref bean="Teamwork" />
+		<ref bean="WorkRate" />
+		<!-- Physical -->
+		<ref bean="Acceleration" />
+		<ref bean="Agility" />
+		<ref bean="Balance" />
+		<ref bean="Jumping" />
+		<ref bean="NaturalFitness" />
+		<ref bean="Pace" />
+		<ref bean="Balance" />
+		<ref bean="Jumping" />
+		<ref bean="Stamina" />
+		<ref bean="Strength" />
+		<!-- Goalkeeping -->
+		<ref bean="AerialAbility" />
+		<ref bean="CommandOfArea" />
+		<ref bean="Communication" />
+		<ref bean="Eccentricity" />
+		<ref bean="NaturalFitness" />
+		<ref bean="FirstTouchGK" />
+		<ref bean="FreeKickTakingGK" />
+		<ref bean="Handling" />
+		<ref bean="Kicking" />
+		<ref bean="OneOnOnes" />
+		<ref bean="PenaltyTakingGK" />
+		<ref bean="Reflexes" />
+		<ref bean="RushingOut" />
+		<ref bean="TendencyToPunch" />
+		<ref bean="Throwing" />
+	</util:set>
+
+	<!-- These are defined statically within the Spring Config because they don't 
+		change from release to release -->
+	<!-- Outfield Players -->
+	<!-- ================ -->
+	<!-- Technical -->
+	<bean name="Corners"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Corners" />
+		<property name="type" value="Technical" />
+	</bean>
+	<bean name="Crossing"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Crossing" />
+		<property name="type" value="Technical" />
+	</bean>
+	<bean name="Dribbling"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Dribbling" />
+		<property name="type" value="Technical" />
+	</bean>
+	<bean name="Finishing "
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Finishing" />
+		<property name="type" value="Technical" />
+	</bean>
+	<bean name="FirstTouch"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="First Touch" />
+		<property name="type" value="Technical" />
+	</bean>
+	<bean name="FreeKickTaking"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Free Kick Taking" />
+		<property name="type" value="Technical" />
+	</bean>
+	<bean name="Heading"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Heading" />
+		<property name="type" value="Technical" />
+	</bean>
+	<bean name="LongShots"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Long Shots" />
+		<property name="type" value="Technical" />
+	</bean>
+	<bean name="LongThrows"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Long Throws" />
+		<property name="type" value="Technical" />
+	</bean>
+	<bean name="Marking"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Marking" />
+		<property name="type" value="Technical" />
+	</bean>
+	<bean name="Passing"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Passing" />
+		<property name="type" value="Technical" />
+	</bean>
+	<bean name="PenaltyTaking"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Penalty Taking" />
+		<property name="type" value="Technical" />
+	</bean>
+	<bean name="Tackling"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Tackling" />
+		<property name="type" value="Technical" />
+	</bean>
+	<bean name="Technique"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Technique" />
+		<property name="type" value="Technical" />
+	</bean>
+	<!-- Mental -->
+	<bean name="Aggression"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Aggression" />
+		<property name="type" value="Mental" />
+	</bean>
+	<bean name="Anticipation"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Anticipation" />
+		<property name="type" value="Mental" />
+	</bean>
+	<bean name="Bravery"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Bravery" />
+		<property name="type" value="Mental" />
+	</bean>
+	<bean name="Composure"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Composure" />
+		<property name="type" value="Mental" />
+	</bean>
+	<bean name="Concentration"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Concentration" />
+		<property name="type" value="Mental" />
+	</bean>
+	<bean name="Creativity"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Creativity" />
+		<property name="type" value="Mental" />
+	</bean>
+	<bean name="Decisions"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Decisions" />
+		<property name="type" value="Mental" />
+	</bean>
+	<bean name="Determination"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Determination" />
+		<property name="type" value="Mental" />
+	</bean>
+	<bean name="Flair"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Flair" />
+		<property name="type" value="Mental" />
+	</bean>
+	<bean name="Influence"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Influence" />
+		<property name="type" value="Mental" />
+	</bean>
+	<bean name="OffTheBall"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Off The Ball" />
+		<property name="type" value="Mental" />
+	</bean>
+	<bean name="Positioning"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Positioning" />
+		<property name="type" value="Mental" />
+	</bean>
+	<bean name="Teamwork"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Teamwork" />
+		<property name="type" value="Mental" />
+	</bean>
+	<bean name="WorkRate"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Work Rate" />
+		<property name="type" value="Mental" />
+	</bean>
+	<!-- Physical -->
+	<bean name="Acceleration"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Acceleration" />
+		<property name="type" value="Physical" />
+	</bean>
+	<bean name="Agility"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Agility" />
+		<property name="type" value="Physical" />
+	</bean>
+	<bean name="Balance"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Balance" />
+		<property name="type" value="Physical" />
+	</bean>
+	<bean name="Jumping"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Jumping" />
+		<property name="type" value="Physical" />
+	</bean>
+	<bean name="NaturalFitness"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Natural Fitness" />
+		<property name="type" value="Physical" />
+	</bean>
+	<bean name="Pace"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Pace" />
+		<property name="type" value="Physical" />
+	</bean>
+	<bean name="Stamina"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Stamina" />
+		<property name="type" value="Physical" />
+	</bean>
+	<bean name="Strength"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.OutfieldPlayerAttribute">
+		<property name="name" value="Strength" />
+		<property name="type" value="Physical" />
+	</bean>
+
+
+	<!-- Goalkeepers -->
+	<!-- =========== -->
+	<!-- Goalkeeping -->
+	<bean name="AerialAbility"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="Aerial Ability" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+	<bean name="CommandOfArea"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="Command Of Area" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+	<bean name="Communication"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="Communication" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+	<bean name="Eccentricity"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="Eccentricity" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+	<bean name="FirstTouchGK"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="First Touch" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+	<bean name="FreeKickTakingGK"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="Free Kick Taking" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+	<bean name="Handling"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="Handling" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+	<bean name="Kicking"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="Kicking" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+	<bean name="OneOnOnes"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="One On Ones" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+	<bean name="PenaltyTakingGK"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="Penalty Taking" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+	<bean name="Reflexes"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="Reflexes" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+	<bean name="RushingOut"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="Rushing Out" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+	<bean name="TendencyToPunch"
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="Tendency To Punch" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+	<bean name="Throwing "
+		class="com.mcparland.john.footballmanagerroles.data.attributes.GoalkeeperAttribute">
+		<property name="name" value="Throwing" />
+		<property name="type" value="Goalkeeping" />
+	</bean>
+</beans>
