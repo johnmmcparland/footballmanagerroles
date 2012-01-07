@@ -10,6 +10,9 @@ This page details the design of the application.
 == Process Flow ==
 The process flow is shown in the diagram below.
 
+
+<img src="http://code.google.com/p/footballmanagerroles/source/browse/trunk/docs/Diagrams/ProcessFlow.jpg" title="Process Flow"/>
+
 It is;
 
    1 Gather the input - i.e. the file with the player
@@ -18,3 +21,10 @@ It is;
    1 Parse out the player / staff member
    1 Calculate the suitability for the various roles
    1 Report the roles
+
+== Class Diagram ==
+
+The class diagram is below.  It shows the interfaces, enums and classes plus the relationships between them.
+
+
+<img src="http://code.google.com/p/footballmanagerroles/source/browse/trunk/docs/Diagrams/Class.jpg" title="Class Diagram"/>
