@@ -1,0 +1,6 @@
+-- Information at http://www.oooforum.org/forum/viewtopic.phtml?t=32333
+-- and http://www.hsqldb.org/doc/guide/ch09.html#script-section
+-- Go to 'Tools' -> 'SQL'
+-- Place the below in 'Command to execute'
+-- Press 'Execute'
+SCRIPT 'C:\cygwin\home\John\workspace\FootballManagerRoles\sql\OpenOfficeExport\Latest.sql'
