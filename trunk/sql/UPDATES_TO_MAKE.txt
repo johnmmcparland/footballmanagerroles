@@ -1,6 +1,0 @@
-﻿Database updates to make
-------------------------
-None at the moment.
-
-Still to add to OpenOffice and MySQL
-- Views for all roles from the Defensive Midfield line and above
