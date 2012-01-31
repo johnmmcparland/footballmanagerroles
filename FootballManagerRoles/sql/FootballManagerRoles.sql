@@ -317,3 +317,10 @@ CREATE VIEW DM_S (Attribute) AS SELECT Attribute FROM AttributesOutfield WHERE (
 CREATE VIEW DLP_D (Attribute) AS SELECT Attribute FROM AttributesOutfield WHERE ( Attribute = 'Marking' OR Attribute = 'Passing' OR Attribute = 'Tackling' OR Attribute = 'Technique' OR Attribute = 'Composure' OR Attribute = 'Creativity' OR Attribute = 'Decisions' OR Attribute = 'Positioning' OR Attribute = 'Teamwork' OR Attribute = 'Strength' );
 CREATE VIEW DLP_S (Attribute) AS SELECT Attribute FROM AttributesOutfield WHERE ( Attribute = 'First Touch' OR Attribute = 'Passing' OR Attribute = 'Tackling' OR Attribute = 'Technique' OR Attribute = 'Composure' OR Attribute = 'Creativity' OR Attribute = 'Decisions' OR Attribute = 'Off The Ball' OR Attribute = 'Positioning' OR Attribute = 'Teamwork' );
 CREATE VIEW AM_D (Attribute) AS SELECT Attribute FROM AttributesOutfield WHERE ( Attribute = 'Heading' OR Attribute = 'Marking' OR Attribute = 'Tackling' OR Attribute = 'Anticipation' OR Attribute = 'Concentration' OR Attribute = 'Decisions' OR Attribute = 'Determination' OR Attribute = 'Positioning' OR Attribute = 'Work Rate' OR Attribute = 'Strength' );
+
+-- Winger/wide midfielder roles
+CREATE VIEW DW_SA (Attribute) AS SELECT Attribute FROM AttributesOutfield WHERE ( Attribute = 'Crossing' OR Attribute = 'Dribbling' OR Attribute = 'Marking' OR Attribute = 'Tackling' OR Attribute = 'Technique' OR Attribute = 'Decisions' OR Attribute = 'Teamwork' OR Attribute = 'Work Rate' OR Attribute = 'Pace' OR Attribute = 'Stamina' );
+CREATE VIEW WM_DSAAu (Attribute) AS SELECT Attribute FROM AttributesOutfield WHERE ( Attribute = 'Crossing' OR Attribute = 'Passing' OR Attribute = 'Tackling' OR Attribute = 'Anticipation' OR Attribute = 'Decisions' OR Attribute = 'Determination' OR Attribute = 'Off The Ball' OR Attribute = 'Teamwork' OR Attribute = 'Work Rate' OR Attribute = 'Stamina' );
+
+update Positions_To_Roles set ViewName='DW_SA' where ViewName='DW_S' or ViewName='DW_A';
+update Positions_To_Roles set ViewName='WM_DSAAu' where ViewName='WM_D' or ViewName='WM_S' or ViewName='WM_A' or ViewName='WM_Au';

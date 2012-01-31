@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 30, 2012 at 08:39 PM
+-- Generation Time: Jan 31, 2012 at 09:46 PM
 -- Server version: 5.5.16
 -- PHP Version: 5.3.8
 
@@ -339,6 +339,14 @@ INSERT INTO `duty` (`Duty`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `dw_sa`
+--
+CREATE TABLE IF NOT EXISTS `dw_sa` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
 -- Stand-in structure for view `fb_a`
 --
 CREATE TABLE IF NOT EXISTS `fb_a` (
@@ -539,8 +547,8 @@ INSERT INTO `positions_to_roles` (`PitchArea`, `Side`, `Role`, `Duty`, `ViewName
 ('Striker', 'Centre', 'Trequartista', 'Attack', 'T_A'),
 ('Attacking Midfielder', 'Left', 'Advanced Playmaker', 'Attack', 'AP_A'),
 ('Attacking Midfielder', 'Left', 'Advanced Playmaker', 'Support', 'AP_S'),
-('Attacking Midfielder', 'Left', 'Defensive Winger', 'Attack', 'DW_A'),
-('Attacking Midfielder', 'Left', 'Defensive Winger', 'Support', 'DW_S'),
+('Attacking Midfielder', 'Left', 'Defensive Winger', 'Attack', 'DW_SA'),
+('Attacking Midfielder', 'Left', 'Defensive Winger', 'Support', 'DW_SA'),
 ('Attacking Midfielder', 'Left', 'Inside Forward', 'Attack', 'IF_A'),
 ('Attacking Midfielder', 'Left', 'Inside Forward', 'Support', 'IF_S'),
 ('Attacking Midfielder', 'Left', 'Winger', 'Attack', 'W_SA'),
@@ -553,12 +561,12 @@ INSERT INTO `positions_to_roles` (`PitchArea`, `Side`, `Role`, `Duty`, `ViewName
 ('Defender', 'Left', 'Wing Back', 'Automatic', 'WB_SAu'),
 ('Defender', 'Left', 'Wing Back', 'Defend', 'WB_D'),
 ('Defender', 'Left', 'Wing Back', 'Support', 'WB_SAu'),
-('Midfielder', 'Left', 'Defensive Winger', 'Attack', 'DW_A'),
-('Midfielder', 'Left', 'Defensive Winger', 'Support', 'DW_S'),
-('Midfielder', 'Left', 'Wide Midfielder', 'Attack', 'WM_A'),
-('Midfielder', 'Left', 'Wide Midfielder', 'Automatic', 'WM_Au'),
-('Midfielder', 'Left', 'Wide Midfielder', 'Defend', 'WM_D'),
-('Midfielder', 'Left', 'Wide Midfielder', 'Support', 'WM_S'),
+('Midfielder', 'Left', 'Defensive Winger', 'Attack', 'DW_SA'),
+('Midfielder', 'Left', 'Defensive Winger', 'Support', 'DW_SA'),
+('Midfielder', 'Left', 'Wide Midfielder', 'Attack', 'WM_DSAAu'),
+('Midfielder', 'Left', 'Wide Midfielder', 'Automatic', 'WM_DSAAu'),
+('Midfielder', 'Left', 'Wide Midfielder', 'Defend', 'WM_DSAAu'),
+('Midfielder', 'Left', 'Wide Midfielder', 'Support', 'WM_DSAAu'),
 ('Midfielder', 'Left', 'Winger', 'Attack', 'W_SA'),
 ('Midfielder', 'Left', 'Winger', 'Support', 'W_SA'),
 ('Wing Back', 'Left', 'Wing Back', 'Attack', 'WB_A'),
@@ -574,8 +582,8 @@ INSERT INTO `positions_to_roles` (`PitchArea`, `Side`, `Role`, `Duty`, `ViewName
 ('Sweeper', 'None', 'Sweeper', 'Defend', 'SW_D'),
 ('Attacking Midfielder', 'Right', 'Advanced Playmaker', 'Attack', 'AP_A'),
 ('Attacking Midfielder', 'Right', 'Advanced Playmaker', 'Support', 'AP_S'),
-('Attacking Midfielder', 'Right', 'Defensive Winger', 'Attack', 'DW_A'),
-('Attacking Midfielder', 'Right', 'Defensive Winger', 'Support', 'DW_S'),
+('Attacking Midfielder', 'Right', 'Defensive Winger', 'Attack', 'DW_SA'),
+('Attacking Midfielder', 'Right', 'Defensive Winger', 'Support', 'DW_SA'),
 ('Attacking Midfielder', 'Right', 'Inside Forward', 'Attack', 'IF_A'),
 ('Attacking Midfielder', 'Right', 'Inside Forward', 'Support', 'IF_S'),
 ('Attacking Midfielder', 'Right', 'Winger', 'Attack', 'W_SA'),
@@ -588,12 +596,12 @@ INSERT INTO `positions_to_roles` (`PitchArea`, `Side`, `Role`, `Duty`, `ViewName
 ('Defender', 'Right', 'Wing Back', 'Automatic', 'WB_SAu'),
 ('Defender', 'Right', 'Wing Back', 'Defend', 'WB_D'),
 ('Defender', 'Right', 'Wing Back', 'Support', 'WB_SAu'),
-('Midfielder', 'Right', 'Defensive Winger', 'Attack', 'DW_A'),
-('Midfielder', 'Right', 'Defensive Winger', 'Support', 'DW_S'),
-('Midfielder', 'Right', 'Wide Midfielder', 'Attack', 'WM_A'),
-('Midfielder', 'Right', 'Wide Midfielder', 'Automatic', 'WM_Au'),
-('Midfielder', 'Right', 'Wide Midfielder', 'Defend', 'WM_D'),
-('Midfielder', 'Right', 'Wide Midfielder', 'Support', 'WM_S'),
+('Midfielder', 'Right', 'Defensive Winger', 'Attack', 'DW_SA'),
+('Midfielder', 'Right', 'Defensive Winger', 'Support', 'DW_SA'),
+('Midfielder', 'Right', 'Wide Midfielder', 'Attack', 'WM_DSAAu'),
+('Midfielder', 'Right', 'Wide Midfielder', 'Automatic', 'WM_DSAAu'),
+('Midfielder', 'Right', 'Wide Midfielder', 'Defend', 'WM_DSAAu'),
+('Midfielder', 'Right', 'Wide Midfielder', 'Support', 'WM_DSAAu'),
 ('Midfielder', 'Right', 'Winger', 'Attack', 'W_SA'),
 ('Midfielder', 'Right', 'Winger', 'Support', 'W_SA'),
 ('Wing Back', 'Right', 'Wing Back', 'Attack', 'WB_A'),
@@ -790,6 +798,14 @@ CREATE TABLE IF NOT EXISTS `wb_sau` (
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `wm_dsaau`
+--
+CREATE TABLE IF NOT EXISTS `wm_dsaau` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
 -- Stand-in structure for view `w_sa`
 --
 CREATE TABLE IF NOT EXISTS `w_sa` (
@@ -922,6 +938,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `dm_s`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dm_s` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Marking') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Tackling') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Positioning') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Work Rate') or (`attributesoutfield`.`Attribute` = 'Acceleration') or (`attributesoutfield`.`Attribute` = 'Stamina') or (`attributesoutfield`.`Attribute` = 'Strength'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `dw_sa`
+--
+DROP TABLE IF EXISTS `dw_sa`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dw_sa` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Crossing') or (`attributesoutfield`.`Attribute` = 'Dribbling') or (`attributesoutfield`.`Attribute` = 'Marking') or (`attributesoutfield`.`Attribute` = 'Tackling') or (`attributesoutfield`.`Attribute` = 'Technique') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Work Rate') or (`attributesoutfield`.`Attribute` = 'Pace') or (`attributesoutfield`.`Attribute` = 'Stamina'));
 
 -- --------------------------------------------------------
 
@@ -1093,6 +1118,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `wb_sau`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `wb_sau` AS select `attributesoutfield`.`Attribute` AS `Attribute`,`attributesoutfield`.`Type` AS `Type`,`attributesoutfield`.`Category` AS `Category` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Crossing') or (`attributesoutfield`.`Attribute` = 'Marking') or (`attributesoutfield`.`Attribute` = 'Tackling') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Positioning') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Work Rate') or (`attributesoutfield`.`Attribute` = 'Acceleration') or (`attributesoutfield`.`Attribute` = 'Stamina'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `wm_dsaau`
+--
+DROP TABLE IF EXISTS `wm_dsaau`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `wm_dsaau` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Crossing') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Tackling') or (`attributesoutfield`.`Attribute` = 'Anticipation') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Determination') or (`attributesoutfield`.`Attribute` = 'Off The Ball') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Work Rate') or (`attributesoutfield`.`Attribute` = 'Stamina'));
 
 -- --------------------------------------------------------
 
