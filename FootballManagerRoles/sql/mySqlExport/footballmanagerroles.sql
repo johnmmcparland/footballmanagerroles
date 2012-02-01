@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 31, 2012 at 09:46 PM
+-- Generation Time: Feb 01, 2012 at 11:23 PM
 -- Server version: 5.5.16
 -- PHP Version: 5.3.8
 
@@ -23,9 +23,41 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `af_a`
+--
+CREATE TABLE IF NOT EXISTS `af_a` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `am_a`
+--
+CREATE TABLE IF NOT EXISTS `am_a` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
 -- Stand-in structure for view `am_d`
 --
 CREATE TABLE IF NOT EXISTS `am_d` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `am_s`
+--
+CREATE TABLE IF NOT EXISTS `am_s` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `ap_a`
+--
+CREATE TABLE IF NOT EXISTS `ap_a` (
 `Attribute` varchar(50)
 );
 -- --------------------------------------------------------
@@ -155,6 +187,14 @@ INSERT INTO `attributesoutfield` (`Attribute`, `Type`, `Category`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `b2bm_s`
+--
+CREATE TABLE IF NOT EXISTS `b2bm_s` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
 -- Stand-in structure for view `bpd_c`
 --
 CREATE TABLE IF NOT EXISTS `bpd_c` (
@@ -191,6 +231,14 @@ CREATE TABLE IF NOT EXISTS `bwm_d` (
 `Attribute` varchar(50)
 ,`Type` varchar(50)
 ,`Category` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `bwm_s`
+--
+CREATE TABLE IF NOT EXISTS `bwm_s` (
+`Attribute` varchar(50)
 );
 -- --------------------------------------------------------
 
@@ -270,6 +318,62 @@ CREATE TABLE IF NOT EXISTS `cd_s` (
 `Attribute` varchar(50)
 ,`Type` varchar(50)
 ,`Category` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `cf_sa`
+--
+CREATE TABLE IF NOT EXISTS `cf_sa` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `cm_a`
+--
+CREATE TABLE IF NOT EXISTS `cm_a` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `cm_d`
+--
+CREATE TABLE IF NOT EXISTS `cm_d` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `cm_sau`
+--
+CREATE TABLE IF NOT EXISTS `cm_sau` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `df_a`
+--
+CREATE TABLE IF NOT EXISTS `df_a` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `df_s`
+--
+CREATE TABLE IF NOT EXISTS `df_s` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `dlf_a`
+--
+CREATE TABLE IF NOT EXISTS `dlf_a` (
+`Attribute` varchar(50)
 );
 -- --------------------------------------------------------
 
@@ -393,6 +497,22 @@ CREATE TABLE IF NOT EXISTS `gk_d` (
 `Attribute` varchar(50)
 ,`Type` varchar(50)
 ,`Category` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `if_a`
+--
+CREATE TABLE IF NOT EXISTS `if_a` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `if_s`
+--
+CREATE TABLE IF NOT EXISTS `if_s` (
+`Attribute` varchar(50)
 );
 -- --------------------------------------------------------
 
@@ -529,14 +649,14 @@ INSERT INTO `positions_to_roles` (`PitchArea`, `Side`, `Role`, `Duty`, `ViewName
 ('Midfielder', 'Centre', 'Ball Winning Midfielder', 'Support', 'BWM_S'),
 ('Midfielder', 'Centre', 'Box To Box Midfielder', 'Support', 'B2BM_S'),
 ('Midfielder', 'Centre', 'Central Midfielder', 'Attack', 'CM_A'),
-('Midfielder', 'Centre', 'Central Midfielder', 'Automatic', 'CM_Au'),
+('Midfielder', 'Centre', 'Central Midfielder', 'Automatic', 'CM_SAu'),
 ('Midfielder', 'Centre', 'Central Midfielder', 'Defend', 'CM_D'),
-('Midfielder', 'Centre', 'Central Midfielder', 'Support', 'CM_S'),
+('Midfielder', 'Centre', 'Central Midfielder', 'Support', 'CM_SAu'),
 ('Midfielder', 'Centre', 'Deep Lying Playmaker', 'Defend', 'DLP_D'),
 ('Midfielder', 'Centre', 'Deep Lying Playmaker', 'Support', 'DLP_S'),
 ('Striker', 'Centre', 'Advanced Forward', 'Attack', 'AF_A'),
-('Striker', 'Centre', 'Complete Forward', 'Attack', 'CF_A'),
-('Striker', 'Centre', 'Complete Forward', 'Support', 'CF_S'),
+('Striker', 'Centre', 'Complete Forward', 'Attack', 'CF_SA'),
+('Striker', 'Centre', 'Complete Forward', 'Support', 'CF_SA'),
 ('Striker', 'Centre', 'Deep Lying Forward', 'Attack', 'DLF_A'),
 ('Striker', 'Centre', 'Deep Lying Forward', 'Support', 'DLF_S'),
 ('Striker', 'Centre', 'Defensive Forward', 'Attack', 'DF_A'),
@@ -768,6 +888,14 @@ INSERT INTO `typesoutfield` (`Type`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `t_a`
+--
+CREATE TABLE IF NOT EXISTS `t_a` (
+`Attribute` varchar(50)
+);
+-- --------------------------------------------------------
+
+--
 -- Stand-in structure for view `wb_a`
 --
 CREATE TABLE IF NOT EXISTS `wb_a` (
@@ -816,6 +944,24 @@ CREATE TABLE IF NOT EXISTS `w_sa` (
 -- --------------------------------------------------------
 
 --
+-- Structure for view `af_a`
+--
+DROP TABLE IF EXISTS `af_a`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `af_a` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Crossing') or (`attributesoutfield`.`Attribute` = 'Dribbling') or (`attributesoutfield`.`Attribute` = 'Finishing') or (`attributesoutfield`.`Attribute` = 'Heading') or (`attributesoutfield`.`Attribute` = 'Anticipation') or (`attributesoutfield`.`Attribute` = 'Composure') or (`attributesoutfield`.`Attribute` = 'Flair') or (`attributesoutfield`.`Attribute` = 'Off The Ball') or (`attributesoutfield`.`Attribute` = 'Work Rate') or (`attributesoutfield`.`Attribute` = 'Pace'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `am_a`
+--
+DROP TABLE IF EXISTS `am_a`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `am_a` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Dribbling') or (`attributesoutfield`.`Attribute` = 'First Touch') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Technique') or (`attributesoutfield`.`Attribute` = 'Creativity') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Flair') or (`attributesoutfield`.`Attribute` = 'Off The Ball') or (`attributesoutfield`.`Attribute` = 'Work Rate') or (`attributesoutfield`.`Attribute` = 'Acceleration'));
+
+-- --------------------------------------------------------
+
+--
 -- Structure for view `am_d`
 --
 DROP TABLE IF EXISTS `am_d`;
@@ -825,11 +971,38 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
+-- Structure for view `am_s`
+--
+DROP TABLE IF EXISTS `am_s`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `am_s` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'First Touch') or (`attributesoutfield`.`Attribute` = 'Long Shots') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Technique') or (`attributesoutfield`.`Attribute` = 'Creativity') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Flair') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Work Rate') or (`attributesoutfield`.`Attribute` = 'Balance'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `ap_a`
+--
+DROP TABLE IF EXISTS `ap_a`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ap_a` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Dribbling') or (`attributesoutfield`.`Attribute` = 'First Touch') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Technique') or (`attributesoutfield`.`Attribute` = 'Anticipation') or (`attributesoutfield`.`Attribute` = 'Creativity') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Flair') or (`attributesoutfield`.`Attribute` = 'Off The Ball') or (`attributesoutfield`.`Attribute` = 'Teamwork'));
+
+-- --------------------------------------------------------
+
+--
 -- Structure for view `ap_s`
 --
 DROP TABLE IF EXISTS `ap_s`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ap_s` AS select `attributesoutfield`.`Attribute` AS `Attribute`,`attributesoutfield`.`Type` AS `Type`,`attributesoutfield`.`Category` AS `Category` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'First Touch') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Technique') or (`attributesoutfield`.`Attribute` = 'Creativity') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Flair') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Work Rate') or (`attributesoutfield`.`Attribute` = 'Stamina'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `b2bm_s`
+--
+DROP TABLE IF EXISTS `b2bm_s`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `b2bm_s` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Dribbling') or (`attributesoutfield`.`Attribute` = 'Finishing') or (`attributesoutfield`.`Attribute` = 'First Touch') or (`attributesoutfield`.`Attribute` = 'Heading') or (`attributesoutfield`.`Attribute` = 'Long Shots') or (`attributesoutfield`.`Attribute` = 'Marking') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Technique') or (`attributesoutfield`.`Attribute` = 'Anticipation') or (`attributesoutfield`.`Attribute` = 'Bravery') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Determination') or (`attributesoutfield`.`Attribute` = 'Off The Ball') or (`attributesoutfield`.`Attribute` = 'Positioning') or (`attributesoutfield`.`Attribute` = 'Work Rate') or (`attributesoutfield`.`Attribute` = 'Acceleration') or (`attributesoutfield`.`Attribute` = 'Stamina') or (`attributesoutfield`.`Attribute` = 'Strength'));
 
 -- --------------------------------------------------------
 
@@ -870,6 +1043,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
+-- Structure for view `bwm_s`
+--
+DROP TABLE IF EXISTS `bwm_s`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `bwm_s` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Marking') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Tackling') or (`attributesoutfield`.`Attribute` = 'Aggression') or (`attributesoutfield`.`Attribute` = 'Bravery') or (`attributesoutfield`.`Attribute` = 'Determination') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Work Rate') or (`attributesoutfield`.`Attribute` = 'Stamina') or (`attributesoutfield`.`Attribute` = 'Strength'));
+
+-- --------------------------------------------------------
+
+--
 -- Structure for view `cd_c`
 --
 DROP TABLE IF EXISTS `cd_c`;
@@ -893,6 +1075,69 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `cd_s`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cd_s` AS select `attributesoutfield`.`Attribute` AS `Attribute`,`attributesoutfield`.`Type` AS `Type`,`attributesoutfield`.`Category` AS `Category` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Heading') or (`attributesoutfield`.`Attribute` = 'Marking') or (`attributesoutfield`.`Attribute` = 'Tackling') or (`attributesoutfield`.`Attribute` = 'Composure') or (`attributesoutfield`.`Attribute` = 'Concentration') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Determination') or (`attributesoutfield`.`Attribute` = 'Positioning') or (`attributesoutfield`.`Attribute` = 'Jumping') or (`attributesoutfield`.`Attribute` = 'Strength') or (`attributesoutfield`.`Attribute` = 'Aggression') or (`attributesoutfield`.`Attribute` = 'Bravery'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `cf_sa`
+--
+DROP TABLE IF EXISTS `cf_sa`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cf_sa` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Dribbling') or (`attributesoutfield`.`Attribute` = 'Finishing') or (`attributesoutfield`.`Attribute` = 'First Touch') or (`attributesoutfield`.`Attribute` = 'Heading') or (`attributesoutfield`.`Attribute` = 'Long Shots') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Technique') or (`attributesoutfield`.`Attribute` = 'Anticipation') or (`attributesoutfield`.`Attribute` = 'Composure') or (`attributesoutfield`.`Attribute` = 'Creativity') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Determination') or (`attributesoutfield`.`Attribute` = 'Off The Ball') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Acceleration') or (`attributesoutfield`.`Attribute` = 'Agility') or (`attributesoutfield`.`Attribute` = 'Balance') or (`attributesoutfield`.`Attribute` = 'Jumping') or (`attributesoutfield`.`Attribute` = 'Pace') or (`attributesoutfield`.`Attribute` = 'Strength'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `cm_a`
+--
+DROP TABLE IF EXISTS `cm_a`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cm_a` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Dribbling') or (`attributesoutfield`.`Attribute` = 'Finishing') or (`attributesoutfield`.`Attribute` = 'First Touch') or (`attributesoutfield`.`Attribute` = 'Long Shots') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Creativity') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Determination') or (`attributesoutfield`.`Attribute` = 'Off The Ball') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Work Rate'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `cm_d`
+--
+DROP TABLE IF EXISTS `cm_d`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cm_d` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'First Touch') or (`attributesoutfield`.`Attribute` = 'Heading') or (`attributesoutfield`.`Attribute` = 'Marking') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Tackling') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Determination') or (`attributesoutfield`.`Attribute` = 'Positioning') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Work Rate'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `cm_sau`
+--
+DROP TABLE IF EXISTS `cm_sau`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cm_sau` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'First Touch') or (`attributesoutfield`.`Attribute` = 'Long Shots') or (`attributesoutfield`.`Attribute` = 'Marking') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Tackling') or (`attributesoutfield`.`Attribute` = 'Creativity') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Determination') or (`attributesoutfield`.`Attribute` = 'Off The Ball') or (`attributesoutfield`.`Attribute` = 'Positioning') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Work Rate'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `df_a`
+--
+DROP TABLE IF EXISTS `df_a`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `df_a` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Finishing') or (`attributesoutfield`.`Attribute` = 'Marking') or (`attributesoutfield`.`Attribute` = 'Tackling') or (`attributesoutfield`.`Attribute` = 'Anticipation') or (`attributesoutfield`.`Attribute` = 'Composure') or (`attributesoutfield`.`Attribute` = 'Off The Ball') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Work Rate') or (`attributesoutfield`.`Attribute` = 'Stamina') or (`attributesoutfield`.`Attribute` = 'Strength'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `df_s`
+--
+DROP TABLE IF EXISTS `df_s`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `df_s` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'First Touch') or (`attributesoutfield`.`Attribute` = 'Long Shots') or (`attributesoutfield`.`Attribute` = 'Marking') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Tackling') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Work Rate') or (`attributesoutfield`.`Attribute` = 'Pace') or (`attributesoutfield`.`Attribute` = 'Stamina') or (`attributesoutfield`.`Attribute` = 'Strength'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `dlf_a`
+--
+DROP TABLE IF EXISTS `dlf_a`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dlf_a` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Finishing') or (`attributesoutfield`.`Attribute` = 'First Touch') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Technique') or (`attributesoutfield`.`Attribute` = 'Anticipation') or (`attributesoutfield`.`Attribute` = 'Composure') or (`attributesoutfield`.`Attribute` = 'Creativity') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Off The Ball') or (`attributesoutfield`.`Attribute` = 'Balance'));
 
 -- --------------------------------------------------------
 
@@ -996,6 +1241,24 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
+-- Structure for view `if_a`
+--
+DROP TABLE IF EXISTS `if_a`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `if_a` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Crossing') or (`attributesoutfield`.`Attribute` = 'Dribbling') or (`attributesoutfield`.`Attribute` = 'Finishing') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Flair') or (`attributesoutfield`.`Attribute` = 'Off The Ball') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Acceleration') or (`attributesoutfield`.`Attribute` = 'Pace'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `if_s`
+--
+DROP TABLE IF EXISTS `if_s`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `if_s` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Dribbling') or (`attributesoutfield`.`Attribute` = 'Long Shots') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Technique') or (`attributesoutfield`.`Attribute` = 'Decisions') or (`attributesoutfield`.`Attribute` = 'Flair') or (`attributesoutfield`.`Attribute` = 'Off The Ball') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Acceleration') or (`attributesoutfield`.`Attribute` = 'Pace'));
+
+-- --------------------------------------------------------
+
+--
 -- Structure for view `ld_c`
 --
 DROP TABLE IF EXISTS `ld_c`;
@@ -1091,6 +1354,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `tm_s`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `tm_s` AS select `attributesoutfield`.`Attribute` AS `Attribute`,`attributesoutfield`.`Type` AS `Type`,`attributesoutfield`.`Category` AS `Category` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'First Touch') or (`attributesoutfield`.`Attribute` = 'Heading') or (`attributesoutfield`.`Attribute` = 'Long Shots') or (`attributesoutfield`.`Attribute` = 'Aggression') or (`attributesoutfield`.`Attribute` = 'Bravery') or (`attributesoutfield`.`Attribute` = 'Determination') or (`attributesoutfield`.`Attribute` = 'Teamwork') or (`attributesoutfield`.`Attribute` = 'Work Rate') or (`attributesoutfield`.`Attribute` = 'Jumping') or (`attributesoutfield`.`Attribute` = 'Strength'));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `t_a`
+--
+DROP TABLE IF EXISTS `t_a`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `t_a` AS select `attributesoutfield`.`Attribute` AS `Attribute` from `attributesoutfield` where ((`attributesoutfield`.`Attribute` = 'Finishing') or (`attributesoutfield`.`Attribute` = 'First Touch') or (`attributesoutfield`.`Attribute` = 'Passing') or (`attributesoutfield`.`Attribute` = 'Technique') or (`attributesoutfield`.`Attribute` = 'Anticipation') or (`attributesoutfield`.`Attribute` = 'Composure') or (`attributesoutfield`.`Attribute` = 'Creativity') or (`attributesoutfield`.`Attribute` = 'Flair') or (`attributesoutfield`.`Attribute` = 'Off The Ball') or (`attributesoutfield`.`Attribute` = 'Agility'));
 
 -- --------------------------------------------------------
 
