@@ -241,7 +241,7 @@ abstract class AbstractPerson implements Person {
         if (!attributes.containsKey(attr)) {
             throw new NoSuchAttributeException(attr);
         }
-        attributes.remove(name);
+        attributes.remove(attr);
         LOGGER.finer(toString() + " - Removed attribute: " + attr);
     }
 

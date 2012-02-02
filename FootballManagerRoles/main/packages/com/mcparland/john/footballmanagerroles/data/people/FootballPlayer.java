@@ -6,6 +6,7 @@ package com.mcparland.john.footballmanagerroles.data.people;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mcparland.john.footballmanagerroles.data.exceptions.PositionAlreadyAddedException;
 import com.mcparland.john.footballmanagerroles.data.roles.Position;
 
 /**
@@ -53,7 +54,7 @@ public class FootballPlayer extends AbstractPerson implements Player {
      *            The name of the player
      */
     public FootballPlayer(String name) {
-	this.name = name;
+        this.name = name;
     }
 
     /**
@@ -70,7 +71,7 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public List<Position> getPositions() {
-	return positions;
+        return positions;
     }
 
     /*
@@ -82,7 +83,11 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public void addPosition(Position pos) {
-	positions.add(pos);
+        if (positions.contains(pos)) {
+            throw new PositionAlreadyAddedException("Already have position: " + pos);
+        } else {
+            positions.add(pos);
+        }
     }
 
     /*
@@ -94,7 +99,7 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public void removePosition(Position pos) {
-	positions.remove(pos);
+        positions.remove(pos);
     }
 
     /*
@@ -104,7 +109,7 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public void clearPositions() {
-	positions.clear();
+        positions.clear();
     }
 
     /*
@@ -114,7 +119,7 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public String getHeight() {
-	return height;
+        return height;
     }
 
     /*
@@ -124,7 +129,7 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public void setHeight(String height) {
-	this.height = height;
+        this.height = height;
     }
 
     /*
@@ -135,7 +140,7 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public String getPreferredFoot() {
-	return preferredFoot;
+        return preferredFoot;
     }
 
     /*
@@ -147,7 +152,7 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public void setPreferredFoot(String preferredFoot) {
-	this.preferredFoot = preferredFoot;
+        this.preferredFoot = preferredFoot;
     }
 
     /*
@@ -157,7 +162,7 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public String getMass() {
-	return mass;
+        return mass;
     }
 
     /*
@@ -167,7 +172,7 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public void setMass(String mass) {
-	this.mass = mass;
+        this.mass = mass;
     }
 
     /*
@@ -177,7 +182,7 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public String getWage() {
-	return wage;
+        return wage;
     }
 
     /*
@@ -187,7 +192,7 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public void setWage(String wage) {
-	this.wage = wage;
+        this.wage = wage;
     }
 
     /*
@@ -197,7 +202,7 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public String getValue() {
-	return value;
+        return value;
     }
 
     /*
@@ -207,10 +212,10 @@ public class FootballPlayer extends AbstractPerson implements Player {
      */
     @Override
     public void setValue(String value) {
-	this.value = value;
+        this.value = value;
     }
 
     public String toString() {
-	return super.toString() + getPositions();
+        return super.toString() + getPositions();
     }
 }
