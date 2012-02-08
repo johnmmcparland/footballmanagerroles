@@ -416,7 +416,7 @@ public class PlayerTestParserTest {
      * {@link com.mcparland.john.footballmanagerroles.parser.PlayerTextParser#parse(java.io.File)}
      * .
      */
-    @Test
+   // @Test
     public void testParse() {
         final Position goalkeeper = new PlayerPosition(PitchArea.Goalkeeper);
         final Position sweeper = new PlayerPosition(PitchArea.Sweeper);
@@ -546,6 +546,83 @@ public class PlayerTestParserTest {
             assertEquals(9, attrs.get(attributes.getAttribute("Pace", AttributeType.Physical)).intValue());
             assertEquals(10, attrs.get(attributes.getAttribute("Stamina", AttributeType.Physical)).intValue());
             assertEquals(10, attrs.get(attributes.getAttribute("Strength", AttributeType.Physical)).intValue());
+
+        } catch (ParseException pe) {
+            pe.printStackTrace();
+            fail("ParseException caught");
+        }
+    }
+    
+    /**
+     * Test method for {@link PlayerTextParser#parse(File)} but using a real RTF file
+     */
+    @Test
+    public void testParse_realRtf() {
+        final Position defender_right = new PlayerPosition(PitchArea.Defender, Side.Right);
+        final Position defender_left = new PlayerPosition(PitchArea.Defender, Side.Left);
+        final Position midfielder_right = new PlayerPosition(PitchArea.Midfielder, Side.Right);
+        try {
+            File file = new File("testFiles/2. Adam Matthews.rtf");
+            FootballPlayer player = (FootballPlayer) parser.parse(file);
+            assertEquals("Adam Matthews", player.getName());
+            assertEquals(3, player.getPositions().size());
+            assertTrue(player.getPositions().contains(defender_right));
+            assertTrue(player.getPositions().contains(defender_left));
+            assertTrue(player.getPositions().contains(midfielder_right));
+            assertEquals("Celtic", player.getClub());
+            assertEquals("Wales", player.getNationality());
+            assertEquals("21 years old", player.getAge());
+            assertEquals("3 caps / 0 goals", player.getInternationalStatus());
+            assertEquals("13.1.1992", player.getDob());
+            assertEquals("1.78 m", player.getHeight());
+            assertEquals("Right", player.getPreferredFoot());
+            assertEquals("70 kg", player.getMass());
+            assertEquals("£4,000 per week", player.getWage());
+            assertEquals("£600K", player.getValue());
+            assertEquals("30.6.2015", player.getContractExpiry());
+
+            Map<Attribute, Integer> attrs = player.getAttributes();
+            // Technical
+            assertEquals(11, attrs.get(attributes.getAttribute("Corners", AttributeType.Technical)).intValue());
+            assertEquals(14, attrs.get(attributes.getAttribute("Crossing", AttributeType.Technical)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("Dribbling", AttributeType.Technical)).intValue());
+            assertEquals(5, attrs.get(attributes.getAttribute("Finishing", AttributeType.Technical)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("First Touch", AttributeType.Technical)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("Free Kick Taking", AttributeType.Technical)).intValue());
+            assertEquals(8, attrs.get(attributes.getAttribute("Heading", AttributeType.Technical)).intValue());
+            assertEquals(9, attrs.get(attributes.getAttribute("Long Shots", AttributeType.Technical)).intValue());
+            assertEquals(16, attrs.get(attributes.getAttribute("Long Throws", AttributeType.Technical)).intValue());
+            assertEquals(10, attrs.get(attributes.getAttribute("Marking", AttributeType.Technical)).intValue());
+            assertEquals(13, attrs.get(attributes.getAttribute("Passing", AttributeType.Technical)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("Penalty Taking", AttributeType.Technical)).intValue());
+            assertEquals(10, attrs.get(attributes.getAttribute("Tackling", AttributeType.Technical)).intValue());
+            assertEquals(13, attrs.get(attributes.getAttribute("Technique", AttributeType.Technical)).intValue());
+
+            // Mental
+            assertEquals(9, attrs.get(attributes.getAttribute("Aggression", AttributeType.Mental)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("Anticipation", AttributeType.Mental)).intValue());
+            assertEquals(11, attrs.get(attributes.getAttribute("Bravery", AttributeType.Mental)).intValue());
+            assertEquals(15, attrs.get(attributes.getAttribute("Composure", AttributeType.Mental)).intValue());
+            assertEquals(11, attrs.get(attributes.getAttribute("Concentration", AttributeType.Mental)).intValue());
+            assertEquals(14, attrs.get(attributes.getAttribute("Creativity", AttributeType.Mental)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("Decisions", AttributeType.Mental)).intValue());
+            assertEquals(10, attrs.get(attributes.getAttribute("Determination", AttributeType.Mental)).intValue());
+            assertEquals(11, attrs.get(attributes.getAttribute("Flair", AttributeType.Mental)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("Influence", AttributeType.Mental)).intValue());
+            assertEquals(13, attrs.get(attributes.getAttribute("Off The Ball", AttributeType.Mental)).intValue());
+            assertEquals(11, attrs.get(attributes.getAttribute("Positioning", AttributeType.Mental)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("Teamwork", AttributeType.Mental)).intValue());
+            assertEquals(15, attrs.get(attributes.getAttribute("Work Rate", AttributeType.Mental)).intValue());
+
+            // Physical
+            assertEquals(14, attrs.get(attributes.getAttribute("Acceleration", AttributeType.Physical)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("Agility", AttributeType.Physical)).intValue());
+            assertEquals(14, attrs.get(attributes.getAttribute("Balance", AttributeType.Physical)).intValue());
+            assertEquals(8, attrs.get(attributes.getAttribute("Jumping", AttributeType.Physical)).intValue());
+            assertEquals(13, attrs.get(attributes.getAttribute("Natural Fitness", AttributeType.Physical)).intValue());
+            assertEquals(14, attrs.get(attributes.getAttribute("Pace", AttributeType.Physical)).intValue());
+            assertEquals(15, attrs.get(attributes.getAttribute("Stamina", AttributeType.Physical)).intValue());
+            assertEquals(9, attrs.get(attributes.getAttribute("Strength", AttributeType.Physical)).intValue());
 
         } catch (ParseException pe) {
             pe.printStackTrace();

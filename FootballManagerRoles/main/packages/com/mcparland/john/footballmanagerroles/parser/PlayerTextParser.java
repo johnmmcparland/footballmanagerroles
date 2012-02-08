@@ -1,3 +1,20 @@
+/*
+ * A program to determine the best role for footballer in the Football Manager game
+ * Copyright (C) 2011-12  John McParland (johnmmcparland@gmail.com)
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details. 
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 /**
  * 
  */
@@ -5,9 +22,10 @@ package com.mcparland.john.footballmanagerroles.parser;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,9 +46,15 @@ import com.mcparland.john.footballmanagerroles.data.roles.Side;
 
 /**
  * Parser for Football Players from the text file output of Football Manager
+ * <p>
+ * (c) John McParland
+ * </p>
+ * <p>
+ * You may enhance this code and re-submit to the depot. But you may not sell it
+ * or use it for profit!
+ * </p>
  * 
- * @author John
- * 
+ * @author John McParland (john.mcparland@gmail.com)
  */
 public class PlayerTextParser implements Parser<Player> {
 
@@ -59,7 +83,12 @@ public class PlayerTextParser implements Parser<Player> {
 
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(input));
+            System.out.println("JMCP: File " + input.getName() + " length is " + input.length());
+
+            // This reads .txt (UTF-8) only
+            // reader = new BufferedReader(new FileReader(input));
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream(input), "UTF-16"));
+
             String line = reader.readLine();
             // Get the positions
             if (null != line) {
@@ -455,6 +484,7 @@ public class PlayerTextParser implements Parser<Player> {
 
         for (Attribute attr : attrs) {
             LOGGER.trace("Looking for attribute: " + attr.getName());
+            System.err.println("Looking for attribute: " + attr.getName());
             String line = reader.readLine();
             String[] info = line.split("\\|");
             final int ATTR_NAME_INDEX = 1;
@@ -462,6 +492,7 @@ public class PlayerTextParser implements Parser<Player> {
             final int NUM_INDICES = 5;
             while (NUM_INDICES > info.length || !info[ATTR_NAME_INDEX].trim().equals(attr.getName())) {
                 line = reader.readLine();
+                System.err.println(line);
                 info = line.split("\\|");
             }
             try {
