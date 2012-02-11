@@ -15,18 +15,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Package for database access
- */
-package com.mcparland.john.footballmanagerroles.data.access;
-
-import java.util.Collection;
-
-import com.mcparland.john.footballmanagerroles.data.attributes.Attribute;
-import com.mcparland.john.footballmanagerroles.data.attributes.Attributes;
+package com.mcparland.john.footballmanagerroles.data.roles;
 
 /**
- * Service for attaining attributes from the database
+ * A Role in the game
  * <p>
  * (c) John McParland
  * </p>
@@ -37,28 +29,36 @@ import com.mcparland.john.footballmanagerroles.data.attributes.Attributes;
  * 
  * @author John McParland (john.mcparland@gmail.com)
  */
-public interface AttributesService {
+public interface Role extends Comparable<Role> {
 
     /**
-     * Get the attributes
+     * Get the Position
      * 
-     * @return The attributes
+     * @return The Position
      */
-    public Attributes getAttributes();
+    public Position getPosition();
 
     /**
-     * Set the Data Access Objects to use
+     * Set the Position
      * 
-     * @param daos
-     *            The data access objects
+     * @param position
+     *            The Position
      */
-    public void setDAOs(Collection<DAO<Attribute>> daos);
+    public void setPosition(Position position);
 
     /**
-     * Get the data access objecsts
+     * Get the name of the database view
      * 
-     * @return The DAOs
+     * @return The database view name
      */
-    public Collection<DAO<Attribute>> getDAOs();
+    public String getViewName();
+
+    /**
+     * Set the name of the database view
+     * 
+     * @param viewName
+     *            The name of the database view
+     */
+    public void setViewName(String viewName);
 
 }

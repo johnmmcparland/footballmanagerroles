@@ -15,18 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Package for database access
- */
 package com.mcparland.john.footballmanagerroles.data.access;
 
 import java.util.Collection;
 
-import com.mcparland.john.footballmanagerroles.data.attributes.Attribute;
-import com.mcparland.john.footballmanagerroles.data.attributes.Attributes;
+import com.mcparland.john.footballmanagerroles.data.roles.Position;
+import com.mcparland.john.footballmanagerroles.data.roles.Role;
 
 /**
- * Service for attaining attributes from the database
+ * A role service which allows access to the available roles
  * <p>
  * (c) John McParland
  * </p>
@@ -37,14 +34,23 @@ import com.mcparland.john.footballmanagerroles.data.attributes.Attributes;
  * 
  * @author John McParland (john.mcparland@gmail.com)
  */
-public interface AttributesService {
+public interface RoleService {
 
     /**
-     * Get the attributes
+     * Get the roles available
      * 
-     * @return The attributes
+     * @return The roles
      */
-    public Attributes getAttributes();
+    public Collection<Role> getRoles();
+
+    /**
+     * Determine the roles which can be assigned to the positions given
+     * 
+     * @param positions
+     *            The positions
+     * @return The roles which those positions can be assigned to
+     */
+    public Collection<Role> determineRoles(Collection<Position> positions);
 
     /**
      * Set the Data Access Objects to use
@@ -52,13 +58,13 @@ public interface AttributesService {
      * @param daos
      *            The data access objects
      */
-    public void setDAOs(Collection<DAO<Attribute>> daos);
+    public void setDAOs(Collection<DAO<Role>> daos);
 
     /**
      * Get the data access objecsts
      * 
      * @return The DAOs
      */
-    public Collection<DAO<Attribute>> getDAOs();
+    public Collection<DAO<Role>> getDAOs();
 
 }
