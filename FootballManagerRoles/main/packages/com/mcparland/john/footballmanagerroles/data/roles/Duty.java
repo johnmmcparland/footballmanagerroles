@@ -18,18 +18,48 @@
 package com.mcparland.john.footballmanagerroles.data.roles;
 
 /**
- * A Football Player Role
- * <p> 
+ * A Duty on the pitch
+ * 
+ * <p>
  * (c) John McParland
  * </p>
  * <p>
- * You may enhance this code and re-submit to the depot.
- * But you may not sell it or use it for profit!
+ * You may enhance this code and re-submit to the depot. But you may not sell it
+ * or use it for profit!
  * </p>
+ * 
  * @author John McParland (john.mcparland@gmail.com)
  */
-public class FootballPlayerRole extends AbstractRole {
-    
-    // Not much to do here
+public enum Duty {
+
+    /**
+     * Attack
+     */
+    Attack,
+
+    /**
+     * Automatic
+     */
+    Automatic,
+
+    /**
+     * Covering
+     */
+    Cover,
+
+    /**
+     * Defend
+     */
+    Defend,
+
+    /**
+     * Stopper
+     */
+    Stopper,
+
+    /**
+     * Support
+     */
+    Support;
 
 }

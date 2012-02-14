@@ -29,36 +29,206 @@ package com.mcparland.john.footballmanagerroles.data.roles;
  * 
  * @author John McParland (john.mcparland@gmail.com)
  */
-public interface Role extends Comparable<Role> {
+public enum Role {
+
+    /*
+     * Goalkeeping Roles
+     */
 
     /**
-     * Get the Position
-     * 
-     * @return The Position
+     * Goalkeeper
      */
-    public Position getPosition();
+    Goalkeeper("Goalkeeper"),
 
     /**
-     * Set the Position
-     * 
-     * @param position
-     *            The Position
+     * Sweeper Keeper
      */
-    public void setPosition(Position position);
+    SweeperKeeper("Sweeper Keeper"),
+
+    /*
+     * Sweeper Roles
+     */
 
     /**
-     * Get the name of the database view
-     * 
-     * @return The database view name
+     * Libero
      */
-    public String getViewName();
+    Libero("Libero"),
 
     /**
-     * Set the name of the database view
-     * 
-     * @param viewName
-     *            The name of the database view
+     * Sweeper
      */
-    public void setViewName(String viewName);
+    Sweeper("Sweeper"),
 
+    /*
+     * Defender Roles
+     */
+
+    /**
+     * Ball Playing Defender
+     */
+    BallPlayingDefender("Ball Playing Defender"),
+
+    /**
+     * Central Defender
+     */
+    CentralDefender("Central Defender"),
+
+    /**
+     * Limited Defender
+     */
+    LimitedDefender("Limited Defender"),
+
+    /**
+     * Full Back
+     */
+    FullBack("Full Back"),
+
+    /**
+     * Wing Back
+     */
+    WingBack("Wing Back"),
+
+    /*
+     * Defensive Midfield Roles
+     */
+
+    /**
+     * Anchor Man
+     */
+    AnchorMan("Anchor Man"),
+
+    /**
+     * Defensive Midfielder
+     */
+    DefensiveMidfielder("Defensive Midfielder"),
+
+    /*
+     * Midfielder Roles
+     */
+
+    /**
+     * Deep Lying Playmaker
+     */
+    DeepLyingPlaymaker("Deep Lying Playmaker"),
+
+    /**
+     * Advanced Playmaker
+     */
+    AdvancedPlaymaker("Advanced Playmaker"),
+
+    /**
+     * Ball Winning Midfielder
+     */
+    BallWinningMidfielder("Ball Winning Midfielder"),
+
+    /**
+     * Box To Box Midfielder
+     */
+    BoxToBoxMidfielder("Box To Box Midfielder"),
+
+    /**
+     * Central Midfielder
+     */
+    CentralMidfielder("Central Midfielder"),
+
+    /**
+     * Defensive Winger
+     */
+    DefensiveWinger("Defensive Winger"),
+
+    /**
+     * Winger
+     */
+    Winger("Winger"),
+
+    /**
+     * Wide Midfielder
+     */
+    WideMidfielder("Wide Midfielder"),
+
+    /*
+     * Attacking Midfield Roles
+     */
+
+    /**
+     * Attacking Midfielder
+     */
+    AttackingMidfielder("Attacking Midfielder"),
+
+    /*
+     * Forward Roles
+     */
+
+    /**
+     * Advanced Forward
+     */
+    AdvancedForward("Advanced Forward"),
+
+    /**
+     * Complete Forward
+     */
+    CompleteForward("Complete Forward"),
+
+    /**
+     * Deep Lying Forward
+     */
+    DeepLyingForward("Deep Lying Forward"),
+
+    /**
+     * Defensive Forward
+     */
+    DefensiveForward("Defensive Forward"),
+
+    /**
+     * Poacher
+     */
+    Poacher("Poacher"),
+
+    /**
+     * Target Man
+     */
+    TargetMan("Target Man");
+
+    /**
+     * The name of this role
+     */
+    private String name = null;
+
+    /**
+     * Create a role with a given name
+     * 
+     * @param name
+     *            The name of the role
+     */
+    private Role(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Set the name of the role
+     * 
+     * @param name
+     *            The name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Get the name of the role
+     * 
+     * @return The name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Enum#toString()
+     */
+    public String toString() {
+        return name;
+    }
 }

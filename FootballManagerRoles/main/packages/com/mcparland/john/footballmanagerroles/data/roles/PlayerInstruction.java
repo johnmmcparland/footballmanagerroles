@@ -15,15 +15,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mcparland.john.footballmanagerroles.data.access;
-
-import java.util.Collection;
-
-import com.mcparland.john.footballmanagerroles.data.roles.Position;
-import com.mcparland.john.footballmanagerroles.data.roles.Role;
+package com.mcparland.john.footballmanagerroles.data.roles;
 
 /**
- * A role service which allows access to the available roles
+ * A players instruction on the ptich
  * <p>
  * (c) John McParland
  * </p>
@@ -34,37 +29,51 @@ import com.mcparland.john.footballmanagerroles.data.roles.Role;
  * 
  * @author John McParland (john.mcparland@gmail.com)
  */
-public interface RoleService {
+public interface PlayerInstruction extends Comparable<PlayerInstruction> {
 
     /**
-     * Get the roles available
+     * Set the players role
      * 
-     * @return The roles
+     * @param role
+     *            The role
      */
-    public Collection<Role> getRoles();
+    public void setRole(Role role);
 
     /**
-     * Determine the roles which can be assigned to the positions given
+     * Set the players role
      * 
-     * @param positions
-     *            The positions
-     * @return The roles which those positions can be assigned to
+     * @return The role
      */
-    public Collection<Role> determineRoles(Collection<Position> positions);
+    public Role getRole();
 
     /**
-     * Set the Data Access Objects to use
+     * Set the players duty
      * 
-     * @param daos
-     *            The data access objects
+     * @param duty
+     *            The duty
      */
-    public void setDAOs(Collection<DAO<Role>> daos);
+    public void setDuty(Duty duty);
 
     /**
-     * Get the data access objecsts
+     * Get the players duty
      * 
-     * @return The DAOs
+     * @return The duty
      */
-    public Collection<DAO<Role>> getDAOs();
+    public Duty getDuty();
+
+    /**
+     * Set the view name for this player instruction
+     * 
+     * @param viewName
+     *            The view name for this player instruction
+     */
+    public void setViewName(String viewName);
+
+    /**
+     * Get the view name for this player instruction
+     * 
+     * @return the view name for this player instruction
+     */
+    public String getViewName();
 
 }

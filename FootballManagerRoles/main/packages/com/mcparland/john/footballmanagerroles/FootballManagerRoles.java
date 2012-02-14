@@ -27,12 +27,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.mcparland.john.footballmanagerroles.data.access.AttributesService;
-import com.mcparland.john.footballmanagerroles.data.access.RoleService;
+import com.mcparland.john.footballmanagerroles.data.access.PlayerInstructionService;
 import com.mcparland.john.footballmanagerroles.data.attributes.Attributes;
 import com.mcparland.john.footballmanagerroles.data.exceptions.ParseException;
 import com.mcparland.john.footballmanagerroles.data.people.Person;
 import com.mcparland.john.footballmanagerroles.data.people.Player;
-import com.mcparland.john.footballmanagerroles.data.roles.Role;
+import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstruction;
 import com.mcparland.john.footballmanagerroles.input.Input;
 import com.mcparland.john.footballmanagerroles.parser.Parser;
 import com.mcparland.john.footballmanagerroles.support.ErrorReporter;
@@ -93,9 +93,11 @@ public class FootballManagerRoles {
                 Player player = (Player) parser.parse(input.getInputFile());
                 LOGGER.info("Got Player\n" + player.toString());
 
-                // Determine roles
-                RoleService roleService = (RoleService) context.getBean("roleService");
-                Collection<Role> roles = roleService.determineRoles(player.getPositions());
+                // Determine player instructions
+                PlayerInstructionService playerInstructionsService = (PlayerInstructionService) context
+                        .getBean("playerInstructionsService");
+                Collection<PlayerInstruction> playerInstructions = playerInstructionsService
+                        .determinePossiblePlayerInstructions(player.getPositions());
 
                 // Recommend
                 // Recommender recommender = (Recommender)
