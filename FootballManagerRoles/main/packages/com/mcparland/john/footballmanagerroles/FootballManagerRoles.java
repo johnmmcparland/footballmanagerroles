@@ -20,8 +20,6 @@
  */
 package com.mcparland.john.footballmanagerroles;
 
-import java.util.Collection;
-
 import org.apache.log4j.Logger;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -30,9 +28,10 @@ import com.mcparland.john.footballmanagerroles.data.access.AttributesService;
 import com.mcparland.john.footballmanagerroles.data.access.PlayerInstructionService;
 import com.mcparland.john.footballmanagerroles.data.attributes.Attributes;
 import com.mcparland.john.footballmanagerroles.data.exceptions.ParseException;
+import com.mcparland.john.footballmanagerroles.data.exceptions.PlayerInstructionAlreadyAddedException;
 import com.mcparland.john.footballmanagerroles.data.people.Person;
 import com.mcparland.john.footballmanagerroles.data.people.Player;
-import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstruction;
+import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstructions;
 import com.mcparland.john.footballmanagerroles.input.Input;
 import com.mcparland.john.footballmanagerroles.parser.Parser;
 import com.mcparland.john.footballmanagerroles.support.ErrorReporter;
@@ -94,18 +93,21 @@ public class FootballManagerRoles {
                 LOGGER.info("Got Player\n" + player.toString());
 
                 // Determine player instructions
-              //  PlayerInstructionService playerInstructionsService = (PlayerInstructionService) context
-              //          .getBean("playerInstructionsService");
-              //  Collection<PlayerInstruction> playerInstructions = playerInstructionsService
-              //          .determinePossiblePlayerInstructions(player.getPositions());
+                PlayerInstructionService playerInstructionsService = (PlayerInstructionService) context
+                        .getBean("playerInstructionService");
+                PlayerInstructions playerInstructions = playerInstructionsService
+                        .determinePossiblePlayerInstructions(player.getPositions());
+                LOGGER.info("Available player instructions\n" + playerInstructions.getPlayerInstructions());
 
                 // Recommend
                 // Recommender recommender = (Recommender)
                 // context.getBean("recommender");
-                // recommender.recommend(roles);
+                // recommender.recommend(playerInstructions);
 
             } catch (ParseException pe) {
                 errorReporter.report("Couldn't parse the input file" + input.getInputFile(), pe);
+            } catch (PlayerInstructionAlreadyAddedException piaae) {
+                errorReporter.report("There is an error with the configuration of the possible roles", piaae);
             }
         }
     }

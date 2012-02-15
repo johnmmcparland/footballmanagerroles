@@ -11,6 +11,19 @@
 			value="com/mcparland/john/footballmanagerroles/config/${MODE}/footballmanagerroles.properties" />
 	</bean>
 
+	<!-- Main application objects -->
+	<!--                          -->
+	<!-- The input -->
+	<bean id="input"
+		class="com.mcparland.john.footballmanagerroles.input.CmdLineInput" />
+
+	<!-- An error reporter -->
+	<bean id="errorReporter"
+		class="com.mcparland.john.footballmanagerroles.support.CmdLineErrorReporter" />
+
+	<!-- Database beans -->
+	<!--                -->
+
 	<!-- Database connection -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -25,17 +38,29 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
+	<!-- Input parsing -->
+	<!--               -->
+	<!-- The parser -->
+	<bean id="parser"
+		class="com.mcparland.john.footballmanagerroles.parser.PlayerTextParser">
+	</bean>
+
+	<!-- Attributes beans -->
+	<!--                  -->
+	
+	<!-- Attribute service for getting the attributes -->
 	<bean id="attributesService"
 		class="com.mcparland.john.footballmanagerroles.data.access.PlayerAttributesService">
 		<property name="DAOs" ref="attributeDaos" />
 	</bean>
 
+	<!-- Data access objects for attributes -->
 	<util:list id="attributeDaos" list-class="java.util.ArrayList">
 		<ref bean="outfieldAttributesDao" />
 		<ref bean="gkAttributesDao" />
 	</util:list>
 
-	<!-- Attributes Data Access Objects -->
+	<!-- Outfield player attributes DAO -->
 	<bean id="outfieldAttributesDao"
 		class="com.mcparland.john.footballmanagerroles.data.access.DAOImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
@@ -43,34 +68,50 @@
 		<property name="query" value="select * from attributesoutfield" />
 	</bean>
 
+	<!-- Goalkeeper Attributes DAO -->
 	<bean id="gkAttributesDao"
 		class="com.mcparland.john.footballmanagerroles.data.access.DAOImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 		<property name="queryier" ref="gkAttributesQuery" />
-		<!--  Note the query is different here because we only want the GK attributes -->
-		<property name="query" value="select * from attributesgk where type='Goalkeeping'" />
+		<!-- Note the query is different here because we only want the GK attributes -->
+		<property name="query"
+			value="select * from attributesgk where type='Goalkeeping'" />
 	</bean>
 
-	<!-- Attributes Query Objects -->
+	<!-- Query for outfield player attributes -->
 	<bean id="outFieldAttributesQuery"
 		class="com.mcparland.john.footballmanagerroles.data.access.AttributesQuery">
 	</bean>
 
+	<!-- Goalkeeper attributes query -->
 	<bean id="gkAttributesQuery"
 		class="com.mcparland.john.footballmanagerroles.data.access.AttributesQuery">
 	</bean>
-
-	<!-- The input -->
-	<bean id="input"
-		class="com.mcparland.john.footballmanagerroles.input.CmdLineInput" />
-
-	<!-- An error reporter -->
-	<bean id="errorReporter"
-		class="com.mcparland.john.footballmanagerroles.support.CmdLineErrorReporter" />
-
-	<!-- The parser -->
-	<bean id="parser"
-		class="com.mcparland.john.footballmanagerroles.parser.PlayerTextParser">
+	
+	<!-- Player Instruction beans -->
+	<!--                          -->
+	
+	<!-- The Player Instructions Service -->
+	<bean id="playerInstructionService" class="com.mcparland.john.footballmanagerroles.data.access.PlayerInstructionServiceImpl">
+	     <property name="DAOs" ref="playerInstructionDaos"/>
+	</bean>
+	
+	<!-- Player Instructions Data Access Objects -->
+	<util:list id="playerInstructionDaos" list-class="java.util.ArrayList">
+	    <ref bean="playerInstructionDao"/>
+	</util:list>
+	
+	<!-- Player Instructions Data Access Object -->
+	<bean id="playerInstructionDao" class="com.mcparland.john.footballmanagerroles.data.access.DAOImpl">
+			<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="queryier" ref="playerInstructionQuery" />
+		<!-- N.B This query is incomplete and expects to be build up programmatically -->
+		<property name="query"
+			value="select distinct Role,Duty,ViewName from positions_to_roles where " />
+	</bean>
+	
+	<!--  Player Instruction Query -->
+	<bean id="playerInstructionQuery" class="com.mcparland.john.footballmanagerroles.data.access.PlayerInstructionQuery">
 	</bean>
 
 </beans>

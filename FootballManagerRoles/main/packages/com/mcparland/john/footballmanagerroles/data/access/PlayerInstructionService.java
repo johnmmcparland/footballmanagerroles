@@ -19,7 +19,9 @@ package com.mcparland.john.footballmanagerroles.data.access;
 
 import java.util.Collection;
 
+import com.mcparland.john.footballmanagerroles.data.exceptions.PlayerInstructionAlreadyAddedException;
 import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstruction;
+import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstructions;
 import com.mcparland.john.footballmanagerroles.data.roles.Position;
 
 /**
@@ -44,8 +46,12 @@ public interface PlayerInstructionService {
      * @param positions
      *            The positions
      * @return The player instructions which those positions can be assigned to
+     * @throws PlayerInstructionAlreadyAddedException
+     *             If there are duplicate PlayerInstructions found (this is a
+     *             configuration error)
      */
-    public Collection<PlayerInstruction> determinePossiblePlayerInstructions(Collection<Position> positions);
+    public PlayerInstructions determinePossiblePlayerInstructions(Collection<Position> positions)
+            throws PlayerInstructionAlreadyAddedException;
 
     /**
      * Set the Data Access Objects to use

@@ -155,6 +155,11 @@ public enum Role {
      */
     AttackingMidfielder("Attacking Midfielder"),
 
+    /**
+     * Inside Forward
+     */
+    InsideForward("Inside Forward"),
+    
     /*
      * Forward Roles
      */
@@ -187,7 +192,12 @@ public enum Role {
     /**
      * Target Man
      */
-    TargetMan("Target Man");
+    TargetMan("Target Man"),
+
+    /**
+     * Trequartista
+     */
+    Trequartista("Trequartista");
 
     /**
      * The name of this role

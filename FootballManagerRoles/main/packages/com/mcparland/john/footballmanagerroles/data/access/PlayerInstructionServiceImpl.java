@@ -18,8 +18,14 @@
 package com.mcparland.john.footballmanagerroles.data.access;
 
 import java.util.Collection;
+import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import com.mcparland.john.footballmanagerroles.data.exceptions.PlayerInstructionAlreadyAddedException;
 import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstruction;
+import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstructions;
+import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstructionsImpl;
 import com.mcparland.john.footballmanagerroles.data.roles.Position;
 
 /**
@@ -37,6 +43,11 @@ import com.mcparland.john.footballmanagerroles.data.roles.Position;
 public class PlayerInstructionServiceImpl implements PlayerInstructionService {
 
     /**
+     * Logger for this class
+     */
+    private static final Logger LOGGER = Logger.getLogger(PlayerInstructionServiceImpl.class);
+
+    /**
      * Data access objects for the Player Instructions
      */
     private Collection<DAO<PlayerInstruction>> daos = null;
@@ -49,9 +60,82 @@ public class PlayerInstructionServiceImpl implements PlayerInstructionService {
      * #determinePossiblePlayerInstructions(java.util.Collection)
      */
     @Override
-    public Collection<PlayerInstruction> determinePossiblePlayerInstructions(Collection<Position> positions) {
-        // TODO Auto-generated method stub
-        return null;
+    public PlayerInstructions determinePossiblePlayerInstructions(Collection<Position> positions)
+            throws PlayerInstructionAlreadyAddedException {
+        if (null == positions) {
+            throw new NullPointerException("positions is null!");
+        }
+        PlayerInstructions instructions = new PlayerInstructionsImpl();
+        if (0 != positions.size()) {
+            // For each data access object, go through and query for the
+            // positions
+            for (DAO<PlayerInstruction> dao : daos) {
+                LOGGER.debug(dao.toString());
+
+                // Build the query
+                String query = buildPlayerInstructionQuery(dao.getQuery(), positions);
+
+                // Do the query
+                List<PlayerInstruction> instructs = (List<PlayerInstruction>) dao.getJdbcTemplate().query(query,
+                        dao.getQueryier());
+                for (PlayerInstruction ins : instructs) {
+                    try {
+                        instructions.addPlayerInstruction(ins);
+                    } catch (PlayerInstructionAlreadyAddedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return instructions;
+    }
+
+    /**
+     * Build the query to query for player instructions based on positions
+     * 
+     * @param queryStart
+     *            The start of the query
+     * @param positions
+     *            The positions
+     * @return The query as a String
+     */
+    private String buildPlayerInstructionQuery(String queryStart, Collection<Position> positions) {
+        StringBuilder builder = new StringBuilder(queryStart.toLowerCase());
+        LOGGER.trace("Query start: " + queryStart);
+        LOGGER.trace("Number of positions: " + positions.size());
+
+        // Ok security check - ensure there is only one select keyword, no
+        // insert, no update and no delete
+        if (0 != queryStart.lastIndexOf("select")) {
+            throw new IllegalArgumentException("The query has more than one select keyword: " + queryStart);
+        }
+        if (-1 != queryStart.indexOf("insert")) {
+            throw new IllegalArgumentException("The query contains the insert keyword: " + queryStart);
+        }
+        if (-1 != queryStart.indexOf("update")) {
+            throw new IllegalArgumentException("The query contains the update keyword: " + queryStart);
+        }
+        if (-1 != queryStart.indexOf("delete")) {
+            throw new IllegalArgumentException("The query contains the delete keyword: " + queryStart);
+        }
+
+        // Now build it
+        boolean first = true;
+        for (Position pos : positions) {
+            if (!first) {
+                builder.append(" or ");
+            } else {
+                first = false;
+            }
+            builder.append("(PitchArea = '" + pos.getLine().getLongName() + "'");
+            if (pos.getLine().isSided()) {
+                builder.append(" and Side = '" + pos.getSide() + "'");
+            }
+            builder.append(")");
+        }
+        LOGGER.trace("Final Query: " + builder);
+        return builder.toString();
     }
 
     /*

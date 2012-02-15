@@ -152,13 +152,36 @@ public class PlayerInstructionImpl implements PlayerInstruction {
         return role.hashCode() ^ duty.hashCode() ^ viewName.hashCode();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.mcparland.john.footballmanagerroles.data.roles.PlayerInstruction#
+     * setViewName(java.lang.String)
+     */
     @Override
     public void setViewName(String viewName) {
         this.viewName = viewName;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.mcparland.john.footballmanagerroles.data.roles.PlayerInstruction#
+     * getViewName()
+     */
     @Override
     public String getViewName() {
         return viewName;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        return role.getName() + " (" + duty.toString() + ")";
     }
 }

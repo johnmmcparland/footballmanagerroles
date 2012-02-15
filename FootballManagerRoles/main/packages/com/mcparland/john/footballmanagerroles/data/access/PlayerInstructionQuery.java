@@ -56,7 +56,7 @@ public class PlayerInstructionQuery implements RowMapper<PlayerInstruction> {
         // Read the role
         String roleString = rs.getString("role");
         try {
-            role = Role.valueOf(roleString);
+            role = Role.valueOf(roleString.replaceAll(" ", ""));
         } catch (Exception ex) {
             throw new SQLException("The role read is not valid " + roleString, ex);
         }
@@ -75,5 +75,4 @@ public class PlayerInstructionQuery implements RowMapper<PlayerInstruction> {
         // Create the instruction and return
         return new PlayerInstructionImpl(role, duty, viewName);
     }
-
 }
