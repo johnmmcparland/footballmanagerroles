@@ -9,9 +9,11 @@ import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
@@ -363,7 +365,7 @@ public class PlayerTestParserTest {
     public void testReadGeneralInformation() {
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader("testFiles/1. Gianluigi Buffon.rtf"));
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream("testFiles/1. Gianluigi Buffon.rtf"), "UTF-16"));
             Player player = new FootballPlayer();
             reader.readLine();
             parser.readGeneralInformation(reader, player);
@@ -416,7 +418,7 @@ public class PlayerTestParserTest {
      * {@link com.mcparland.john.footballmanagerroles.parser.PlayerTextParser#parse(java.io.File)}
      * .
      */
-   // @Test
+    @Test
     public void testParse() {
         final Position goalkeeper = new PlayerPosition(PitchArea.Goalkeeper);
         final Position sweeper = new PlayerPosition(PitchArea.Sweeper);

@@ -94,10 +94,10 @@ public class FootballManagerRoles {
                 LOGGER.info("Got Player\n" + player.toString());
 
                 // Determine player instructions
-                PlayerInstructionService playerInstructionsService = (PlayerInstructionService) context
-                        .getBean("playerInstructionsService");
-                Collection<PlayerInstruction> playerInstructions = playerInstructionsService
-                        .determinePossiblePlayerInstructions(player.getPositions());
+              //  PlayerInstructionService playerInstructionsService = (PlayerInstructionService) context
+              //          .getBean("playerInstructionsService");
+              //  Collection<PlayerInstruction> playerInstructions = playerInstructionsService
+              //          .determinePossiblePlayerInstructions(player.getPositions());
 
                 // Recommend
                 // Recommender recommender = (Recommender)

@@ -83,8 +83,6 @@ public class PlayerTextParser implements Parser<Player> {
 
         BufferedReader reader = null;
         try {
-            System.out.println("JMCP: File " + input.getName() + " length is " + input.length());
-
             // This reads .txt (UTF-8) only
             // reader = new BufferedReader(new FileReader(input));
             reader = new BufferedReader(new InputStreamReader(new FileInputStream(input), "UTF-16"));
@@ -484,7 +482,6 @@ public class PlayerTextParser implements Parser<Player> {
 
         for (Attribute attr : attrs) {
             LOGGER.trace("Looking for attribute: " + attr.getName());
-            System.err.println("Looking for attribute: " + attr.getName());
             String line = reader.readLine();
             String[] info = line.split("\\|");
             final int ATTR_NAME_INDEX = 1;
@@ -492,7 +489,6 @@ public class PlayerTextParser implements Parser<Player> {
             final int NUM_INDICES = 5;
             while (NUM_INDICES > info.length || !info[ATTR_NAME_INDEX].trim().equals(attr.getName())) {
                 line = reader.readLine();
-                System.err.println(line);
                 info = line.split("\\|");
             }
             try {
