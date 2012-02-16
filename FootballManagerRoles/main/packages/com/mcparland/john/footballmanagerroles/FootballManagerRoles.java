@@ -21,19 +21,18 @@
 package com.mcparland.john.footballmanagerroles;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.mcparland.john.footballmanagerroles.data.access.AttributesService;
 import com.mcparland.john.footballmanagerroles.data.access.PlayerInstructionService;
-import com.mcparland.john.footballmanagerroles.data.attributes.Attributes;
 import com.mcparland.john.footballmanagerroles.data.exceptions.ParseException;
 import com.mcparland.john.footballmanagerroles.data.exceptions.PlayerInstructionAlreadyAddedException;
 import com.mcparland.john.footballmanagerroles.data.people.Person;
 import com.mcparland.john.footballmanagerroles.data.people.Player;
 import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstructions;
 import com.mcparland.john.footballmanagerroles.input.Input;
+import com.mcparland.john.footballmanagerroles.output.Output;
 import com.mcparland.john.footballmanagerroles.parser.Parser;
+import com.mcparland.john.footballmanagerroles.recommend.Recommender;
 import com.mcparland.john.footballmanagerroles.support.ErrorReporter;
 
 /**
@@ -52,39 +51,191 @@ import com.mcparland.john.footballmanagerroles.support.ErrorReporter;
 public class FootballManagerRoles {
 
     /**
+     * The error reporter
+     */
+    private ErrorReporter errorReporter = null;
+
+    /**
+     * Service for obtaining attributes
+     */
+    private AttributesService attributesService = null;
+
+    /**
+     * Input mechanism
+     */
+    private Input input = null;
+
+    /**
+     * Parser for the input file
+     */
+    private Parser<Person> parser = null;
+
+    /**
+     * Service for obtaining player instructions
+     */
+    private PlayerInstructionService playerInstructionsService = null;
+
+    /**
+     * Recommending object
+     */
+    private Recommender recommender = null;
+
+    /**
+     * Output mechanism
+     */
+    private Output output = null;
+
+    /**
      * Logger for this class
      */
     private static final Logger LOGGER = Logger.getLogger(FootballManagerRoles.class);
 
     /**
-     * Main method
+     * Get the error reporter
      * 
-     * @param args
-     *            Program arguments
+     * @return The error reporter
      */
-    public static void main(String[] args) {
-        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(
-                "com/mcparland/john/footballmanagerroles/config/footballmanagerroles.xml");
-        context.registerShutdownHook();
+    public ErrorReporter getErrorReporter() {
+        return errorReporter;
+    }
 
-        // Ensure we can report errors
-        ErrorReporter errorReporter = (ErrorReporter) context.getBean("errorReporter");
+    /**
+     * Set the error reporter
+     * 
+     * @param errorReporter
+     *            The error reporter
+     */
+    public void setErrorReporter(ErrorReporter errorReporter) {
+        this.errorReporter = errorReporter;
+    }
 
-        // Initialize the data objects
-        AttributesService attrsService = (AttributesService) context.getBean("attributesService");
-        Attributes attributes = attrsService.getAttributes();
-        LOGGER.info("Got attributes");
-        LOGGER.debug(attributes.toString());
+    /**
+     * Get the attributes service
+     * 
+     * @return The attributes service
+     */
+    public AttributesService getAttributesService() {
+        return attributesService;
+    }
 
+    /**
+     * Set the attributes service
+     * 
+     * @param attributeService
+     *            The attributes service
+     */
+    public void setAttributeService(AttributesService attributesService) {
+        this.attributesService = attributesService;
+    }
+
+    /**
+     * Get the input mechanism
+     * 
+     * @return The input mechanism
+     */
+    public Input getInput() {
+        return input;
+    }
+
+    /**
+     * Set the input mechanism
+     * 
+     * @param input
+     *            The input mechanism
+     */
+    public void setInput(Input input) {
+        this.input = input;
+    }
+
+    /**
+     * Get the parser
+     * 
+     * @return The parser
+     */
+    public Parser<Person> getParser() {
+        return parser;
+    }
+
+    /**
+     * Set the parser
+     * 
+     * @param parser
+     *            The parser
+     */
+    public void setParser(Parser<Person> parser) {
+        this.parser = parser;
+    }
+
+    /**
+     * Get the service for player instructions
+     * 
+     * @return The service for player instructions
+     */
+    public PlayerInstructionService getPlayerInstructionsService() {
+        return playerInstructionsService;
+    }
+
+    /**
+     * Set the service for player instructions
+     * 
+     * @param playerInstructionsService
+     *            The service for player instructions
+     */
+    public void setPlayerInstructionsService(PlayerInstructionService playerInstructionsService) {
+        this.playerInstructionsService = playerInstructionsService;
+    }
+
+    /**
+     * Get the recommending object
+     * 
+     * @return The recommending object
+     */
+    public Recommender getRecommender() {
+        return recommender;
+    }
+
+    /**
+     * Set the recommending object
+     * 
+     * @param recommender
+     *            The recommending object
+     */
+    public void setRecommender(Recommender recommender) {
+        this.recommender = recommender;
+    }
+
+    /**
+     * Get the output object
+     * 
+     * @return The output object
+     */
+    public Output getOutput() {
+        return output;
+    }
+
+    /**
+     * Set the output object
+     * 
+     * @param output
+     *            The output object
+     */
+    public void setOutput(Output output) {
+        this.output = output;
+    }
+
+    /**
+     * Process the arguments
+     * 
+     * @param inputArguments
+     *            The input arguments
+     */
+    public void process(String[] inputArguments) {
         // Deal with the input
-        Input input = (Input) context.getBean("input");
-        if (!input.setInputFromUser(args)) {
+        if (!input.setInputFromUser(inputArguments)) {
             errorReporter.report("Could not set the input file - check it exists and is readable");
         } else {
             // Parse
-            @SuppressWarnings("unchecked")
-            Parser<Person> parser = (Parser<Person>) context.getBean("parser");
-            parser.setAttributes(attributes);
+            parser.setAttributes(attributesService.getAttributes());
             try {
                 // TODO: If this was to be extended to cover staff to then you
                 // may wish to check the
@@ -93,16 +244,15 @@ public class FootballManagerRoles {
                 LOGGER.info("Got Player\n" + player.toString());
 
                 // Determine player instructions
-                PlayerInstructionService playerInstructionsService = (PlayerInstructionService) context
-                        .getBean("playerInstructionService");
                 PlayerInstructions playerInstructions = playerInstructionsService
                         .determinePossiblePlayerInstructions(player.getPositions());
                 LOGGER.info("Available player instructions\n" + playerInstructions.getPlayerInstructions());
 
                 // Recommend
-                // Recommender recommender = (Recommender)
-                // context.getBean("recommender");
                 // recommender.recommend(playerInstructions);
+
+                // Output
+                // output.output(recommendation);
 
             } catch (ParseException pe) {
                 errorReporter.report("Couldn't parse the input file" + input.getInputFile(), pe);
