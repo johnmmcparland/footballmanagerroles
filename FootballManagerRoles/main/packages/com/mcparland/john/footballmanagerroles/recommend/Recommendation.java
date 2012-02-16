@@ -31,7 +31,7 @@ import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstruction;
  * 
  * @author John McParland (john.mcparland@gmail.com)
  */
-public interface Recommendation<T extends Comparable<?>> {
+public interface Recommendation<T extends Comparable<?>> extends Comparable<Recommendation<T>> {
 
     /**
      * Set the PlayerInstruction this recommendation is for

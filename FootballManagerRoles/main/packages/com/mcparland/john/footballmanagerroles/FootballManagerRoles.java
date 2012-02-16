@@ -32,6 +32,7 @@ import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstructions;
 import com.mcparland.john.footballmanagerroles.input.Input;
 import com.mcparland.john.footballmanagerroles.output.Output;
 import com.mcparland.john.footballmanagerroles.parser.Parser;
+import com.mcparland.john.footballmanagerroles.recommend.Recommendations;
 import com.mcparland.john.footballmanagerroles.recommend.Recommender;
 import com.mcparland.john.footballmanagerroles.support.ErrorReporter;
 
@@ -237,9 +238,6 @@ public class FootballManagerRoles {
             // Parse
             parser.setAttributes(attributesService.getAttributes());
             try {
-                // TODO: If this was to be extended to cover staff to then you
-                // may wish to check the
-                // start of the file
                 Player player = (Player) parser.parse(input.getInputFile());
                 LOGGER.info("Got Player\n" + player.toString());
 
@@ -249,10 +247,10 @@ public class FootballManagerRoles {
                 LOGGER.info("Available player instructions\n" + playerInstructions.getPlayerInstructions());
 
                 // Recommend
-                // recommender.recommend(playerInstructions);
+                Recommendations recommendations = recommender.recommend(playerInstructions, player);
 
                 // Output
-                // output.output(recommendation);
+                output.output(recommendations, player);
 
             } catch (ParseException pe) {
                 errorReporter.report("Couldn't parse the input file" + input.getInputFile(), pe);

@@ -30,3 +30,6 @@ cp ../FootballManagerRoles.sql sql/OpenOfficeExport/
 ls
 rm ../FootballManagerRoles.sql
 exit
+ls
+find . -name *.java | wc -l
+exit
