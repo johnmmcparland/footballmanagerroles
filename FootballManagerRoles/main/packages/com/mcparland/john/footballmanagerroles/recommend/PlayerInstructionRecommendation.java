@@ -69,7 +69,7 @@ public class PlayerInstructionRecommendation implements Recommendation<Integer> 
      *            inclusive
      */
     protected void checkAndSetRating(Integer rating) throws IllegalArgumentException {
-        if (0 >= rating && 100 <= rating) {
+        if (0 <= rating && 100 >= rating) {
             this.rating = rating;
         } else {
             throw new IllegalArgumentException("Rating is not between 0 and 100: " + rating);

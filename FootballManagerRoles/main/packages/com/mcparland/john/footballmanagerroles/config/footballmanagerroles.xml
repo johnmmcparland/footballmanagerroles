@@ -19,7 +19,7 @@
 		<property name="input" ref="input" />
 		<property name="parser" ref="parser" />
 		<property name="attributesService" ref="attributesService" />
-		<property name="playerInstructionService" ref="playerInstructionService" />
+		<property name="playerInstructionsService" ref="playerInstructionsService" />
 		<property name="recommender" ref="recommender" />
 		<property name="output" ref="output" />
 	</bean>
@@ -105,7 +105,7 @@
 	<!-- -->
 
 	<!-- The Player Instructions Service -->
-	<bean id="playerInstructionService"
+	<bean id="playerInstructionsService"
 		class="com.mcparland.john.footballmanagerroles.data.access.PlayerInstructionServiceImpl">
 		<property name="DAOs" ref="playerInstructionDaos" />
 	</bean>
@@ -128,6 +128,20 @@
 	<!-- Player Instruction Query -->
 	<bean id="playerInstructionQuery"
 		class="com.mcparland.john.footballmanagerroles.data.access.PlayerInstructionQuery">
+	</bean>
+
+	<!-- Recommendation Beans -->
+	<!-- -->
+
+	<!-- The Recommender -->
+	<bean id="recommender"
+		class="com.mcparland.john.footballmanagerroles.recommend.PlayerInstructionRecommender">
+	</bean>
+
+	<!-- Output beans -->
+	<!-- -->
+	<bean id="output"
+		class="com.mcparland.john.footballmanagerroles.output.CmdLineOutput">
 	</bean>
 
 </beans>

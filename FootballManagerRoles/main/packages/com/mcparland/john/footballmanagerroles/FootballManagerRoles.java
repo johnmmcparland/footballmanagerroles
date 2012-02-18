@@ -79,7 +79,7 @@ public class FootballManagerRoles {
     /**
      * Recommending object
      */
-    private Recommender recommender = null;
+    private Recommender<?> recommender = null;
 
     /**
      * Output mechanism
@@ -122,10 +122,10 @@ public class FootballManagerRoles {
     /**
      * Set the attributes service
      * 
-     * @param attributeService
+     * @param attributesService
      *            The attributes service
      */
-    public void setAttributeService(AttributesService attributesService) {
+    public void setAttributesService(AttributesService attributesService) {
         this.attributesService = attributesService;
     }
 
@@ -191,7 +191,7 @@ public class FootballManagerRoles {
      * 
      * @return The recommending object
      */
-    public Recommender getRecommender() {
+    public Recommender<?> getRecommender() {
         return recommender;
     }
 
@@ -201,7 +201,7 @@ public class FootballManagerRoles {
      * @param recommender
      *            The recommending object
      */
-    public void setRecommender(Recommender recommender) {
+    public void setRecommender(Recommender<?> recommender) {
         this.recommender = recommender;
     }
 
@@ -247,7 +247,7 @@ public class FootballManagerRoles {
                 LOGGER.info("Available player instructions\n" + playerInstructions.getPlayerInstructions());
 
                 // Recommend
-                Recommendations recommendations = recommender.recommend(playerInstructions, player);
+                Recommendations<?> recommendations = recommender.recommend(playerInstructions, player);
 
                 // Output
                 output.output(recommendations, player);

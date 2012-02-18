@@ -18,10 +18,11 @@
 package com.mcparland.john.footballmanagerroles.output;
 
 import com.mcparland.john.footballmanagerroles.data.people.Player;
+import com.mcparland.john.footballmanagerroles.recommend.Recommendation;
 import com.mcparland.john.footballmanagerroles.recommend.Recommendations;
 
 /**
- * Output mechanism for PlayerInstruction recommendations
+ * Command line output mechanism
  * <p>
  * (c) John McParland
  * </p>
@@ -32,15 +33,29 @@ import com.mcparland.john.footballmanagerroles.recommend.Recommendations;
  * 
  * @author John McParland (john.mcparland@gmail.com)
  */
-public interface Output {
+public class CmdLineOutput implements Output {
 
     /**
-     * Output the recommendations for the player
-     * 
-     * @param recommendations
-     *            The recommendations
-     * @param player
-     *            The player
+     * Create a command line output mechanism
      */
-    public void output(Recommendations<?> recommendations, Player player);
+    public CmdLineOutput() {
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.mcparland.john.footballmanagerroles.output.Output#output(com.mcparland
+     * .john.footballmanagerroles.recommend.Recommendations,
+     * com.mcparland.john.footballmanagerroles.data.people.Player)
+     */
+    @Override
+    public void output(Recommendations<?> recommendations, Player player) {
+        System.out.println(player.getName() + ": " + player.getPositions());
+        for (Recommendation<?> rec : recommendations.getRecommendations()) {
+            System.out.println(rec.getPlayerInstruction() + ": " + rec.getRating());
+        }
+    }
+
 }

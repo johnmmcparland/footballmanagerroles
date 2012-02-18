@@ -17,6 +17,9 @@
  */
 package com.mcparland.john.footballmanagerroles.recommend;
 
+import java.util.Collection;
+
+import com.mcparland.john.footballmanagerroles.data.access.DAO;
 import com.mcparland.john.footballmanagerroles.data.people.Player;
 import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstructions;
 
@@ -32,7 +35,7 @@ import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstructions;
  * 
  * @author John McParland (john.mcparland@gmail.com)
  */
-public interface Recommender {
+public interface Recommender<T extends Recommendations<?>> {
 
     /**
      * Recommend the best instructions for the given player
@@ -43,6 +46,18 @@ public interface Recommender {
      *            The player
      * @return The recommendations for the instructions
      */
-    public Recommendations recommend(PlayerInstructions instructions, Player player);
+    public T recommend(PlayerInstructions instructions, Player player);
+
+    /**
+     * Set the data access objects to use
+     * @param daos The data access objects
+     */
+    public void setDaos(Collection<DAO<?>> daos);
+
+    /**
+     * Get the data access objects
+     * @return The data access objects
+     */
+    public Collection<DAO<?>> getDaos();
 
 }

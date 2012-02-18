@@ -33,7 +33,7 @@ import com.mcparland.john.footballmanagerroles.data.exceptions.RecommendationAlr
  * 
  * @author John McParland (john.mcparland@gmail.com)
  */
-public interface Recommendations {
+public interface Recommendations<T extends Recommendation<?>> {
 
     /**
      * Add a recommendation
@@ -43,13 +43,13 @@ public interface Recommendations {
      * @throws RecommendationAlreadyAddedException
      *             if the Recommendation already exists in this collection
      */
-    public void addRecommendation(Recommendation<?> recommendation) throws RecommendationAlreadyAddedException;
+    public void addRecommendation(T recommendation) throws RecommendationAlreadyAddedException;
 
     /**
      * Get the recommendations <b>in descending order of rating</b>
      * 
      * @return The recommendations <b>in descending order of rating</b>
      */
-    public Collection<Recommendation<?>> getRecommendations();
+    public Collection<T> getRecommendations();
 
 }

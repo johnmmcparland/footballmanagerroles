@@ -15,13 +15,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mcparland.john.footballmanagerroles.output;
+package com.mcparland.john.footballmanagerroles.data.access;
 
-import com.mcparland.john.footballmanagerroles.data.people.Player;
-import com.mcparland.john.footballmanagerroles.recommend.Recommendations;
+import java.util.Collection;
 
 /**
- * Output mechanism for PlayerInstruction recommendations
+ * Service for obtaining the names of required attbributes
  * <p>
  * (c) John McParland
  * </p>
@@ -32,15 +31,27 @@ import com.mcparland.john.footballmanagerroles.recommend.Recommendations;
  * 
  * @author John McParland (john.mcparland@gmail.com)
  */
-public interface Output {
+public interface RequiredAttributesService {
 
     /**
-     * Output the recommendations for the player
+     * Get the names of the required attributes
      * 
-     * @param recommendations
-     *            The recommendations
-     * @param player
-     *            The player
+     * @return The names of the required attributes
      */
-    public void output(Recommendations<?> recommendations, Player player);
+    public Collection<String> getRequiredAttributeNames();
+
+    /**
+     * Set the Data Access Objects to use
+     * 
+     * @param daos
+     *            The data access objects
+     */
+    public void setDAOs(Collection<DAO<String>> daos);
+
+    /**
+     * Get the data access objecsts
+     * 
+     * @return The DAOs
+     */
+    public Collection<DAO<String>> getDAOs();
 }
