@@ -19,8 +19,10 @@ package com.mcparland.john.footballmanagerroles.data.access;
 
 import java.util.Collection;
 
+import com.mcparland.john.footballmanagerroles.data.attributes.Attribute;
+
 /**
- * Service for obtaining the names of required attbributes
+ * Service for obtaining the key attributes for a Player Instruction
  * <p>
  * (c) John McParland
  * </p>
@@ -31,14 +33,17 @@ import java.util.Collection;
  * 
  * @author John McParland (john.mcparland@gmail.com)
  */
-public interface RequiredAttributesService {
+public interface KeyAttributesService {
 
     /**
-     * Get the names of the required attributes
+     * Get the key attributes
      * 
-     * @return The names of the required attributes
+     * @param viewName
+     *            The name of the view containing the key attributes
+     * 
+     * @return The key attributes
      */
-    public Collection<String> getRequiredAttributeNames();
+    public Collection<Attribute> getKeyAttributes(String viewName);
 
     /**
      * Set the Data Access Objects to use
@@ -46,12 +51,12 @@ public interface RequiredAttributesService {
      * @param daos
      *            The data access objects
      */
-    public void setDAOs(Collection<DAO<String>> daos);
+    public void setDAOs(Collection<DAO<Attribute>> daos);
 
     /**
      * Get the data access objecsts
      * 
      * @return The DAOs
      */
-    public Collection<DAO<String>> getDAOs();
+    public Collection<DAO<Attribute>> getDAOs();
 }

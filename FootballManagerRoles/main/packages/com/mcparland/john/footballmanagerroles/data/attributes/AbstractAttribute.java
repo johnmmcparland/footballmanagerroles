@@ -52,6 +52,22 @@ abstract class AbstractAttribute implements Attribute {
         this.type = type;
     }
 
+    /**
+     * Create an attribute
+     * 
+     * @param name
+     *            The name of the attribute
+     * @param type
+     *            The attribute type
+     * @param category
+     *            The attribute category
+     */
+    public AbstractAttribute(String name, AttributeType type, AttributeCategory category) {
+        this.name = name;
+        this.type = type;
+        this.category = category;
+    }
+
     /*
      * (non-Javadoc)
      * 

@@ -136,7 +136,25 @@
 	<!-- The Recommender -->
 	<bean id="recommender"
 		class="com.mcparland.john.footballmanagerroles.recommend.PlayerInstructionRecommender">
+		<property name="keyAttributesService" ref="keyAttributesService"/>
 	</bean>
+	
+	<bean id="keyAttributesService" class="com.mcparland.john.footballmanagerroles.data.access.KeyAttributesServiceImpl">
+	    <property name="DAOs" ref="keyAttributesDaos"/>
+	</bean>
+	
+	<util:list id="keyAttributesDaos" list-class="java.util.ArrayList">
+	    <ref bean="keyAttributesDao"/>
+	</util:list>
+	
+	<bean id="keyAttributesDao" class="com.mcparland.john.footballmanagerroles.data.access.DAOImpl">
+	<property name="jdbcTemplate" ref="jdbcTemplate"/>
+	    <property name="query" value="select * from"/>
+	    <property name="queryier" ref="keyAttributesQueryier"/>
+	</bean>
+
+    <bean id="keyAttributesQueryier" class="com.mcparland.john.footballmanagerroles.data.access.AttributesQuery">
+    </bean>
 
 	<!-- Output beans -->
 	<!-- -->

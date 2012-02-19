@@ -79,12 +79,7 @@ public class PlayerInstructionServiceImpl implements PlayerInstructionService {
                 List<PlayerInstruction> instructs = (List<PlayerInstruction>) dao.getJdbcTemplate().query(query,
                         dao.getQueryier());
                 for (PlayerInstruction ins : instructs) {
-                    try {
                         instructions.addPlayerInstruction(ins);
-                    } catch (PlayerInstructionAlreadyAddedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
                 }
             }
         }

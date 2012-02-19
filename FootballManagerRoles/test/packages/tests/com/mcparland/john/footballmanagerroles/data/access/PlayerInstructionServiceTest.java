@@ -19,6 +19,7 @@ package tests.com.mcparland.john.footballmanagerroles.data.access;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -122,22 +123,26 @@ public class PlayerInstructionServiceTest {
                     new PlayerInstructionImpl(Role.TargetMan, Duty.Support, "TM_S")));
             assertTrue(instructions.getPlayerInstructions().contains(
                     new PlayerInstructionImpl(Role.Trequartista, Duty.Attack, "T_A")));
-            
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("AF_A").size());
-            assertTrue(instructions.getViewNameToPlayerInstructions().get("AF_A").contains( new PlayerInstructionImpl(Role.AdvancedForward, Duty.Attack, "AF_A")));
-            assertEquals(2,instructions.getViewNameToPlayerInstructions().get("CF_SA").size());
-            assertTrue(instructions.getViewNameToPlayerInstructions().get("CF_SA").contains( new PlayerInstructionImpl(Role.CompleteForward, Duty.Attack, "CF_SA")));
-            assertTrue(instructions.getViewNameToPlayerInstructions().get("CF_SA").contains( new PlayerInstructionImpl(Role.CompleteForward, Duty.Support, "CF_SA")));
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("DLF_A").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("DLF_S").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("DF_S").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("DF_A").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("P_A").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("TM_A").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("TM_S").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("T_A").size());
-            
-            // Case 2: Two positions on the same line [Defender right and centre]
+
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("AF_A").size());
+            assertTrue(instructions.getViewNameToPlayerInstructions().get("AF_A")
+                    .contains(new PlayerInstructionImpl(Role.AdvancedForward, Duty.Attack, "AF_A")));
+            assertEquals(2, instructions.getViewNameToPlayerInstructions().get("CF_SA").size());
+            assertTrue(instructions.getViewNameToPlayerInstructions().get("CF_SA")
+                    .contains(new PlayerInstructionImpl(Role.CompleteForward, Duty.Attack, "CF_SA")));
+            assertTrue(instructions.getViewNameToPlayerInstructions().get("CF_SA")
+                    .contains(new PlayerInstructionImpl(Role.CompleteForward, Duty.Support, "CF_SA")));
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("DLF_A").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("DLF_S").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("DF_S").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("DF_A").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("P_A").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("TM_A").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("TM_S").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("T_A").size());
+
+            // Case 2: Two positions on the same line [Defender right and
+            // centre]
             positions.clear();
             pos = new PlayerPosition(PitchArea.Defender, Side.Centre);
             positions.add(pos);
@@ -163,7 +168,7 @@ public class PlayerInstructionServiceTest {
                     new PlayerInstructionImpl(Role.LimitedDefender, Duty.Defend, "LD_D")));
             assertTrue(instructions.getPlayerInstructions().contains(
                     new PlayerInstructionImpl(Role.LimitedDefender, Duty.Stopper, "LD_S")));
-            
+
             assertTrue(instructions.getPlayerInstructions().contains(
                     new PlayerInstructionImpl(Role.FullBack, Duty.Attack, "FB_A")));
             assertTrue(instructions.getPlayerInstructions().contains(
@@ -180,27 +185,32 @@ public class PlayerInstructionServiceTest {
                     new PlayerInstructionImpl(Role.WingBack, Duty.Defend, "WB_D")));
             assertTrue(instructions.getPlayerInstructions().contains(
                     new PlayerInstructionImpl(Role.WingBack, Duty.Support, "WB_SAu")));
-            
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("BPD_C").size());
-            assertTrue(instructions.getViewNameToPlayerInstructions().get("BPD_C").contains(new PlayerInstructionImpl(Role.BallPlayingDefender, Duty.Cover, "BPD_C")));
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("BPD_D").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("BPD_S").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("CD_C").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("CD_D").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("CD_S").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("LD_C").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("LD_D").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("LD_S").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("FB_A").size());
-            assertEquals(2,instructions.getViewNameToPlayerInstructions().get("FB_SAu").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("FB_D").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("WB_A").size());
-            assertEquals(2,instructions.getViewNameToPlayerInstructions().get("WB_SAu").size());
-            assertTrue(instructions.getViewNameToPlayerInstructions().get("WB_SAu").contains(new PlayerInstructionImpl(Role.WingBack, Duty.Automatic, "WB_SAu")));
-            assertTrue(instructions.getViewNameToPlayerInstructions().get("WB_SAu").contains(new PlayerInstructionImpl(Role.WingBack, Duty.Support, "WB_SAu")));
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("WB_D").size());
-            
-            // Case 3: Positions on different lines, including some with the same view name twice [Midfielder, Attacking Midfielder, Right, Centre]
+
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("BPD_C").size());
+            assertTrue(instructions.getViewNameToPlayerInstructions().get("BPD_C")
+                    .contains(new PlayerInstructionImpl(Role.BallPlayingDefender, Duty.Cover, "BPD_C")));
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("BPD_D").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("BPD_S").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("CD_C").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("CD_D").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("CD_S").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("LD_C").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("LD_D").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("LD_S").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("FB_A").size());
+            assertEquals(2, instructions.getViewNameToPlayerInstructions().get("FB_SAu").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("FB_D").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("WB_A").size());
+            assertEquals(2, instructions.getViewNameToPlayerInstructions().get("WB_SAu").size());
+            assertTrue(instructions.getViewNameToPlayerInstructions().get("WB_SAu")
+                    .contains(new PlayerInstructionImpl(Role.WingBack, Duty.Automatic, "WB_SAu")));
+            assertTrue(instructions.getViewNameToPlayerInstructions().get("WB_SAu")
+                    .contains(new PlayerInstructionImpl(Role.WingBack, Duty.Support, "WB_SAu")));
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("WB_D").size());
+
+            // Case 3: Positions on different lines, including some with the
+            // same view name twice [Midfielder, Attacking Midfielder, Right,
+            // Centre]
             positions.clear();
             pos = new PlayerPosition(PitchArea.Midfielder, Side.Centre);
             positions.add(pos);
@@ -210,9 +220,9 @@ public class PlayerInstructionServiceTest {
             positions.add(pos);
             pos = new PlayerPosition(PitchArea.AttackingMidfielder, Side.Right);
             positions.add(pos);
-            
+
             instructions = playerInstructionService.determinePossiblePlayerInstructions(positions);
-            
+
             assertEquals(24, instructions.getPlayerInstructions().size());
             assertTrue(instructions.getPlayerInstructions().contains(
                     new PlayerInstructionImpl(Role.AdvancedPlaymaker, Duty.Attack, "AP_A")));
@@ -262,36 +272,43 @@ public class PlayerInstructionServiceTest {
                     new PlayerInstructionImpl(Role.Winger, Duty.Attack, "W_SA")));
             assertTrue(instructions.getPlayerInstructions().contains(
                     new PlayerInstructionImpl(Role.Winger, Duty.Support, "W_SA")));
-            
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("AP_A").size());
-            assertTrue(instructions.getViewNameToPlayerInstructions().get("AP_A").contains(new PlayerInstructionImpl(Role.AdvancedPlaymaker, Duty.Attack, "AP_A")));
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("AP_S").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("AM_A").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("AM_S").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("BWM_D").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("BWM_S").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("B2BM_S").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("CM_A").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("CM_D").size());
-            assertEquals(2,instructions.getViewNameToPlayerInstructions().get("CM_SAu").size());
-            assertTrue(instructions.getViewNameToPlayerInstructions().get("CM_SAu").contains(new PlayerInstructionImpl(Role.CentralMidfielder, Duty.Automatic, "CM_SAu")));
-            assertTrue(instructions.getViewNameToPlayerInstructions().get("CM_SAu").contains(new PlayerInstructionImpl(Role.CentralMidfielder, Duty.Support, "CM_SAu")));
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("DLP_D").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("DLP_S").size());
-            assertEquals(2,instructions.getViewNameToPlayerInstructions().get("DW_SA").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("IF_S").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("IF_A").size());
-            assertEquals(1,instructions.getViewNameToPlayerInstructions().get("T_A").size());
-            assertEquals(4,instructions.getViewNameToPlayerInstructions().get("WM_DSAAu").size());
-            assertTrue(instructions.getViewNameToPlayerInstructions().get("WM_DSAAu").contains(new PlayerInstructionImpl(Role.WideMidfielder, Duty.Defend, "WM_DSAAu")));
-            assertTrue(instructions.getViewNameToPlayerInstructions().get("WM_DSAAu").contains(new PlayerInstructionImpl(Role.WideMidfielder, Duty.Support, "WM_DSAAu")));
-            assertTrue(instructions.getViewNameToPlayerInstructions().get("WM_DSAAu").contains(new PlayerInstructionImpl(Role.WideMidfielder, Duty.Attack, "WM_DSAAu")));
-            assertTrue(instructions.getViewNameToPlayerInstructions().get("WM_DSAAu").contains(new PlayerInstructionImpl(Role.WideMidfielder, Duty.Automatic, "WM_DSAAu")));
-            assertEquals(2,instructions.getViewNameToPlayerInstructions().get("W_SA").size());
-            
+
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("AP_A").size());
+            assertTrue(instructions.getViewNameToPlayerInstructions().get("AP_A")
+                    .contains(new PlayerInstructionImpl(Role.AdvancedPlaymaker, Duty.Attack, "AP_A")));
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("AP_S").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("AM_A").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("AM_S").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("BWM_D").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("BWM_S").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("B2BM_S").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("CM_A").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("CM_D").size());
+            assertEquals(2, instructions.getViewNameToPlayerInstructions().get("CM_SAu").size());
+            assertTrue(instructions.getViewNameToPlayerInstructions().get("CM_SAu")
+                    .contains(new PlayerInstructionImpl(Role.CentralMidfielder, Duty.Automatic, "CM_SAu")));
+            assertTrue(instructions.getViewNameToPlayerInstructions().get("CM_SAu")
+                    .contains(new PlayerInstructionImpl(Role.CentralMidfielder, Duty.Support, "CM_SAu")));
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("DLP_D").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("DLP_S").size());
+            assertEquals(2, instructions.getViewNameToPlayerInstructions().get("DW_SA").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("IF_S").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("IF_A").size());
+            assertEquals(1, instructions.getViewNameToPlayerInstructions().get("T_A").size());
+            assertEquals(4, instructions.getViewNameToPlayerInstructions().get("WM_DSAAu").size());
+            assertTrue(instructions.getViewNameToPlayerInstructions().get("WM_DSAAu")
+                    .contains(new PlayerInstructionImpl(Role.WideMidfielder, Duty.Defend, "WM_DSAAu")));
+            assertTrue(instructions.getViewNameToPlayerInstructions().get("WM_DSAAu")
+                    .contains(new PlayerInstructionImpl(Role.WideMidfielder, Duty.Support, "WM_DSAAu")));
+            assertTrue(instructions.getViewNameToPlayerInstructions().get("WM_DSAAu")
+                    .contains(new PlayerInstructionImpl(Role.WideMidfielder, Duty.Attack, "WM_DSAAu")));
+            assertTrue(instructions.getViewNameToPlayerInstructions().get("WM_DSAAu")
+                    .contains(new PlayerInstructionImpl(Role.WideMidfielder, Duty.Automatic, "WM_DSAAu")));
+            assertEquals(2, instructions.getViewNameToPlayerInstructions().get("W_SA").size());
+
         } catch (PlayerInstructionAlreadyAddedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            fail("PlayerInstructionAlreadyAddedException caught when not expected: " + e.getMessage());
         }
     }
 }

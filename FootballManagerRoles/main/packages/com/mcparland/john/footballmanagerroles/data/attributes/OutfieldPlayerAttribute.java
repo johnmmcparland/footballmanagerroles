@@ -44,6 +44,24 @@ public class OutfieldPlayerAttribute extends AbstractAttribute {
             setName(name);
         }
     }
+    
+    /**
+     * Create an outfield player attribute
+     * @param name The name of the attribute
+     * @param type The type of the attribute
+     * @param category The category of the attribute
+     */
+    public OutfieldPlayerAttribute(String name, AttributeType type, AttributeCategory category) {
+        super();
+        if (type.equals(AttributeType.Goalkeeping)) {
+            throw new IncorrectAttributeTypeException(
+                    "The attribute type must not be Goalkeeping for an Outfield player");
+        } else {
+            setType(type);
+            setName(name);
+            setCategory(category);
+        }
+    }
 
     /*
      * (non-Javadoc)

@@ -17,11 +17,9 @@
  */
 package com.mcparland.john.footballmanagerroles.recommend;
 
-import java.util.Collection;
-
 import org.apache.log4j.Logger;
 
-import com.mcparland.john.footballmanagerroles.data.access.DAO;
+import com.mcparland.john.footballmanagerroles.data.access.KeyAttributesService;
 import com.mcparland.john.footballmanagerroles.data.people.Player;
 import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstruction;
 import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstructions;
@@ -41,9 +39,9 @@ import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstructions;
 public class PlayerInstructionRecommender implements Recommender<PlayerInstructionRecommendations> {
 
     /**
-     * Data access objects
+     * The Key Attributes Service from which to obtain the key attributes
      */
-    private Collection<DAO<?>> daos = null;
+    private KeyAttributesService keyAttributesService = null;
 
     /**
      * Logger for this class
@@ -88,23 +86,32 @@ public class PlayerInstructionRecommender implements Recommender<PlayerInstructi
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.mcparland.john.footballmanagerroles.recommend.Recommender#setDaos
-     * (java.util.Collection)
+     * @see com.mcparland.john.footballmanagerroles.recommend.Recommender#
+     * setKeyAttributesService
+     * (com.mcparland.john.footballmanagerroles.data.access
+     * .KeyAttributesService)
+     */
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.mcparland.john.footballmanagerroles.recommend.Recommender#
+     * setKeyAttributesService
+     * (com.mcparland.john.footballmanagerroles.data.access
+     * .KeyAttributesService)
      */
     @Override
-    public void setDaos(Collection<DAO<?>> daos) {
-        this.daos = daos;
+    public void setKeyAttributesService(KeyAttributesService keyAttributesService) {
+        this.keyAttributesService = keyAttributesService;
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.mcparland.john.footballmanagerroles.recommend.Recommender#getDaos()
+     * @see com.mcparland.john.footballmanagerroles.recommend.Recommender#
+     * getKeyAttributesService()
      */
     @Override
-    public Collection<DAO<?>> getDaos() {
-        return daos;
+    public KeyAttributesService getKeyAttributesService() {
+        return keyAttributesService;
     }
 }
