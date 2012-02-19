@@ -18,8 +18,9 @@
 package com.mcparland.john.footballmanagerroles.recommend;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
+import java.util.TreeSet;
 
 import com.mcparland.john.footballmanagerroles.data.exceptions.RecommendationAlreadyAddedException;
 
@@ -64,7 +65,7 @@ public class PlayerInstructionRecommendations implements Recommendations<PlayerI
                     + recommendation.getClass());
         }
         if (null == recommendations) {
-            recommendations = new HashSet<PlayerInstructionRecommendation>();
+            recommendations = new TreeSet<PlayerInstructionRecommendation>(Collections.reverseOrder());
         }
         if (recommendations.contains(recommendation)) {
             throw new RecommendationAlreadyAddedException("This recommendation already exists: " + recommendation);

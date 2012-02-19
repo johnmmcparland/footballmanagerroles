@@ -144,11 +144,11 @@ public class PlayerInstructionRecommendation implements Recommendation<Integer> 
      */
     @Override
     public int compareTo(Recommendation<Integer> o) {
-        int diff = instruction.compareTo(o.getPlayerInstruction());
+        int diff = rating - o.getRating().intValue();
         if (0 != diff) {
             return diff;
         } else {
-            return (new Integer(rating)).compareTo(o.getRating());
+            return instruction.compareTo(o.getPlayerInstruction());
         }
     }
 
@@ -172,7 +172,7 @@ public class PlayerInstructionRecommendation implements Recommendation<Integer> 
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        return instruction.hashCode() ^ rating;
+        return rating ^ instruction.hashCode();
     }
 
 }

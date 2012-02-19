@@ -17,9 +17,16 @@
  */
 package com.mcparland.john.footballmanagerroles.recommend;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Collection;
+
 import org.apache.log4j.Logger;
 
 import com.mcparland.john.footballmanagerroles.data.access.KeyAttributesService;
+import com.mcparland.john.footballmanagerroles.data.attributes.Attribute;
+import com.mcparland.john.footballmanagerroles.data.exceptions.RecommendationAlreadyAddedException;
 import com.mcparland.john.footballmanagerroles.data.people.Player;
 import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstruction;
 import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstructions;
@@ -42,6 +49,11 @@ public class PlayerInstructionRecommender implements Recommender<PlayerInstructi
      * The Key Attributes Service from which to obtain the key attributes
      */
     private KeyAttributesService keyAttributesService = null;
+
+    /**
+     * The maximum value an attribute can have
+     */
+    private static final double MAX_ATTR_VALUE = 20.0;
 
     /**
      * Logger for this class
@@ -68,7 +80,7 @@ public class PlayerInstructionRecommender implements Recommender<PlayerInstructi
         // Ok this is the meat of the whole application
 
         // Algorithm: for each instruction
-        // 1) Get the required attributes
+        // 1) Get the key attributes
         // 2) Retain the number of required attributes (noAttrs)
         // 3) Sum the Players values for those attributes (playersSum)
         // 4) Rating = playersSum / (noAttrs * MAX_ATTR_VALUE) * 100
@@ -77,10 +89,48 @@ public class PlayerInstructionRecommender implements Recommender<PlayerInstructi
 
         for (PlayerInstruction instruction : instructions.getPlayerInstructions()) {
             LOGGER.debug("Calculating the rating for instruction: " + instruction);
-
+            Collection<Attribute> keyAttrs = getKeyAttributesService().getKeyAttributes(instruction.getViewName());
+            PlayerInstructionRecommendation recommendation = new PlayerInstructionRecommendation();
+            recommendation.setPlayerInstruction(instruction);
+            recommendation.setRating(calculateRating(keyAttrs, player));
+            try {
+                recommendations.addRecommendation(recommendation);
+                LOGGER.debug("Rating for " + recommendation.getPlayerInstruction() + " is "
+                        + recommendation.getRating());
+            } catch (RecommendationAlreadyAddedException e) {
+                // We really shouldn't get this, so lets just log it
+                e.printStackTrace();
+                LOGGER.error("RecommendationAlreadyAddedException occurred during recommend: " + e.getMessage());
+                final Writer result = new StringWriter();
+                final PrintWriter printWriter = new PrintWriter(result);
+                e.printStackTrace(printWriter);
+                LOGGER.error(printWriter);
+            }
         }
-
         return recommendations;
+    }
+
+    /**
+     * Calculate the rating for a given player and set of key attributes
+     * 
+     * @param keyAttributes
+     *            The key attributes
+     * @param player
+     *            The player
+     * @return The rating for the given set of attributes
+     */
+    public int calculateRating(Collection<Attribute> keyAttributes, Player player) {
+        // Remember this from recommend
+        // 2) Retain the number of required attributes (noAttrs)
+        // 3) Sum the Players values for those attributes (playersSum)
+        // 4) Rating = playersSum / (noAttrs * MAX_ATTR_VALUE) * 100
+        int playersSum = 0;
+        for (Attribute attr : keyAttributes) {
+            playersSum += player.getAttributes().get(attr);
+        }
+        double rating = (playersSum / (keyAttributes.size() * MAX_ATTR_VALUE)) * 100.0;
+        LOGGER.debug("Rating == " + rating);
+        return (int)Math.round(rating);
     }
 
     /*
