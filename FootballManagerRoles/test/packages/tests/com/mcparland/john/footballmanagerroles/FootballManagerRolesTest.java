@@ -50,8 +50,8 @@ import com.mcparland.john.footballmanagerroles.recommend.PlayerInstructionRecomm
 import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendations;
 
 /**
- * End to end test of the application, from input from file through calculation
- * but analysing the output
+ * Test class for
+ * {@link com.mcparland.john.footballmanagerroles.FootballManagerRoles}
  * <p>
  * (c) John McParland
  * </p>
@@ -65,7 +65,7 @@ import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendations;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/com/mcparland/john/footballmanagerroles/config/footballmanagerroles.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class EndToEndTest {
+public class FootballManagerRolesTest {
 
     /**
      * The FootballManagerRoles object being tested
@@ -122,10 +122,11 @@ public class EndToEndTest {
     }
 
     /**
-     * End to end test for the first player
+     * Test method for {@link FootballManagerRoles#process(File)} for the first
+     * player
      */
     @Test
-    public void testPlayerOne() {
+    public void testProcess_PlayerOne() {
         File file = new File("testFiles/1. Gianluigi Buffon.rtf");
         try {
             PlayerRecommendations playerRecommendations = footballManagerRoles.process(file);
@@ -219,12 +220,12 @@ public class EndToEndTest {
             fail("Exception unexpectedly caught: " + ex.getMessage());
         }
     }
-    
+
     /**
-     * End to end test for the first player
+     * Test for {@link FootballManagerRoles#process(File)} for player two
      */
     @Test
-    public void testPlayerTwo() {
+    public void testProcess_PlayerTwo() {
         File file = new File("testFiles/5. Daniel Majstorovic.rtf");
         try {
             PlayerRecommendations playerRecommendations = footballManagerRoles.process(file);
@@ -315,7 +316,7 @@ public class EndToEndTest {
                     new PlayerInstructionImpl(Role.Libero, Duty.Attack, "L_A"), 63);
             PlayerInstructionRecommendation recommendation12 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.Sweeper, Duty.Defend, "SW_D"), 68);
-            
+
             PlayerInstructionRecommendations knownRecommendations = new PlayerInstructionRecommendations();
             knownRecommendations.addRecommendation(recommendation1);
             knownRecommendations.addRecommendation(recommendation2);
@@ -329,7 +330,7 @@ public class EndToEndTest {
             knownRecommendations.addRecommendation(recommendation10);
             knownRecommendations.addRecommendation(recommendation11);
             knownRecommendations.addRecommendation(recommendation12);
-            
+
             assertEquals(knownRecommendations.getRecommendations().size(), playerRecommendations.getRecommendations()
                     .getRecommendations().size());
             for (PlayerInstructionRecommendation rec : knownRecommendations.getRecommendations()) {
