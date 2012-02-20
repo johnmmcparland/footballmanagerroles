@@ -20,21 +20,20 @@
  */
 package com.mcparland.john.footballmanagerroles;
 
+import java.io.File;
+
 import org.apache.log4j.Logger;
 
 import com.mcparland.john.footballmanagerroles.data.access.AttributesService;
 import com.mcparland.john.footballmanagerroles.data.access.PlayerInstructionService;
-import com.mcparland.john.footballmanagerroles.data.exceptions.ParseException;
-import com.mcparland.john.footballmanagerroles.data.exceptions.PlayerInstructionAlreadyAddedException;
 import com.mcparland.john.footballmanagerroles.data.people.Person;
 import com.mcparland.john.footballmanagerroles.data.people.Player;
 import com.mcparland.john.footballmanagerroles.data.roles.PlayerInstructions;
-import com.mcparland.john.footballmanagerroles.input.Input;
-import com.mcparland.john.footballmanagerroles.output.Output;
 import com.mcparland.john.footballmanagerroles.parser.Parser;
+import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendations;
+import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendationsImpl;
 import com.mcparland.john.footballmanagerroles.recommend.Recommendations;
 import com.mcparland.john.footballmanagerroles.recommend.Recommender;
-import com.mcparland.john.footballmanagerroles.support.ErrorReporter;
 
 /**
  * Main program for this application which, via dependency injection, gathers
@@ -52,19 +51,9 @@ import com.mcparland.john.footballmanagerroles.support.ErrorReporter;
 public class FootballManagerRoles {
 
     /**
-     * The error reporter
-     */
-    private ErrorReporter errorReporter = null;
-
-    /**
      * Service for obtaining attributes
      */
     private AttributesService attributesService = null;
-
-    /**
-     * Input mechanism
-     */
-    private Input input = null;
 
     /**
      * Parser for the input file
@@ -82,33 +71,9 @@ public class FootballManagerRoles {
     private Recommender<?> recommender = null;
 
     /**
-     * Output mechanism
-     */
-    private Output output = null;
-
-    /**
      * Logger for this class
      */
     private static final Logger LOGGER = Logger.getLogger(FootballManagerRoles.class);
-
-    /**
-     * Get the error reporter
-     * 
-     * @return The error reporter
-     */
-    public ErrorReporter getErrorReporter() {
-        return errorReporter;
-    }
-
-    /**
-     * Set the error reporter
-     * 
-     * @param errorReporter
-     *            The error reporter
-     */
-    public void setErrorReporter(ErrorReporter errorReporter) {
-        this.errorReporter = errorReporter;
-    }
 
     /**
      * Get the attributes service
@@ -127,25 +92,6 @@ public class FootballManagerRoles {
      */
     public void setAttributesService(AttributesService attributesService) {
         this.attributesService = attributesService;
-    }
-
-    /**
-     * Get the input mechanism
-     * 
-     * @return The input mechanism
-     */
-    public Input getInput() {
-        return input;
-    }
-
-    /**
-     * Set the input mechanism
-     * 
-     * @param input
-     *            The input mechanism
-     */
-    public void setInput(Input input) {
-        this.input = input;
     }
 
     /**
@@ -206,57 +152,30 @@ public class FootballManagerRoles {
     }
 
     /**
-     * Get the output object
+     * Process the input
      * 
-     * @return The output object
+     * @param inputFile
+     *            The input file
+     * @return The player recommendations
+     * @throws Exception
+     *             Any possible exception encountered
      */
-    public Output getOutput() {
-        return output;
+    public PlayerRecommendations process(File inputFile) throws Exception {
+        // Parse
+        parser.setAttributes(attributesService.getAttributes());
+        Player player = (Player) parser.parse(inputFile);
+        LOGGER.info("Got Player\n" + player.toString());
+
+        // Determine player instructions
+        PlayerInstructions playerInstructions = playerInstructionsService.determinePossiblePlayerInstructions(player
+                .getPositions());
+        LOGGER.info("Available player instructions\n" + playerInstructions.getPlayerInstructions());
+
+        // Recommend
+        Recommendations<?> recommendations = recommender.recommend(playerInstructions, player);
+
+        // Return
+        return new PlayerRecommendationsImpl(player, recommendations);
     }
 
-    /**
-     * Set the output object
-     * 
-     * @param output
-     *            The output object
-     */
-    public void setOutput(Output output) {
-        this.output = output;
-    }
-
-    /**
-     * Process the arguments
-     * 
-     * @param inputArguments
-     *            The input arguments
-     */
-    public void process(String[] inputArguments) {
-        // Deal with the input
-        if (!input.setInputFromUser(inputArguments)) {
-            errorReporter.report("Could not set the input file - check it exists and is readable");
-        } else {
-            // Parse
-            parser.setAttributes(attributesService.getAttributes());
-            try {
-                Player player = (Player) parser.parse(input.getInputFile());
-                LOGGER.info("Got Player\n" + player.toString());
-
-                // Determine player instructions
-                PlayerInstructions playerInstructions = playerInstructionsService
-                        .determinePossiblePlayerInstructions(player.getPositions());
-                LOGGER.info("Available player instructions\n" + playerInstructions.getPlayerInstructions());
-
-                // Recommend
-                Recommendations<?> recommendations = recommender.recommend(playerInstructions, player);
-
-                // Output
-                output.output(recommendations, player);
-
-            } catch (ParseException pe) {
-                errorReporter.report("Couldn't parse the input file" + input.getInputFile(), pe);
-            } catch (PlayerInstructionAlreadyAddedException piaae) {
-                errorReporter.report("There is an error with the configuration of the possible roles", piaae);
-            }
-        }
-    }
 }

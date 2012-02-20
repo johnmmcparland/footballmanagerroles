@@ -175,4 +175,13 @@ public class PlayerInstructionRecommendation implements Recommendation<Integer> 
         return rating ^ instruction.hashCode();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        return instruction.toString() + ": " + rating;
+    }
+
 }

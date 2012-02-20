@@ -17,9 +17,8 @@
  */
 package com.mcparland.john.footballmanagerroles.output;
 
-import com.mcparland.john.footballmanagerroles.data.people.Player;
+import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendations;
 import com.mcparland.john.footballmanagerroles.recommend.Recommendation;
-import com.mcparland.john.footballmanagerroles.recommend.Recommendations;
 
 /**
  * Command line output mechanism
@@ -47,13 +46,13 @@ public class CmdLineOutput implements Output {
      * 
      * @see
      * com.mcparland.john.footballmanagerroles.output.Output#output(com.mcparland
-     * .john.footballmanagerroles.recommend.Recommendations,
-     * com.mcparland.john.footballmanagerroles.data.people.Player)
+     * .john.footballmanagerroles.recommend.PlayerRecommendations)
      */
     @Override
-    public void output(Recommendations<?> recommendations, Player player) {
-        System.out.println(player.getName() + ": " + player.getPositions());
-        for (Recommendation<?> rec : recommendations.getRecommendations()) {
+    public void output(PlayerRecommendations playerRecommendations) {
+        System.out.println(playerRecommendations.getPlayer().getName() + ": "
+                + playerRecommendations.getPlayer().getPositions());
+        for (Recommendation<?> rec : playerRecommendations.getRecommendations().getRecommendations()) {
             System.out.println(rec.getPlayerInstruction() + ": " + rec.getRating());
         }
     }

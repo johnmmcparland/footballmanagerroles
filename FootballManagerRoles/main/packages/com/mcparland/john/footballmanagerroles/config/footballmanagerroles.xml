@@ -11,28 +11,33 @@
 			value="com/mcparland/john/footballmanagerroles/config/${MODE}/footballmanagerroles.properties" />
 	</bean>
 
+	<!-- Supporting objects -->
+	<!-- -->
+	<!-- The input -->
+	<bean id="commandLineInput"
+		class="com.mcparland.john.footballmanagerroles.input.CmdLineInput" />
+
+	<!-- The output -->
+	<bean id="commandLineOutput"
+		class="com.mcparland.john.footballmanagerroles.output.CmdLineOutput">
+	</bean>
+
+	<!-- An error reporter -->
+	<bean id="commandLineErrorReporter"
+		class="com.mcparland.john.footballmanagerroles.support.CmdLineErrorReporter" />
+
 	<!-- The main object -->
 	<!-- -->
 	<bean id="footballManagerRoles"
 		class="com.mcparland.john.footballmanagerroles.FootballManagerRoles">
-		<property name="errorReporter" ref="errorReporter" />
-		<property name="input" ref="input" />
 		<property name="parser" ref="parser" />
 		<property name="attributesService" ref="attributesService" />
 		<property name="playerInstructionsService" ref="playerInstructionsService" />
 		<property name="recommender" ref="recommender" />
-		<property name="output" ref="output" />
 	</bean>
 
 	<!-- Application objects -->
 	<!-- -->
-	<!-- The input -->
-	<bean id="input"
-		class="com.mcparland.john.footballmanagerroles.input.CmdLineInput" />
-
-	<!-- An error reporter -->
-	<bean id="errorReporter"
-		class="com.mcparland.john.footballmanagerroles.support.CmdLineErrorReporter" />
 
 	<!-- Database beans -->
 	<!-- -->
@@ -136,30 +141,27 @@
 	<!-- The Recommender -->
 	<bean id="recommender"
 		class="com.mcparland.john.footballmanagerroles.recommend.PlayerInstructionRecommender">
-		<property name="keyAttributesService" ref="keyAttributesService"/>
+		<property name="keyAttributesService" ref="keyAttributesService" />
 	</bean>
-	
-	<bean id="keyAttributesService" class="com.mcparland.john.footballmanagerroles.data.access.KeyAttributesServiceImpl">
-	    <property name="DAOs" ref="keyAttributesDaos"/>
+
+	<bean id="keyAttributesService"
+		class="com.mcparland.john.footballmanagerroles.data.access.KeyAttributesServiceImpl">
+		<property name="DAOs" ref="keyAttributesDaos" />
 	</bean>
-	
+
 	<util:list id="keyAttributesDaos" list-class="java.util.ArrayList">
-	    <ref bean="keyAttributesDao"/>
+		<ref bean="keyAttributesDao" />
 	</util:list>
-	
-	<bean id="keyAttributesDao" class="com.mcparland.john.footballmanagerroles.data.access.DAOImpl">
-	<property name="jdbcTemplate" ref="jdbcTemplate"/>
-	    <property name="query" value="select * from"/>
-	    <property name="queryier" ref="keyAttributesQueryier"/>
+
+	<bean id="keyAttributesDao"
+		class="com.mcparland.john.footballmanagerroles.data.access.DAOImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="query" value="select * from" />
+		<property name="queryier" ref="keyAttributesQueryier" />
 	</bean>
 
-    <bean id="keyAttributesQueryier" class="com.mcparland.john.footballmanagerroles.data.access.AttributesQuery">
-    </bean>
-
-	<!-- Output beans -->
-	<!-- -->
-	<bean id="output"
-		class="com.mcparland.john.footballmanagerroles.output.CmdLineOutput">
+	<bean id="keyAttributesQueryier"
+		class="com.mcparland.john.footballmanagerroles.data.access.AttributesQuery">
 	</bean>
 
 </beans>

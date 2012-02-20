@@ -15,12 +15,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.mcparland.john.footballmanagerroles.output;
+package com.mcparland.john.footballmanagerroles.recommend;
 
-import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendations;
+import com.mcparland.john.footballmanagerroles.data.people.Player;
 
 /**
- * Output mechanism for PlayerInstruction recommendations
+ * A players recommendations
  * <p>
  * (c) John McParland
  * </p>
@@ -31,13 +31,36 @@ import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendations;
  * 
  * @author John McParland (john.mcparland@gmail.com)
  */
-public interface Output {
+public interface PlayerRecommendations {
 
     /**
-     * Output the recommendations for the player
+     * Get the player
      * 
-     * @param playerRecommendations
-     *            The player recommendations
+     * @return The player
      */
-    public void output(PlayerRecommendations playerRecommendations);
+    public Player getPlayer();
+
+    /**
+     * Set the player
+     * 
+     * @param player
+     *            The player
+     */
+    public void setPlayer(Player player);
+
+    /**
+     * Get the recommendations
+     * 
+     * @return The recommendations
+     */
+    public Recommendations<?> getRecommendations();
+
+    /**
+     * Set the recommendations
+     * 
+     * @param recommendations
+     *            The recommendations
+     */
+    public void setRecommendations(Recommendations<?> recommendations);
+
 }

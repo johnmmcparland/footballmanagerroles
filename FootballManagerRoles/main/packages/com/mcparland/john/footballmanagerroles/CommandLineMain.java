@@ -20,6 +20,11 @@ package com.mcparland.john.footballmanagerroles;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.mcparland.john.footballmanagerroles.input.Input;
+import com.mcparland.john.footballmanagerroles.output.Output;
+import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendations;
+import com.mcparland.john.footballmanagerroles.support.ErrorReporter;
+
 /**
  * Main class driven by the command line
  * <p>
@@ -38,16 +43,31 @@ public class CommandLineMain {
      * Main method
      * 
      * @param args
-     *            Program arguments
+     *            Program arguments. One argument expected, the file for the
+     *            player
      */
     public static void main(String[] args) {
-        // TODO: Consider if you want different Spring config files now for each
-        // runtime environment (command line, web etc)
         ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(
                 "com/mcparland/john/footballmanagerroles/config/footballmanagerroles.xml");
         context.registerShutdownHook();
 
+        // Main application object
         FootballManagerRoles footballManagerRoles = (FootballManagerRoles) context.getBean("footballManagerRoles");
-        footballManagerRoles.process(args);
+
+        // Input, output and error handling
+        Input input = (Input) context.getBean("commandLineInput");
+        Output output = (Output) context.getBean("commandLineOutput");
+        ErrorReporter errorReporter = (ErrorReporter) context.getBean("commandLineErrorReporter");
+
+        // Do the processing
+        input.setInputFromUser(args);
+        try {
+            PlayerRecommendations playerRecommendations = footballManagerRoles.process(input.getInputFile());
+
+            // Output it
+            output.output(playerRecommendations);
+        } catch (Exception ex) {
+            errorReporter.report("Error making recommendations", ex);
+        }
     }
 }
