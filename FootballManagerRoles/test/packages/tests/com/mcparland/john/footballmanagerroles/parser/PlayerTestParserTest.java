@@ -354,6 +354,16 @@ public class PlayerTestParserTest {
         assertTrue(positions.contains(attacking_midfielder_centre));
         assertTrue(positions.contains(striker));
 
+        // Other multiples
+        pos = "Attacking Midfielder (Centre) / M/AM (RL), ST";
+        positions = parser.readPositions(pos);
+        assertEquals(6, positions.size());
+        assertTrue(positions.contains(attacking_midfielder_centre));
+        assertTrue(positions.contains(midfielder_right));
+        assertTrue(positions.contains(midfielder_left));
+        assertTrue(positions.contains(attacking_midfielder_right));
+        assertTrue(positions.contains(attacking_midfielder_left));
+        assertTrue(positions.contains(striker));
     }
 
     /**
@@ -411,6 +421,16 @@ public class PlayerTestParserTest {
         final String fileName2 = "7. Henrik Larsson.rtf";
         final String playerName2 = "Henrik Larsson";
         Assert.assertEquals(playerName2, parser.getPlayerNameFromFileName(fileName2));
+
+        // Two digit number
+        final String fileName3 = "testFiles\\10. Lionel Messi.rtf";
+        final String playerName3 = "Lionel Messi";
+        Assert.assertEquals(playerName3, parser.getPlayerNameFromFileName(fileName3));
+
+        // No Number
+        final String fileName4 = "Adam Matthews.rtf";
+        final String playerName4 = "Adam Matthews";
+        Assert.assertEquals(playerName4, parser.getPlayerNameFromFileName(fileName4));
     }
 
     /**

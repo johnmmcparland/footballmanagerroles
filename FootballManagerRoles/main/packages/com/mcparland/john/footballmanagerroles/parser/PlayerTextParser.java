@@ -158,6 +158,7 @@ public class PlayerTextParser implements Parser<Player> {
             boolean posContainsArea = false;
             // Determines the last index in the posString for the area
             int areaLastIndex = 0;
+            // Do long (0) then short (1)
             for (int i = 0; i < 2; i++) {
                 if (0 == i) {
                     posContainsArea = longPos.contains(area.getLongName());
@@ -216,9 +217,14 @@ public class PlayerTextParser implements Parser<Player> {
                                     nextPos = posString.substring(areaLastIndex - 2, areaLastIndex);
                                 }
                                 nextPos = nextPos.trim();
-                                if (nextPos.equals(PitchArea.DefensiveMidfielder.getShortName())
-                                        || nextPos.equals(PitchArea.AttackingMidfielder.getShortName())) {
+                                if (nextPos.equals(PitchArea.DefensiveMidfielder.getShortName())) {
                                     posContainsArea = false;
+                                } else if (nextPos.equals(PitchArea.AttackingMidfielder.getShortName())) {
+                                    // Could have M/AM and areaLastPos points to the M in AM
+                                    int lastAM = shortPos.lastIndexOf(PitchArea.AttackingMidfielder.getShortName());
+                                    if (!shortPos.substring(0, lastAM).contains(PitchArea.Midfielder.getShortName())) {
+                                        posContainsArea = false;
+                                    }
                                 }
                             }
                         }
@@ -294,13 +300,27 @@ public class PlayerTextParser implements Parser<Player> {
         // or
         // C:\Documents and Settings\John\My Documents\Sports
         // Interactive\Football Manager 2012\1. Gianluigi Buffon.rtf
+        // or
+        // testFiles/10. Lionel Messi.rtf
         // Generically it is
-        // <some path>\N. First Middle Last Other.rtf
+        // <some path>\NN. First Middle Last Other.rtf
         // Basically get the last path separator index and to the 5th last
         // character
+
+        // Could have a directory name
         final int lastSepIndex = fileName.lastIndexOf(File.separator);
-        final int endIndex = fileName.length() - 4;
-        return fileName.substring(lastSepIndex + 4, endIndex);
+        if (-1 != lastSepIndex) {
+            fileName = fileName.substring(lastSepIndex + 1, fileName.length());
+        }
+        // Certainly does have a .rtf at the end
+        fileName = fileName.substring(0, fileName.length() - 4);
+
+        // Might have another . in the file name (for the number)
+        final int lastDotIndex = fileName.lastIndexOf('.');
+        if (-1 != lastDotIndex) {
+            fileName = fileName.substring(lastDotIndex + 2, fileName.length());
+        }
+        return fileName;
     }
 
     /**
