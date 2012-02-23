@@ -1020,49 +1020,43 @@ public class FootballManagerRolesTest {
 
             // Check the recommendations
             PlayerInstructionRecommendation recommendation1 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.FullBack, Duty.Attack, "FB_A"), 62);
-            PlayerInstructionRecommendation recommendation2 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.FullBack, Duty.Automatic, "FB_SAu"), 62);
-            PlayerInstructionRecommendation recommendation3 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.FullBack, Duty.Support, "FB_SAu"), 60);
-            PlayerInstructionRecommendation recommendation4 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.FullBack, Duty.Defend, "FB_D"), 64);
-            PlayerInstructionRecommendation recommendation5 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.WingBack, Duty.Defend, "WB_D"), 56);
-            PlayerInstructionRecommendation recommendation6 = new PlayerInstructionRecommendation(
+            PlayerInstructionRecommendation recommendation2 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.WingBack, Duty.Support, "WB_SAu"), 59);
-            PlayerInstructionRecommendation recommendation7 = new PlayerInstructionRecommendation(
+            PlayerInstructionRecommendation recommendation3 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.WingBack, Duty.Automatic, "WB_SAu"), 69);
-            PlayerInstructionRecommendation recommendation8 = new PlayerInstructionRecommendation(
+            PlayerInstructionRecommendation recommendation4 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.WingBack, Duty.Attack, "WB_A"), 71);
 
-            PlayerInstructionRecommendation recommendation9 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.DefensiveMidfielder, Duty.Defend, "DM_D"), 62);
-            PlayerInstructionRecommendation recommendation10 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.DefensiveMidfielder, Duty.Support, "DM_S"), 67);
-            PlayerInstructionRecommendation recommendation11 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.DeepLyingPlaymaker, Duty.Defend, "DLP_D"), 56);
-            PlayerInstructionRecommendation recommendation12 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.DeepLyingPlaymaker, Duty.Support, "DLP_S"), 59);
-            PlayerInstructionRecommendation recommendation13 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.AnchorMan, Duty.Defend, "AM_D"), 59);
-
-            PlayerInstructionRecommendation recommendation14 = new PlayerInstructionRecommendation(
+            PlayerInstructionRecommendation recommendation5 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.DefensiveWinger, Duty.Attack, "DW_SA"), 63);
-            PlayerInstructionRecommendation recommendation15 = new PlayerInstructionRecommendation(
+            PlayerInstructionRecommendation recommendation6 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.DefensiveWinger, Duty.Support, "DW_SA"), 63);
-            PlayerInstructionRecommendation recommendation16 = new PlayerInstructionRecommendation(
+            PlayerInstructionRecommendation recommendation7 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.WideMidfielder, Duty.Attack, "WM_DSAAu"), 66);
-            PlayerInstructionRecommendation recommendation17 = new PlayerInstructionRecommendation(
+            PlayerInstructionRecommendation recommendation8 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.WideMidfielder, Duty.Automatic, "WM_DSAAu"), 66);
-            PlayerInstructionRecommendation recommendation18 = new PlayerInstructionRecommendation(
+            PlayerInstructionRecommendation recommendation9 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.WideMidfielder, Duty.Support, "WM_DSAAu"), 66);
-            PlayerInstructionRecommendation recommendation19 = new PlayerInstructionRecommendation(
+            PlayerInstructionRecommendation recommendation10 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.WideMidfielder, Duty.Defend, "WM_DSAAu"), 66);
-            PlayerInstructionRecommendation recommendation20 = new PlayerInstructionRecommendation(
+            PlayerInstructionRecommendation recommendation11 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.Winger, Duty.Attack, "W_SA"), 63);
-            PlayerInstructionRecommendation recommendation21 = new PlayerInstructionRecommendation(
+            PlayerInstructionRecommendation recommendation12 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.Winger, Duty.Support, "W_SA"), 63);
+            
+            PlayerInstructionRecommendation recommendation13 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.AdvancedPlaymaker, Duty.Attack, "AP_A"), 86);
+            PlayerInstructionRecommendation recommendation14 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.AdvancedPlaymaker, Duty.Support, "AP_S"), 81);
+            PlayerInstructionRecommendation recommendation15 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.AttackingMidfielder, Duty.Attack, "AM_A"), 87);
+            PlayerInstructionRecommendation recommendation16 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.AttackingMidfielder, Duty.Support, "AM_S"), 81);
+            PlayerInstructionRecommendation recommendation17 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.InsideForward, Duty.Attack, "IF_A"), 84);
+            PlayerInstructionRecommendation recommendation18 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.InsideForward, Duty.Support, "IF_S"), 86);
 
             PlayerInstructionRecommendations knownRecommendations = new PlayerInstructionRecommendations();
             knownRecommendations.addRecommendation(recommendation1);
@@ -1083,9 +1077,6 @@ public class FootballManagerRolesTest {
             knownRecommendations.addRecommendation(recommendation16);
             knownRecommendations.addRecommendation(recommendation17);
             knownRecommendations.addRecommendation(recommendation18);
-            knownRecommendations.addRecommendation(recommendation19);
-            knownRecommendations.addRecommendation(recommendation20);
-            knownRecommendations.addRecommendation(recommendation21);
 
             assertEquals(knownRecommendations.getRecommendations().size(), playerRecommendations.getRecommendations()
                     .getRecommendations().size());
