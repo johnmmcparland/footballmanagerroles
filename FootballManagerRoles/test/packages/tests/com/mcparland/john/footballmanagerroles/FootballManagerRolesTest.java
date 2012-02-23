@@ -636,6 +636,149 @@ public class FootballManagerRolesTest {
             assertEquals(knownRecommendations.getRecommendations().size(), playerRecommendations.getRecommendations()
                     .getRecommendations().size());
 
+            for (PlayerInstructionRecommendation rec : knownRecommendations.getRecommendations()) {
+                assertTrue("Failure on: "+rec, playerRecommendations.getRecommendations().getRecommendations().contains(rec));
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            fail("Exception unexpectedly caught: " + ex.getMessage());
+        }
+    }
+    /**
+     * Test for {@link FootballManagerRoles#process(File)} for player five
+     */
+    @Test
+    public void testProcess_PlayerFive() {
+        File file = new File("testFiles/8. Scott Brown.rtf");
+        try {
+            PlayerRecommendations playerRecommendations = footballManagerRoles.process(file);
+
+            Player player = playerRecommendations.getPlayer();
+            // Check the player
+            assertEquals("Scott Brown", player.getName());
+            assertEquals(2, player.getPositions().size());
+            assertTrue(player.getPositions().contains(new PlayerPosition(PitchArea.Midfielder, Side.Centre)));
+            assertTrue(player.getPositions().contains(new PlayerPosition(PitchArea.Midfielder, Side.Right)));
+            assertEquals("Celtic", player.getClub());
+            assertEquals("Scotland", player.getNationality());
+            assertEquals("28 years old", player.getAge());
+            assertEquals("35 caps / 2 goals", player.getInternationalStatus());
+            assertEquals("25.6.1985", player.getDob());
+            assertEquals("1.78 m", player.getHeight());
+            assertEquals("Right", player.getPreferredFoot());
+            assertEquals("71 kg", player.getMass());
+            assertEquals("£35,000 per week", player.getWage());
+            assertEquals("£1.8M", player.getValue());
+            assertEquals("31.5.2015", player.getContractExpiry());
+
+            Map<Attribute, Integer> attrs = player.getAttributes();
+            // Technical
+            assertEquals(7, attrs.get(attributes.getAttribute("Corners", AttributeType.Technical)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("Crossing", AttributeType.Technical)).intValue());
+            assertEquals(11, attrs.get(attributes.getAttribute("Dribbling", AttributeType.Technical)).intValue());
+            assertEquals(11, attrs.get(attributes.getAttribute("Finishing", AttributeType.Technical)).intValue());
+            assertEquals(14, attrs.get(attributes.getAttribute("First Touch", AttributeType.Technical)).intValue());
+            assertEquals(9, attrs.get(attributes.getAttribute("Free Kick Taking", AttributeType.Technical)).intValue());
+            assertEquals(8, attrs.get(attributes.getAttribute("Heading", AttributeType.Technical)).intValue());
+            assertEquals(13, attrs.get(attributes.getAttribute("Long Shots", AttributeType.Technical)).intValue());
+            assertEquals(4, attrs.get(attributes.getAttribute("Long Throws", AttributeType.Technical)).intValue());
+            assertEquals(8, attrs.get(attributes.getAttribute("Marking", AttributeType.Technical)).intValue());
+            assertEquals(13, attrs.get(attributes.getAttribute("Passing", AttributeType.Technical)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("Penalty Taking", AttributeType.Technical)).intValue());
+            assertEquals(13, attrs.get(attributes.getAttribute("Tackling", AttributeType.Technical)).intValue());
+            assertEquals(13, attrs.get(attributes.getAttribute("Technique", AttributeType.Technical)).intValue());
+
+            // Mental
+            assertEquals(15, attrs.get(attributes.getAttribute("Aggression", AttributeType.Mental)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("Anticipation", AttributeType.Mental)).intValue());
+            assertEquals(15, attrs.get(attributes.getAttribute("Bravery", AttributeType.Mental)).intValue());
+            assertEquals(10, attrs.get(attributes.getAttribute("Composure", AttributeType.Mental)).intValue());
+            assertEquals(11, attrs.get(attributes.getAttribute("Concentration", AttributeType.Mental)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("Creativity", AttributeType.Mental)).intValue());
+            assertEquals(7, attrs.get(attributes.getAttribute("Decisions", AttributeType.Mental)).intValue());
+            assertEquals(17, attrs.get(attributes.getAttribute("Determination", AttributeType.Mental)).intValue());
+            assertEquals(15, attrs.get(attributes.getAttribute("Flair", AttributeType.Mental)).intValue());
+            assertEquals(14, attrs.get(attributes.getAttribute("Influence", AttributeType.Mental)).intValue());
+            assertEquals(12, attrs.get(attributes.getAttribute("Off The Ball", AttributeType.Mental)).intValue());
+            assertEquals(9, attrs.get(attributes.getAttribute("Positioning", AttributeType.Mental)).intValue());
+            assertEquals(14, attrs.get(attributes.getAttribute("Teamwork", AttributeType.Mental)).intValue());
+            assertEquals(17, attrs.get(attributes.getAttribute("Work Rate", AttributeType.Mental)).intValue());
+
+            // Physical
+            assertEquals(15, attrs.get(attributes.getAttribute("Acceleration", AttributeType.Physical)).intValue());
+            assertEquals(15, attrs.get(attributes.getAttribute("Agility", AttributeType.Physical)).intValue());
+            assertEquals(10, attrs.get(attributes.getAttribute("Balance", AttributeType.Physical)).intValue());
+            assertEquals(8, attrs.get(attributes.getAttribute("Jumping", AttributeType.Physical)).intValue());
+            assertEquals(15, attrs.get(attributes.getAttribute("Natural Fitness", AttributeType.Physical)).intValue());
+            assertEquals(15, attrs.get(attributes.getAttribute("Pace", AttributeType.Physical)).intValue());
+            assertEquals(15, attrs.get(attributes.getAttribute("Stamina", AttributeType.Physical)).intValue());
+            assertEquals(14, attrs.get(attributes.getAttribute("Strength", AttributeType.Physical)).intValue());
+
+            // Check the recommendations
+            PlayerInstructionRecommendation recommendation1 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.CentralMidfielder, Duty.Support, "CM_SAu"), 62);
+            PlayerInstructionRecommendation recommendation2 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.CentralMidfielder, Duty.Automatic, "CM_SAu"), 62);
+            PlayerInstructionRecommendation recommendation3 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.CentralMidfielder, Duty.Defend, "CM_D"), 60);
+            PlayerInstructionRecommendation recommendation4 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.CentralMidfielder, Duty.Attack, "CM_A"), 64);
+            PlayerInstructionRecommendation recommendation5 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.DeepLyingPlaymaker, Duty.Defend, "DLP_D"), 56);
+            PlayerInstructionRecommendation recommendation6 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.DeepLyingPlaymaker, Duty.Support, "DLP_S"), 59);            
+            PlayerInstructionRecommendation recommendation7 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.BallWinningMidfielder, Duty.Defend, "BWM_D"), 69);     
+            PlayerInstructionRecommendation recommendation8 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.BallWinningMidfielder, Duty.Support, "BWM_S"), 71);  
+            PlayerInstructionRecommendation recommendation9 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.BoxToBoxMidfielder, Duty.Support, "B2BM_S"), 62);  
+            PlayerInstructionRecommendation recommendation10 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.AdvancedPlaymaker, Duty.Support, "AP_S"), 67); 
+            PlayerInstructionRecommendation recommendation11 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.AdvancedPlaymaker, Duty.Attack, "AP_A"), 62); 
+            PlayerInstructionRecommendation recommendation12 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.DefensiveWinger, Duty.Attack, "DW_SA"), 63);
+            PlayerInstructionRecommendation recommendation13 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.DefensiveWinger, Duty.Support, "DW_SA"), 63);
+            PlayerInstructionRecommendation recommendation14 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.WideMidfielder, Duty.Attack, "WM_DSAAu"), 66);
+            PlayerInstructionRecommendation recommendation15 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.WideMidfielder, Duty.Automatic, "WM_DSAAu"), 66);
+            PlayerInstructionRecommendation recommendation16 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.WideMidfielder, Duty.Support, "WM_DSAAu"), 66);
+            PlayerInstructionRecommendation recommendation17 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.WideMidfielder, Duty.Defend, "WM_DSAAu"), 66);
+            PlayerInstructionRecommendation recommendation18 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.Winger, Duty.Attack, "W_SA"), 63);
+            PlayerInstructionRecommendation recommendation19 = new PlayerInstructionRecommendation(
+                    new PlayerInstructionImpl(Role.Winger, Duty.Support, "W_SA"), 63);
+            
+            PlayerInstructionRecommendations knownRecommendations = new PlayerInstructionRecommendations();
+            knownRecommendations.addRecommendation(recommendation1);
+            knownRecommendations.addRecommendation(recommendation2);
+            knownRecommendations.addRecommendation(recommendation3);
+            knownRecommendations.addRecommendation(recommendation4);
+            knownRecommendations.addRecommendation(recommendation5);
+            knownRecommendations.addRecommendation(recommendation6);
+            knownRecommendations.addRecommendation(recommendation7);
+            knownRecommendations.addRecommendation(recommendation8);
+            knownRecommendations.addRecommendation(recommendation9);
+            knownRecommendations.addRecommendation(recommendation10);
+            knownRecommendations.addRecommendation(recommendation11);
+            knownRecommendations.addRecommendation(recommendation12);
+            knownRecommendations.addRecommendation(recommendation13);
+            knownRecommendations.addRecommendation(recommendation14);
+            knownRecommendations.addRecommendation(recommendation15);
+            knownRecommendations.addRecommendation(recommendation16);
+            knownRecommendations.addRecommendation(recommendation17);
+            knownRecommendations.addRecommendation(recommendation18);
+            knownRecommendations.addRecommendation(recommendation19);
+            
+            assertEquals(knownRecommendations.getRecommendations().size(), playerRecommendations.getRecommendations()
+                    .getRecommendations().size());
+
             for (Recommendation<?> rec : playerRecommendations.getRecommendations().getRecommendations()) {
                 System.out.println(rec);
             }
