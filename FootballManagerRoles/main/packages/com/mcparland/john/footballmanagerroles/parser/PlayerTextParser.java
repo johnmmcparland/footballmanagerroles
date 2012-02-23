@@ -90,13 +90,21 @@ public class PlayerTextParser implements Parser<Player> {
             String line = reader.readLine();
             // Get the positions
             if (null != line) {
-                List<Position> positions = readPositions(line.substring(0, line.indexOf("-") - 1));
+                int dashIndex = line.indexOf("-");
+                int endOfPositionsIndex = dashIndex;
+                if (-1 == dashIndex) {
+                    endOfPositionsIndex = line.length();
+                }
+                List<Position> positions = readPositions(line.substring(0, endOfPositionsIndex - 1));
                 for (Position pos : positions) {
                     player.addPosition(pos);
                 }
                 LOGGER.debug("Got positions");
                 // Also get the club from the first line
-                player.setClub(line.substring(line.indexOf("-") + 2, line.length()));
+                // They might be unattached
+                if (-1 < dashIndex) {
+                    player.setClub(line.substring(dashIndex + 2, line.length()));
+                }
                 // Get the "general" information
                 readGeneralInformation(reader, player);
                 LOGGER.debug("Got general information");
@@ -220,7 +228,8 @@ public class PlayerTextParser implements Parser<Player> {
                                 if (nextPos.equals(PitchArea.DefensiveMidfielder.getShortName())) {
                                     posContainsArea = false;
                                 } else if (nextPos.equals(PitchArea.AttackingMidfielder.getShortName())) {
-                                    // Could have M/AM and areaLastPos points to the M in AM
+                                    // Could have M/AM and areaLastPos points to
+                                    // the M in AM
                                     int lastAM = shortPos.lastIndexOf(PitchArea.AttackingMidfielder.getShortName());
                                     if (!shortPos.substring(0, lastAM).contains(PitchArea.Midfielder.getShortName())) {
                                         posContainsArea = false;
