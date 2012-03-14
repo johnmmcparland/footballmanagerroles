@@ -3,6 +3,9 @@
  */
 package com.mcparland.john.footballmanagerroles.data.roles;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * A line on the pitch
  * 
@@ -145,6 +148,26 @@ public enum PitchArea {
     @Override
     public String toString() {
 	return getLongName();
+    }
+    
+    /**
+     * Get the reversed values of this enum
+     * <p>
+     * Returns the values in the opposite way to {@link Enum#values()}
+     * </p>
+     * @return Reverse-order values of an enum
+     */
+    public static Collection<PitchArea> reversedValues() {
+        Collection<PitchArea> reversed = new ArrayList<PitchArea>();
+        reversed.add(Striker);
+        reversed.add(AttackingMidfielder);
+        reversed.add(Midfielder);
+        reversed.add(DefensiveMidfielder);
+        reversed.add(WingBack);
+        reversed.add(Defender);
+        reversed.add(Sweeper);
+        reversed.add(Goalkeeper);
+        return reversed;
     }
 
 }

@@ -364,6 +364,64 @@ public class PlayerTestParserTest {
         assertTrue(positions.contains(attacking_midfielder_right));
         assertTrue(positions.contains(attacking_midfielder_left));
         assertTrue(positions.contains(striker));
+
+        // Taken directly from the testFiles
+        // testFiles/1. Gianluigi Buffon.rtf
+        pos = "Goalkeeper";
+        positions = parser.readPositions(pos);
+        assertEquals(1, positions.size());
+        assertTrue(positions.contains(goalkeeper));
+
+        // testFiles/10. Lionel Messi.rtf
+        pos = "Attacking Midfielder (Centre) / M/AM (RL), ST";
+        positions = parser.readPositions(pos);
+        assertEquals(6, positions.size());
+        assertTrue(positions.contains(attacking_midfielder_centre));
+        assertTrue(positions.contains(midfielder_right));
+        assertTrue(positions.contains(midfielder_left));
+        assertTrue(positions.contains(attacking_midfielder_right));
+        assertTrue(positions.contains(attacking_midfielder_left));
+        assertTrue(positions.contains(striker));
+
+        // testFiles/2. Adam Matthews.rtf
+        pos = "Defender (Right) / D (L), M (R)";
+        positions = parser.readPositions(pos);
+        assertEquals(3, positions.size());
+        assertTrue(positions.contains(defender_right));
+        assertTrue(positions.contains(defender_left));
+        assertTrue(positions.contains(midfielder_right));
+
+        // testFiles/5. Daniel Majstorovic.rtf
+        pos = "Defender (Centre) / SW";
+        positions = parser.readPositions(pos);
+        assertEquals(2, positions.size());
+        assertTrue(positions.contains(defender_centre));
+        assertTrue(positions.contains(sweeper));
+
+        // testFiles/8. Scott Brown.rtf
+        pos = "Midfielder (Centre) / M (R)";
+        positions = parser.readPositions(pos);
+        assertEquals(2, positions.size());
+        assertTrue(positions.contains(midfielder_centre));
+        assertTrue(positions.contains(midfielder_right));
+        
+        // testFiles/János Tóth.rtf
+        pos = "Wing Back, Midfielder/Attacking Midfielder (Left)";
+        positions = parser.readPositions(pos);
+        assertEquals(3, positions.size());
+        assertTrue(positions.contains(wingback_left));
+        assertTrue(positions.contains(midfielder_left));
+        assertTrue(positions.contains(attacking_midfielder_left));
+        
+        // testFiles/Serio Romero.rtf
+        pos = "Defender/Wing Back (Left), Defensive Midfielder, Midfielder (Left)";
+        positions = parser.readPositions(pos);
+        assertEquals("Known ones are: "+positions.toString(), 4, positions.size());
+        assertTrue(positions.contains(defender_left));
+        assertTrue(positions.contains(wingback_left));
+        assertTrue(positions.contains(defensive_midfielder));
+        assertTrue(positions.contains(midfielder_left));
+        assertTrue(positions.contains(attacking_midfielder_left));
     }
 
     /**
