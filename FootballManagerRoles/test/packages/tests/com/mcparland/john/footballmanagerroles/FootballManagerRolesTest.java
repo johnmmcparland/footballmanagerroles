@@ -934,7 +934,7 @@ public class FootballManagerRolesTest {
     /**
      * Test for {@link FootballManagerRoles#process(File)} for player seven
      */
-  //  @Test
+    @Test
     public void testProcess_PlayerSeven() {
         File file = new File("testFiles/Sergio Romero.rtf");
         try {
@@ -955,7 +955,7 @@ public class FootballManagerRolesTest {
             assertEquals("2.11.1991", player.getDob());
             assertEquals("1.77 m", player.getHeight());
             assertEquals("Left Only", player.getPreferredFoot());
-            assertEquals("71 kg", player.getMass());
+            assertEquals("79 kg", player.getMass());
             assertEquals("N/A", player.getWage());
             assertEquals("-", player.getValue());
             assertEquals("N/A", player.getContractExpiry());
@@ -965,7 +965,7 @@ public class FootballManagerRolesTest {
             assertEquals(9, attrs.get(attributes.getAttribute("Corners", AttributeType.Technical)).intValue());
             assertEquals(12, attrs.get(attributes.getAttribute("Crossing", AttributeType.Technical)).intValue());
             assertEquals(3, attrs.get(attributes.getAttribute("Dribbling", AttributeType.Technical)).intValue());
-            assertEquals(20, attrs.get(attributes.getAttribute("Finishing", AttributeType.Technical)).intValue());
+            assertEquals(10, attrs.get(attributes.getAttribute("Finishing", AttributeType.Technical)).intValue());
             assertEquals(10, attrs.get(attributes.getAttribute("First Touch", AttributeType.Technical)).intValue());
             assertEquals(6, attrs.get(attributes.getAttribute("Free Kick Taking", AttributeType.Technical)).intValue());
             assertEquals(6, attrs.get(attributes.getAttribute("Heading", AttributeType.Technical)).intValue());
@@ -1005,49 +1005,49 @@ public class FootballManagerRolesTest {
 
             // Check the recommendations
             PlayerInstructionRecommendation recommendation1 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.FullBack, Duty.Attack, "FB_A"), 62);
+                    new PlayerInstructionImpl(Role.FullBack, Duty.Attack, "FB_A"), 55);
             PlayerInstructionRecommendation recommendation2 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.FullBack, Duty.Automatic, "FB_SAu"), 62);
+                    new PlayerInstructionImpl(Role.FullBack, Duty.Automatic, "FB_SAu"), 54);
             PlayerInstructionRecommendation recommendation3 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.FullBack, Duty.Support, "FB_SAu"), 60);
+                    new PlayerInstructionImpl(Role.FullBack, Duty.Support, "FB_SAu"), 54);
             PlayerInstructionRecommendation recommendation4 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.FullBack, Duty.Defend, "FB_D"), 64);
+                    new PlayerInstructionImpl(Role.FullBack, Duty.Defend, "FB_D"), 53);
             PlayerInstructionRecommendation recommendation5 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.WingBack, Duty.Defend, "WB_D"), 56);
+                    new PlayerInstructionImpl(Role.WingBack, Duty.Defend, "WB_D"), 52);
             PlayerInstructionRecommendation recommendation6 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.WingBack, Duty.Support, "WB_SAu"), 59);
+                    new PlayerInstructionImpl(Role.WingBack, Duty.Support, "WB_SAu"), 53);
             PlayerInstructionRecommendation recommendation7 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.WingBack, Duty.Automatic, "WB_SAu"), 69);
+                    new PlayerInstructionImpl(Role.WingBack, Duty.Automatic, "WB_SAu"), 53);
             PlayerInstructionRecommendation recommendation8 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.WingBack, Duty.Attack, "WB_A"), 71);
+                    new PlayerInstructionImpl(Role.WingBack, Duty.Attack, "WB_A"), 54);
 
             PlayerInstructionRecommendation recommendation9 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.DefensiveMidfielder, Duty.Defend, "DM_D"), 62);
+                    new PlayerInstructionImpl(Role.DefensiveMidfielder, Duty.Defend, "DM_D"), 51);
             PlayerInstructionRecommendation recommendation10 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.DefensiveMidfielder, Duty.Support, "DM_S"), 67);
+                    new PlayerInstructionImpl(Role.DefensiveMidfielder, Duty.Support, "DM_S"), 48);
             PlayerInstructionRecommendation recommendation11 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.DeepLyingPlaymaker, Duty.Defend, "DLP_D"), 56);
+                    new PlayerInstructionImpl(Role.DeepLyingPlaymaker, Duty.Defend, "DLP_D"), 34);
             PlayerInstructionRecommendation recommendation12 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.DeepLyingPlaymaker, Duty.Support, "DLP_S"), 59);
+                    new PlayerInstructionImpl(Role.DeepLyingPlaymaker, Duty.Support, "DLP_S"), 42);
             PlayerInstructionRecommendation recommendation13 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.AnchorMan, Duty.Defend, "AM_D"), 59);
+                    new PlayerInstructionImpl(Role.AnchorMan, Duty.Defend, "AM_D"), 42);
 
             PlayerInstructionRecommendation recommendation14 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.DefensiveWinger, Duty.Attack, "DW_SA"), 63);
+                    new PlayerInstructionImpl(Role.DefensiveWinger, Duty.Attack, "DW_SA"), 43);
             PlayerInstructionRecommendation recommendation15 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.DefensiveWinger, Duty.Support, "DW_SA"), 63);
+                    new PlayerInstructionImpl(Role.DefensiveWinger, Duty.Support, "DW_SA"), 43);
             PlayerInstructionRecommendation recommendation16 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.WideMidfielder, Duty.Attack, "WM_DSAAu"), 66);
+                    new PlayerInstructionImpl(Role.WideMidfielder, Duty.Attack, "WM_DSAAu"), 52);
             PlayerInstructionRecommendation recommendation17 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.WideMidfielder, Duty.Automatic, "WM_DSAAu"), 66);
+                    new PlayerInstructionImpl(Role.WideMidfielder, Duty.Automatic, "WM_DSAAu"), 52);
             PlayerInstructionRecommendation recommendation18 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.WideMidfielder, Duty.Support, "WM_DSAAu"), 66);
+                    new PlayerInstructionImpl(Role.WideMidfielder, Duty.Support, "WM_DSAAu"), 52);
             PlayerInstructionRecommendation recommendation19 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.WideMidfielder, Duty.Defend, "WM_DSAAu"), 66);
+                    new PlayerInstructionImpl(Role.WideMidfielder, Duty.Defend, "WM_DSAAu"), 52);
             PlayerInstructionRecommendation recommendation20 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.Winger, Duty.Attack, "W_SA"), 63);
+                    new PlayerInstructionImpl(Role.Winger, Duty.Attack, "W_SA"), 57);
             PlayerInstructionRecommendation recommendation21 = new PlayerInstructionRecommendation(
-                    new PlayerInstructionImpl(Role.Winger, Duty.Support, "W_SA"), 63);
+                    new PlayerInstructionImpl(Role.Winger, Duty.Support, "W_SA"), 57);
 
             PlayerInstructionRecommendations knownRecommendations = new PlayerInstructionRecommendations();
             knownRecommendations.addRecommendation(recommendation1);
@@ -1074,6 +1074,12 @@ public class FootballManagerRolesTest {
 
             assertEquals(knownRecommendations.getRecommendations().size(), playerRecommendations.getRecommendations()
                     .getRecommendations().size());
+
+            // for (Recommendation<?> rec :
+            // playerRecommendations.getRecommendations().getRecommendations())
+            // {
+            // System.out.println(rec);
+            // }
 
             for (PlayerInstructionRecommendation rec : knownRecommendations.getRecommendations()) {
                 assertTrue("Failure on: " + rec, playerRecommendations.getRecommendations().getRecommendations()

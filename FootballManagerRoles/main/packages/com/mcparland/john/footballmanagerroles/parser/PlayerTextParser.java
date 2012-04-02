@@ -101,7 +101,7 @@ public class PlayerTextParser implements Parser<Player> {
                 int dashIndex = line.indexOf("-");
                 int endOfPositionsIndex = dashIndex;
                 if (-1 == dashIndex) {
-                    endOfPositionsIndex = line.length();
+                    endOfPositionsIndex = line.length()+1;
                 }
                 List<Position> positions = readPositions(line.substring(0, endOfPositionsIndex - 1));
                 for (Position pos : positions) {
