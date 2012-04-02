@@ -61,7 +61,12 @@
 	<!-- The parser -->
 	<bean id="parser"
 		class="com.mcparland.john.footballmanagerroles.parser.PlayerTextParser">
+		<property name="pitchAreas" ref="pitchAreaCol" />
 	</bean>
+
+	<!-- Pitch Areas -->
+	<bean id="pitchAreaCol"
+		class="com.mcparland.john.footballmanagerroles.data.roles.PitchAreaCollectionImpl"></bean>
 
 	<!-- Attributes beans -->
 	<!-- -->

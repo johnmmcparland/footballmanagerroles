@@ -3,9 +3,6 @@
  */
 package com.mcparland.john.footballmanagerroles.data.roles;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 /**
  * A line on the pitch
  * 
@@ -82,16 +79,16 @@ public enum PitchArea {
      *            If there is a side associated with this position or not
      */
     PitchArea(String longName, String shortName, boolean isSided) {
-	this.longName = longName;
-	this.shortName = shortName;
-	this.isSided = isSided;
+        this.longName = longName;
+        this.shortName = shortName;
+        this.isSided = isSided;
     }
 
     /**
      * @return The long name for the position
      */
     public String getLongName() {
-	return longName;
+        return longName;
     }
 
     /**
@@ -99,14 +96,14 @@ public enum PitchArea {
      *            The long name for the position
      */
     public void setLongName(String longName) {
-	this.longName = longName;
+        this.longName = longName;
     }
 
     /**
      * @return The short name for the position
      */
     public String getShortName() {
-	return shortName;
+        return shortName;
     }
 
     /**
@@ -114,7 +111,7 @@ public enum PitchArea {
      *            The short name for the position
      */
     public void setShortName(String shortName) {
-	this.shortName = shortName;
+        this.shortName = shortName;
     }
 
     /**
@@ -125,7 +122,7 @@ public enum PitchArea {
      * @return Is this position sided?
      */
     public boolean isSided() {
-	return isSided;
+        return isSided;
     }
 
     /**
@@ -137,7 +134,7 @@ public enum PitchArea {
      *            True if there is a side, false if not
      */
     public void setSided(boolean sided) {
-	this.isSided = sided;
+        this.isSided = sided;
     }
 
     /*
@@ -147,27 +144,11 @@ public enum PitchArea {
      */
     @Override
     public String toString() {
-	return getLongName();
+        return getLongName();
     }
-    
-    /**
-     * Get the reversed values of this enum
-     * <p>
-     * Returns the values in the opposite way to {@link Enum#values()}
-     * </p>
-     * @return Reverse-order values of an enum
-     */
-    public static Collection<PitchArea> reversedValues() {
-        Collection<PitchArea> reversed = new ArrayList<PitchArea>();
-        reversed.add(Striker);
-        reversed.add(AttackingMidfielder);
-        reversed.add(Midfielder);
-        reversed.add(DefensiveMidfielder);
-        reversed.add(WingBack);
-        reversed.add(Defender);
-        reversed.add(Sweeper);
-        reversed.add(Goalkeeper);
-        return reversed;
+
+    static {
+
     }
 
 }

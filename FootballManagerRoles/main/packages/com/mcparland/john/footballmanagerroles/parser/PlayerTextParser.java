@@ -28,7 +28,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -40,6 +42,7 @@ import com.mcparland.john.footballmanagerroles.data.exceptions.ParseException;
 import com.mcparland.john.footballmanagerroles.data.people.FootballPlayer;
 import com.mcparland.john.footballmanagerroles.data.people.Player;
 import com.mcparland.john.footballmanagerroles.data.roles.PitchArea;
+import com.mcparland.john.footballmanagerroles.data.roles.PitchAreaCollection;
 import com.mcparland.john.footballmanagerroles.data.roles.PlayerPosition;
 import com.mcparland.john.footballmanagerroles.data.roles.Position;
 import com.mcparland.john.footballmanagerroles.data.roles.Side;
@@ -67,6 +70,11 @@ public class PlayerTextParser implements Parser<Player> {
      * The attributes to parse out
      */
     private Attributes attributes = null;
+
+    /**
+     * The PitchAreas
+     */
+    private PitchAreaCollection pitchAreas = null;
 
     /*
      * (non-Javadoc)
@@ -133,6 +141,17 @@ public class PlayerTextParser implements Parser<Player> {
     }
 
     /**
+     * Is the token one which signals the end of a PitchArea?
+     * 
+     * @param token
+     *            The token
+     * @return True if it signals the end of a PitchArea, false otherwise
+     */
+    private boolean isPitchAreaToken(char token) {
+        return ',' == token || '/' == token || '(' == token;
+    }
+
+    /**
      * Read the positions from the reader into the player
      * 
      * @param line
@@ -143,155 +162,257 @@ public class PlayerTextParser implements Parser<Player> {
 
         // Examples of positions are in the JUnit test
 
-        // Algorithm
-        // Find short or long name "lines"
-        // Long ones before the first / short ones after
-        int firstSplit = posString.indexOf('/');
-        String longPos = posString;
-        String shortPos = "";
-        if (-1 != firstSplit) {
-            longPos = posString.substring(0, firstSplit);
-            shortPos = posString.substring(firstSplit + 1);
-            // Annoyingly, shortPos might contain yet another long pos name,
-            if (shortPos.contains(PitchArea.AttackingMidfielder.getLongName())) {
-                final String amLongName = PitchArea.AttackingMidfielder.getLongName();
-                longPos += "/" + amLongName;
-                shortPos = shortPos.substring(shortPos.lastIndexOf(amLongName) + amLongName.length());
+        // 1. PitchAreas are separated by , / and ( )
+        // 2. Sides are determined by () and position
+        // 3. So read PitchAreas 'til you get , / or (
+        // 4. The String to that is a players PitchArea
+        // 5. The side comes in the () after that!
+
+        // The players Last Index of PithcArea -> PitchArea
+        Map<Integer, PitchArea> playersPitchAreas = new HashMap<Integer, PitchArea>();
+
+        // Go round the String building up the pitchAreas
+        StringBuilder curPosString = new StringBuilder();
+        for (int i = 0; i < posString.length(); i++) {
+            if (!isPitchAreaToken(posString.charAt(i))) {
+                curPosString.append(posString.charAt(i));
+            } else {
+                if (0 < curPosString.toString().trim().length()) {
+                    LOGGER.debug("Found PitchArea: " + curPosString);
+                    playersPitchAreas.put(new Integer(i),pitchAreas.getPitchArea(curPosString.toString().trim()));
+                    curPosString = new StringBuilder();
+
+                    // If it was the ( character, skip onto the next )
+                    if (posString.charAt(i) == '(') {
+                        i = posString.indexOf(')', i);
+                        i++;
+                    }
+                }
             }
         }
-        // Find the NEXT () for the sides they can play in that pitch area
-        for (PitchArea area : PitchArea.values()) {
-            // Need to do long then short name
-            // Determines if the position contains the given area
-            boolean posContainsArea = false;
-            // Determines the last index in the posString for the area
-            int areaLastIndex = 0;
-            // Do long (0) then short (1)
-            for (int i = 0; i < 2; i++) {
-                if (0 == i) {
-                    posContainsArea = longPos.contains(area.getLongName());
-                    if (posContainsArea) {
-                        areaLastIndex = longPos.lastIndexOf(area.getLongName()) + area.getLongName().length();
-                        // Now we have three similarly named positions;
-                        // Midfielder
-                        // Defensive Midfielder
-                        // Attacking Midfielder
-                        // So if this is midfielder, check "Attacking " or
-                        // "Defensive " don't precede it
-                        // First is it long enough for this
-                        if (PitchArea.Midfielder.equals(area)) {
-                            int earlyIndex = areaLastIndex - PitchArea.AttackingMidfielder.getLongName().length();
-                            if (0 <= earlyIndex) {
-                                // Before we go any further check Midfielder
-                                // isn't also included before earlyIndex
-                                if (!longPos.substring(0, earlyIndex).contains(PitchArea.Midfielder.getLongName())) {
-                                    String substr = posString.substring(earlyIndex, areaLastIndex);
-                                    if (substr.equals(PitchArea.AttackingMidfielder.getLongName())) {
-                                        posContainsArea = false;
-                                    }
-                                }
-                            }
-                            if (posContainsArea) {
-                                earlyIndex = areaLastIndex - PitchArea.DefensiveMidfielder.getLongName().length();
-                                if (0 <= earlyIndex) {
-                                    String substr = posString.substring(earlyIndex, areaLastIndex);
-                                    if (substr.equals(PitchArea.DefensiveMidfielder.getLongName())) {
-                                        posContainsArea = false;
-                                    }
-                                }
-                            }
+        if (0 != curPosString.toString().trim().length() && !curPosString.toString().contains(")")
+                && !curPosString.toString().contains(")")) {
+            playersPitchAreas.put(posString.length(), pitchAreas.getPitchArea(curPosString.toString().trim()));
+        }
+
+        // Now for each pitchArea
+        // 1. Determine if it is sides
+        // 2. No -> add the positions
+        // 3. Yes -> look for the next sides
+        // 4. Keep looking for sides in between the next ( and )
+        for (Integer lastPos : playersPitchAreas.keySet()) {
+            Position pos = new PlayerPosition();
+            pos.setLine(playersPitchAreas.get(lastPos));
+            PitchArea area = playersPitchAreas.get(lastPos);
+            if (!area.isSided()) {
+                positions.add(pos);
+            } else {
+                int nextSide = posString.substring(lastPos).indexOf('(') + lastPos + 1;
+                if (-1 != nextSide) {
+                    // There could be one or more sides here, either long or
+                    // short named
+                    int endOfSides = posString.indexOf(')', nextSide);
+                    String sidesString = posString.substring(nextSide, endOfSides);
+                    // We are looking for C, L or R but we could have all three
+                    boolean alreadyAdded = false;
+                    if (sidesString.contains("C")) {
+                        LOGGER.debug("Got side: Centre");
+                        pos.setSide(Side.Centre);
+                        positions.add(pos);
+                        alreadyAdded = true;
+                    }
+                    if (sidesString.contains("R")) {
+                        if (!alreadyAdded) {
+                            pos.setSide(Side.Right);
+                            alreadyAdded = true;
+                        } else {
+                            LOGGER.debug("Got side: Right");
+                            pos = new PlayerPosition();
+                            pos.setLine(area);
+                            pos.setSide(Side.Right);
                         }
+                        positions.add(pos);
+                    }
+                    if (sidesString.contains("L")) {
+                        if (!alreadyAdded) {
+                            pos.setSide(Side.Left);
+                            alreadyAdded = true;
+                        } else {
+                            LOGGER.debug("Got side: Left");
+                            pos = new PlayerPosition();
+                            pos.setLine(area);
+                            pos.setSide(Side.Left);
+                        }
+                        positions.add(pos);
                     }
                 } else {
-                    posContainsArea = shortPos.contains(area.getShortName());
-                    if (posContainsArea) {
-                        areaLastIndex = posString.lastIndexOf(area.getShortName()) + area.getShortName().length();
-                        // Now we have
-                        // D which is included in DM
-                        // and M, which is included in DM and AM
-                        // So check the next or previous character to see if
-                        // this "really" contains short position
-                        if (PitchArea.Defender.equals(area)) {
-                            String nextPos = posString.substring(areaLastIndex - 1, areaLastIndex + 1);
-                            if (nextPos.equals(PitchArea.DefensiveMidfielder.getShortName())) {
-                                posContainsArea = false;
-                            }
-                        } else if (PitchArea.Midfielder.equals(area)) {
-                            if (0 < areaLastIndex) {
-                                String nextPos = "";
-                                if (areaLastIndex < posString.length() - 1) {
-                                    nextPos = posString.substring(areaLastIndex - 2, areaLastIndex + 1);
-                                } else {
-                                    nextPos = posString.substring(areaLastIndex - 2, areaLastIndex);
-                                }
-                                nextPos = nextPos.trim();
-                                if (nextPos.equals(PitchArea.DefensiveMidfielder.getShortName())) {
-                                    posContainsArea = false;
-                                } else if (nextPos.equals(PitchArea.AttackingMidfielder.getShortName())) {
-                                    // Could have M/AM and areaLastPos points to
-                                    // the M in AM
-                                    int lastAM = shortPos.lastIndexOf(PitchArea.AttackingMidfielder.getShortName());
-                                    if (!shortPos.substring(0, lastAM).contains(PitchArea.Midfielder.getShortName())) {
-                                        posContainsArea = false;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                if (posContainsArea) {
-                    LOGGER.debug("Got area " + area);
-                    Position pos = new PlayerPosition();
-                    pos.setLine(area);
-                    if (!area.isSided()) {
-                        positions.add(pos);
-                    } else {
-                        int nextSide = posString.substring(areaLastIndex).indexOf('(') + areaLastIndex + 1;
-                        if (-1 != nextSide) {
-                            // There could be one or more sides here, either
-                            // long or
-                            // short named
-                            int endOfSides = posString.indexOf(')', nextSide);
-                            String sidesString = posString.substring(nextSide, endOfSides);
-                            // We are looking for C, L or R but we could have
-                            // all
-                            // three
-                            boolean alreadyAdded = false;
-                            if (sidesString.contains("C")) {
-                                pos.setSide(Side.Centre);
-                                positions.add(pos);
-                                alreadyAdded = true;
-                            }
-                            if (sidesString.contains("R")) {
-                                if (!alreadyAdded) {
-                                    pos.setSide(Side.Right);
-                                    alreadyAdded = true;
-                                } else {
-                                    pos = new PlayerPosition();
-                                    pos.setLine(area);
-                                    pos.setSide(Side.Right);
-                                }
-                                positions.add(pos);
-                            }
-                            if (sidesString.contains("L")) {
-                                if (!alreadyAdded) {
-                                    pos.setSide(Side.Left);
-                                    alreadyAdded = true;
-                                } else {
-                                    pos = new PlayerPosition();
-                                    pos.setLine(area);
-                                    pos.setSide(Side.Left);
-                                }
-                                positions.add(pos);
-                            }
-                        } else {
-                            // I don't think this should happen!
-                            LOGGER.warn("No side found for area " + area);
-                        }
-                    }
+                    // I don't think this should happen!
+                    LOGGER.warn("No side found for area " + area);
                 }
             }
         }
+
+        // // Algorithm
+        // // Find short or long name "lines"
+        // // Long ones before the first / short ones after
+        // int firstSplit = posString.indexOf('/');
+        // String longPos = posString;
+        // String shortPos = "";
+        // if (-1 != firstSplit) {
+        // longPos = posString.substring(0, firstSplit);
+        // shortPos = posString.substring(firstSplit + 1);
+        // // Annoyingly, shortPos might contain yet another long pos name,
+        // if (shortPos.contains(PitchArea.AttackingMidfielder.getLongName())) {
+        // final String amLongName =
+        // PitchArea.AttackingMidfielder.getLongName();
+        // longPos += "/" + amLongName;
+        // shortPos = shortPos.substring(shortPos.lastIndexOf(amLongName) +
+        // amLongName.length());
+        // }
+        // }
+        // // Find the NEXT () for the sides they can play in that pitch area
+        // for (PitchArea area : PitchArea.values()) {
+        // // Need to do long then short name
+        // // Determines if the position contains the given area
+        // boolean posContainsArea = false;
+        // // Determines the last index in the posString for the area
+        // int areaLastIndex = 0;
+        // // Do long (0) then short (1)
+        // for (int i = 0; i < 2; i++) {
+        // if (0 == i) {
+        // posContainsArea = longPos.contains(area.getLongName());
+        // if (posContainsArea) {
+        // areaLastIndex = longPos.lastIndexOf(area.getLongName()) +
+        // area.getLongName().length();
+        // // Now we have three similarly named positions;
+        // // Midfielder
+        // // Defensive Midfielder
+        // // Attacking Midfielder
+        // // So if this is midfielder, check "Attacking " or
+        // // "Defensive " don't precede it
+        // // First is it long enough for this
+        // if (PitchArea.Midfielder.equals(area)) {
+        // int earlyIndex = areaLastIndex -
+        // PitchArea.AttackingMidfielder.getLongName().length();
+        // if (0 <= earlyIndex) {
+        // // Before we go any further check Midfielder
+        // // isn't also included before earlyIndex
+        // if (!longPos.substring(0,
+        // earlyIndex).contains(PitchArea.Midfielder.getLongName())) {
+        // String substr = posString.substring(earlyIndex, areaLastIndex);
+        // if (substr.equals(PitchArea.AttackingMidfielder.getLongName())) {
+        // posContainsArea = false;
+        // }
+        // }
+        // }
+        // if (posContainsArea) {
+        // earlyIndex = areaLastIndex -
+        // PitchArea.DefensiveMidfielder.getLongName().length();
+        // if (0 <= earlyIndex) {
+        // String substr = posString.substring(earlyIndex, areaLastIndex);
+        // if (substr.equals(PitchArea.DefensiveMidfielder.getLongName())) {
+        // posContainsArea = false;
+        // }
+        // }
+        // }
+        // }
+        // }
+        // } else {
+        // posContainsArea = shortPos.contains(area.getShortName());
+        // if (posContainsArea) {
+        // areaLastIndex = posString.lastIndexOf(area.getShortName()) +
+        // area.getShortName().length();
+        // // Now we have
+        // // D which is included in DM
+        // // and M, which is included in DM and AM
+        // // So check the next or previous character to see if
+        // // this "really" contains short position
+        // if (PitchArea.Defender.equals(area)) {
+        // String nextPos = posString.substring(areaLastIndex - 1, areaLastIndex
+        // + 1);
+        // if (nextPos.equals(PitchArea.DefensiveMidfielder.getShortName())) {
+        // posContainsArea = false;
+        // }
+        // } else if (PitchArea.Midfielder.equals(area)) {
+        // if (0 < areaLastIndex) {
+        // String nextPos = "";
+        // if (areaLastIndex < posString.length() - 1) {
+        // nextPos = posString.substring(areaLastIndex - 2, areaLastIndex + 1);
+        // } else {
+        // nextPos = posString.substring(areaLastIndex - 2, areaLastIndex);
+        // }
+        // nextPos = nextPos.trim();
+        // if (nextPos.equals(PitchArea.DefensiveMidfielder.getShortName())) {
+        // posContainsArea = false;
+        // } else if
+        // (nextPos.equals(PitchArea.AttackingMidfielder.getShortName())) {
+        // // Could have M/AM and areaLastPos points to
+        // // the M in AM
+        // int lastAM =
+        // shortPos.lastIndexOf(PitchArea.AttackingMidfielder.getShortName());
+        // if (!shortPos.substring(0,
+        // lastAM).contains(PitchArea.Midfielder.getShortName())) {
+        // posContainsArea = false;
+        // }
+        // }
+        // }
+        // }
+        // }
+        // }
+        // if (posContainsArea) {
+        // LOGGER.debug("Got area " + area);
+        // Position pos = new PlayerPosition();
+        // pos.setLine(area);
+        // if (!area.isSided()) {
+        // positions.add(pos);
+        // } else {
+        // int nextSide = posString.substring(areaLastIndex).indexOf('(') +
+        // areaLastIndex + 1;
+        // if (-1 != nextSide) {
+        // // There could be one or more sides here, either
+        // // long or
+        // // short named
+        // int endOfSides = posString.indexOf(')', nextSide);
+        // String sidesString = posString.substring(nextSide, endOfSides);
+        // // We are looking for C, L or R but we could have
+        // // all
+        // // three
+        // boolean alreadyAdded = false;
+        // if (sidesString.contains("C")) {
+        // pos.setSide(Side.Centre);
+        // positions.add(pos);
+        // alreadyAdded = true;
+        // }
+        // if (sidesString.contains("R")) {
+        // if (!alreadyAdded) {
+        // pos.setSide(Side.Right);
+        // alreadyAdded = true;
+        // } else {
+        // pos = new PlayerPosition();
+        // pos.setLine(area);
+        // pos.setSide(Side.Right);
+        // }
+        // positions.add(pos);
+        // }
+        // if (sidesString.contains("L")) {
+        // if (!alreadyAdded) {
+        // pos.setSide(Side.Left);
+        // alreadyAdded = true;
+        // } else {
+        // pos = new PlayerPosition();
+        // pos.setLine(area);
+        // pos.setSide(Side.Left);
+        // }
+        // positions.add(pos);
+        // }
+        // } else {
+        // // I don't think this should happen!
+        // LOGGER.warn("No side found for area " + area);
+        // }
+        // }
+        // }
+        // }
+        // }
 
         return positions;
     }
@@ -535,13 +656,45 @@ public class PlayerTextParser implements Parser<Player> {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.mcparland.john.footballmanagerroles.parser.Parser#setAttributes(com
+     * .mcparland.john.footballmanagerroles.data.attributes.Attributes)
+     */
     @Override
     public void setAttributes(Attributes attributes) {
         this.attributes = attributes;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.mcparland.john.footballmanagerroles.parser.Parser#getAttributes()
+     */
     @Override
     public Attributes getAttributes() {
         return attributes;
+    }
+
+    /**
+     * Get the PitchAreas
+     * 
+     * @return The PitchAreas
+     */
+    public PitchAreaCollection getPitchAreas() {
+        return pitchAreas;
+    }
+
+    /**
+     * Set the PitchAreas
+     * 
+     * @param pitchAreas
+     *            The PitchAreas
+     */
+    public void setPitchAreas(PitchAreaCollection pitchAreas) {
+        this.pitchAreas = pitchAreas;
     }
 }

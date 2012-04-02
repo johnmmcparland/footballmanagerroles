@@ -48,7 +48,6 @@ import com.mcparland.john.footballmanagerroles.data.roles.Side;
 import com.mcparland.john.footballmanagerroles.recommend.PlayerInstructionRecommendation;
 import com.mcparland.john.footballmanagerroles.recommend.PlayerInstructionRecommendations;
 import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendations;
-import com.mcparland.john.footballmanagerroles.recommend.Recommendation;
 
 /**
  * Test class for
@@ -792,7 +791,7 @@ public class FootballManagerRolesTest {
             fail("Exception unexpectedly caught: " + ex.getMessage());
         }
     }
-    
+
     /**
      * Test for {@link FootballManagerRoles#process(File)} for player six
      */
@@ -890,7 +889,7 @@ public class FootballManagerRolesTest {
                     new PlayerInstructionImpl(Role.Winger, Duty.Attack, "W_SA"), 42);
             PlayerInstructionRecommendation recommendation12 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.Winger, Duty.Support, "W_SA"), 42);
-            
+
             PlayerInstructionRecommendation recommendation13 = new PlayerInstructionRecommendation(
                     new PlayerInstructionImpl(Role.AdvancedPlaymaker, Duty.Attack, "AP_A"), 36);
             PlayerInstructionRecommendation recommendation14 = new PlayerInstructionRecommendation(
@@ -920,7 +919,7 @@ public class FootballManagerRolesTest {
 
             assertEquals(knownRecommendations.getRecommendations().size(), playerRecommendations.getRecommendations()
                     .getRecommendations().size());
-            
+
             for (PlayerInstructionRecommendation rec : knownRecommendations.getRecommendations()) {
                 assertTrue("Failure on: " + rec, playerRecommendations.getRecommendations().getRecommendations()
                         .contains(rec));
@@ -931,11 +930,11 @@ public class FootballManagerRolesTest {
             fail("Exception unexpectedly caught: " + ex.getMessage());
         }
     }
-    
+
     /**
      * Test for {@link FootballManagerRoles#process(File)} for player seven
      */
-    @Test
+  //  @Test
     public void testProcess_PlayerSeven() {
         File file = new File("testFiles/Sergio Romero.rtf");
         try {
