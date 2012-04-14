@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- WARNING: Eclipse auto-generated file.
-              Any modifications will be overwritten.
-              To include a user specific buildfile here, simply create one in the same
-              directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. -->
-<project basedir="." default="build" name="FootballManagerRoles">
+<project basedir="." default="deploy_local" name="FootballManagerRoles">
+	
+	<property file="build.properties" />
+	
     <property environment="env"/>
     <property name="ECLIPSE_HOME" value="../../../../../Program Files/Eclipse/eclipse helios/eclipse"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
+	
     <path id="FootballManagerRoles.classpath">
         <pathelement location="bin"/>
         <pathelement location="thirdparty/commons-logging.jar"/>
@@ -25,58 +24,59 @@
         <pathelement location="thirdparty/org.springframework.test-3.0.2.RELEASE.jar"/>
         <pathelement location="thirdparty/org.springframework.transaction-3.0.2.RELEASE.jar"/>
         <pathelement location="thirdparty/junit-4.7.jar"/>
+    	<pathelement location="thirdparty/commons-fileupload.jar"/>
+    	<pathelement location="thirdparty/servlet-api.jar"/>
+    	<pathelement location="thirdparty/commons-beanutils-1.8.0.jar"/>
+    	<pathelement location="thirdparty/org.springframework.web-3.0.2.RELEASE.jar"/>
     </path>
-    <target name="init">
-        <mkdir dir="bin"/>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="main/packages">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="test/packages">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="clean">
-        <delete dir="bin"/>
-    </target>
-    <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
-    <target name="build-subprojects"/>
-    <target depends="init" name="build-project">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
-            <src path="main/packages"/>
-            <classpath refid="FootballManagerRoles.classpath"/>
-        </javac>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
-            <src path="test/packages"/>
-            <classpath refid="FootballManagerRoles.classpath"/>
-        </javac>
-    </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
-        <copy todir="${ant.library.dir}">
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </copy>
-        <unzip dest="${ant.library.dir}">
-            <patternset includes="jdtCompilerAdapter.jar"/>
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </unzip>
-    </target>
-    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
-        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-        <antcall target="build"/>
-    </target>
-    <target name="FootballManagerRoles_dev">
-        <java classname="com.mcparland.john.footballmanagerroles.FootballManagerRoles" failonerror="true" fork="yes">
-            <jvmarg line="-DMODE=dev&#13;&#10;-Dlog4j.debug=true -Dlog4j.configuration=com/mcparland/john/footballmanagerroles/config/dev/footballmanagerroles_log4j.properties"/>
-            <arg line="&quot;testFiles/5. Daniel Majstorovic.rtf&quot;"/>
-            <classpath refid="FootballManagerRoles.classpath"/>
-        </java>
-    </target>
+	
+	<target name="clean">
+		<echo>Cleaning the ${build.dir}</echo>
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="init" depends="clean">
+		<echo>Creating the build directory</echo>
+		<mkdir dir="${build.dir}/WEB-INF/classes" />
+		<mkdir dir="${build.dir}/WEB-INF/lib" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<target name="compile" depends="init">
+		<echo>Compile the source files</echo>
+		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes">
+			<classpath refid="FootballManagerRoles.classpath" />
+		</javac>
+	</target>
+
+	<target name="copy" depends="compile">
+		<copy todir="${build.dir}/WEB-INF">
+			<fileset dir="${web.dir}/WEB-INF" />
+		</copy>
+		<copy todir="${build.dir}">
+			<fileset dir="${web.dir}" />
+		</copy>
+		<copy todir="${build.dir}/WEB-INF/lib">
+			<fileset dir="${lib.dir}">
+				<exclude name="servlet-api.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="war" depends="copy">
+		<echo>Building the war file</echo>
+		<war destfile="${dist.dir}/${project.name}.war" webxml="${build.dir}/WEB-INF/web.xml">
+			<fileset dir="${build.dir}" />
+		</war>
+	</target>
+
+	<target name="deploy_local" depends="war">
+		<echo>Deploying .war to local Tomcat</echo>
+		<copy todir="${tomcat.dir}">
+			<fileset dir="${dist.dir}">
+				<include name="${project.name}.war" />
+			</fileset>
+		</copy>
+	</target>
 </project>
