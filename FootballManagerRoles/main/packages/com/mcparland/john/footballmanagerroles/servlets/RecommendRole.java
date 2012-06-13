@@ -1,3 +1,20 @@
+/*
+ * A program to determine the best role for footballer in the Football Manager game
+ * Copyright (C) 2011-12  John McParland (johnmmcparland@gmail.com)
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details. 
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.mcparland.john.footballmanagerroles.servlets;
 
 import java.io.File;
@@ -23,11 +40,21 @@ import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendations;
 /**
  * Servlet implementation class TestDb
  * 
- * @author Dariusz Majewski
+ * @author Dariusz Majewski (initial, including the main file upload aspect)
+ * @author John McParland (johnmmcparland@gmail.com)
  */
 @WebServlet("/RecommendRole")
 public class RecommendRole extends HttpServlet {
+
+    /**
+     * @see {@link java.io.Serializable}
+     */
     private static final long serialVersionUID = 1L;
+
+    /**
+     * The bean which is the "model" of the application"
+     */
+    private static final String MODEL_BEAN = "footballManagerRoles";
 
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
@@ -37,7 +64,7 @@ public class RecommendRole extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
         FootballManagerRoles footballManagerRoles = (FootballManagerRoles) WebApplicationContextUtils
-                .getWebApplicationContext(getServletContext()).getBean("footballManagerRoles");
+                .getWebApplicationContext(getServletContext()).getBean(MODEL_BEAN);
 
         // Create a factory for disk-based file items
         FileItemFactory factory = new DiskFileItemFactory();
