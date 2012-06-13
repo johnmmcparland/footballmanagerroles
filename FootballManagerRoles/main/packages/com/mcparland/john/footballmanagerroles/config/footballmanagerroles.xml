@@ -9,7 +9,7 @@ http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location"
-			value="com/mcparland/john/footballmanagerroles/config/${MODE}/footballmanagerroles.properties" />
+			value="classpath:com/mcparland/john/footballmanagerroles/config/footballmanagerroles.properties" />
 	</bean>
 
 	<!-- Supporting objects -->

@@ -1,0 +1,14 @@
+<!-- 
+Add this to Tomcat's context xml file
+On xampp it is 
+
+C:\xampp\tomcat\conf\context.xml
+
+CHANGE THE PASSWORD
+
+ -->
+
+		<Resource name="jdbc/footballmanagerroles" auth="Container"
+		type="javax.sql.DataSource" maxActive="100" maxIdle="30" maxWait="10000"
+		username="fmrolesuser" password="1gNorance" driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost/footballmanagerroles" />
