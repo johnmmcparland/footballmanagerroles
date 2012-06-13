@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtilsBean2;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -36,9 +35,13 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.mcparland.john.footballmanagerroles.FootballManagerRoles;
 import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendations;
+import com.mcparland.john.footballmanagerroles.view.FootballManagerRolesView;
 
 /**
- * Servlet implementation class TestDb
+ * Controller for the Football Manager Roles application
+ * <p>
+ * Controls the flow between input and output
+ * </p>
  * 
  * @author Dariusz Majewski (initial, including the main file upload aspect)
  * @author John McParland (johnmmcparland@gmail.com)
@@ -52,9 +55,14 @@ public class RecommendRole extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The bean which is the "model" of the application"
+     * The bean which is the "model" of the application
      */
     private static final String MODEL_BEAN = "footballManagerRoles";
+
+    /**
+     * The bean which is the "view" of the application
+     */
+    private static final String VIEW_BEAN = "footballManagerRolesView";
 
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
@@ -63,8 +71,11 @@ public class RecommendRole extends HttpServlet {
     @SuppressWarnings("unchecked")
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
+        // Get the beans we need
         FootballManagerRoles footballManagerRoles = (FootballManagerRoles) WebApplicationContextUtils
                 .getWebApplicationContext(getServletContext()).getBean(MODEL_BEAN);
+        FootballManagerRolesView view = (FootballManagerRolesView) WebApplicationContextUtils.getWebApplicationContext(
+                getServletContext()).getBean(VIEW_BEAN);
 
         // Create a factory for disk-based file items
         FileItemFactory factory = new DiskFileItemFactory();
@@ -76,16 +87,19 @@ public class RecommendRole extends HttpServlet {
         try {
             List<FileItem> items = upload.parseRequest(request);
             for (FileItem item : items) {
+                // Get the file inot the server
                 response.getWriter().append("<hr/>");
                 File f = File.createTempFile("fmr_tmp_", item.getName());
                 item.write(f);
+
+                // Process the file
                 PlayerRecommendations pr = footballManagerRoles.process(f);
+
+                // Clean up
                 f.delete();
-                response.getWriter().append(
-                        BeanUtilsBean2.getInstance().describe(pr.getPlayer()).toString().replaceAll(",", "<br/>"));
-                response.getWriter().append("<br/><br/>Recomendations: <br/>");
-                response.getWriter().append(
-                        pr.getRecommendations().getRecommendations().toString().replaceAll(",", "<br/>"));
+
+                // Now show the result!
+                view.view(pr, response);
             }
         } catch (Exception e) {
             e.printStackTrace();
