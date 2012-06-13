@@ -49,7 +49,7 @@ import com.mcparland.john.footballmanagerroles.data.roles.PitchAreaCollectionImp
  * @author John McParland (john.mcparland@gmail.com)
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/com/mcparland/john/footballmanagerroles/config/footballmanagerroles.xml" })
+@ContextConfiguration(locations = { "classpath:/com/mcparland/john/footballmanagerroles/config/footballmanagerroles.xml", "classpath:/tests/com/mcparland/john/footballmanagerroles/config/test_datasource.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class PitchAreaCollectionTest {
 

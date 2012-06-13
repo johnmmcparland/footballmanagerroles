@@ -18,7 +18,8 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-	    	classpath*:com/mcparland/john/footballmanagerroles/config/footballmanagerroles.xml           
+	    	classpath*:com/mcparland/john/footballmanagerroles/config/footballmanagerroles.xml 
+	    	classpath*:com/mcparland/john/footballmanagerroles/config/jndi_datasource.xml       
 	     </param-value>
 	</context-param>
 	<resource-ref>

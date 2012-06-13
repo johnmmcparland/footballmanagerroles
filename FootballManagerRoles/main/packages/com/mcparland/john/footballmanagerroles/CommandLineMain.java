@@ -48,7 +48,8 @@ public class CommandLineMain {
      */
     public static void main(String[] args) {
         ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(
-                "com/mcparland/john/footballmanagerroles/config/footballmanagerroles.xml");
+                "com/mcparland/john/footballmanagerroles/config/footballmanagerroles.xml",
+                "com/mcparland/john/footballmanagerroles/config/test_datasource.xml");
         context.registerShutdownHook();
 
         // Main application object

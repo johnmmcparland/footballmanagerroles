@@ -65,7 +65,7 @@ import com.mcparland.john.footballmanagerroles.parser.PlayerTextParser;
  * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/com/mcparland/john/footballmanagerroles/config/footballmanagerroles.xml" })
+@ContextConfiguration(locations = { "classpath:/com/mcparland/john/footballmanagerroles/config/footballmanagerroles.xml", "classpath:/tests/com/mcparland/john/footballmanagerroles/config/test_datasource.xml" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class PlayerTestParserTest {
 

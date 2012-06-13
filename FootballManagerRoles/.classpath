@@ -20,6 +20,10 @@
 	<classpathentry kind="lib" path="thirdparty/servlet-api.jar"/>
 	<classpathentry kind="lib" path="thirdparty/commons-beanutils-1.8.0.jar"/>
 	<classpathentry kind="lib" path="thirdparty/org.springframework.web-3.0.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="thirdparty/aopalliance.jar"/>
+	<classpathentry kind="lib" path="thirdparty/commons-io.jar"/>
+	<classpathentry kind="lib" path="thirdparty/hamcrest-core-1.1.jar"/>
+	<classpathentry kind="lib" path="thirdparty/hsqldb.jar"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
