@@ -14,7 +14,7 @@ http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
 
-	<!-- Supporting objects -->
+	<!-- Command Line I/O -->
 	<!-- -->
 	<!-- The input -->
 	<bean id="commandLineInput"
@@ -28,6 +28,12 @@ http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
 	<!-- An error reporter -->
 	<bean id="commandLineErrorReporter"
 		class="com.mcparland.john.footballmanagerroles.support.CmdLineErrorReporter" />
+
+	<!-- The Real View (Output) -->
+	<!-- -->
+	<bean id="footballManagerRolesView"
+		class="com.mcparland.john.footballmanagerroles.view.SimpleHTMLFootballManagerRolesView">
+	</bean>
 
 	<!-- The main object -->
 	<!-- -->
