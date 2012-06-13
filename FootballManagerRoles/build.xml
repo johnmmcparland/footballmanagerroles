@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="deploy_local" name="myfmr">
+<project basedir="." default="deploy_local" name="FootballManagerRoles">
 
 	<property file="build.properties" />
 
@@ -9,7 +9,7 @@
 	<property name="target" value="1.6" />
 	<property name="source" value="1.6" />
 
-	<path id="myfmr.classpath">
+	<path id="FootballManagerRoles.classpath">
 		<pathelement location="bin" />
 		<pathelement location="thirdparty/aopalliance.jar"/>
 		<pathelement location="thirdparty/commons-beanutils-1.8.0.jar" />
@@ -51,7 +51,7 @@
 	<target name="compile" depends="init">
 		<echo>Compile the source files</echo>
 		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes">
-			<classpath refid="myfmr.classpath" />
+			<classpath refid="FootballManagerRoles.classpath" />
 		</javac>
 	</target>
 
