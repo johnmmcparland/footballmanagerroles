@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- -->
+<!-- A program to determine the best role for footballer in the Football 
+	Manager game -->
+<!-- Copyright (C) 2011-12 John McParland (johnmmcparland@gmail.com) -->
+<!-- -->
+<!-- This program is free software: you can redistribute it and/or modify -->
+<!-- it under the terms of the GNU General Public License as published by -->
+<!-- the Free Software Foundation, either version 3 of the License, or -->
+<!-- (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program. If not, see <http://www.gnu.org/licenses/>. -->
+<!-- -->
+
 <project basedir="." default="deploy_local" name="FootballManagerRoles">
 
 	<property file="build.properties" />
@@ -11,10 +30,10 @@
 
 	<path id="FootballManagerRoles.classpath">
 		<pathelement location="bin" />
-		<pathelement location="thirdparty/aopalliance.jar"/>
+		<pathelement location="thirdparty/aopalliance.jar" />
 		<pathelement location="thirdparty/commons-beanutils-1.8.0.jar" />
 		<pathelement location="thirdparty/commons-fileupload.jar" />
-		<pathelement location="thirdparty/commons-io.jar"/>
+		<pathelement location="thirdparty/commons-io.jar" />
 		<pathelement location="thirdparty/commons-logging.jar" />
 		<!-- <pathelement location="thirdparty/javax.servlet-api-3.0.1.jar"/> -->
 		<pathelement location="thirdparty/servlet-api.jar" />
@@ -32,7 +51,7 @@
 		<pathelement location="thirdparty/org.springframework.jdbc-3.0.2.RELEASE.jar" />
 		<pathelement location="thirdparty/org.springframework.test-3.0.2.RELEASE.jar" />
 		<pathelement location="thirdparty/org.springframework.transaction-3.0.2.RELEASE.jar" />
-		<pathelement location="thirdparty/org.springframework.web-3.0.2.RELEASE.jar" />	
+		<pathelement location="thirdparty/org.springframework.web-3.0.2.RELEASE.jar" />
 	</path>
 
 	<target name="clean">

@@ -3,6 +3,26 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
+
+	<!-- -->
+	<!-- A program to determine the best role for footballer in the Football 
+		Manager game -->
+	<!-- Copyright (C) 2011-12 John McParland (johnmmcparland@gmail.com) -->
+	<!-- -->
+	<!-- This program is free software: you can redistribute it and/or modify -->
+	<!-- it under the terms of the GNU General Public License as published by -->
+	<!-- the Free Software Foundation, either version 3 of the License, or -->
+	<!-- (at your option) any later version. -->
+	<!-- -->
+	<!-- This program is distributed in the hope that it will be useful, -->
+	<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+	<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+	<!-- GNU General Public License for more details. -->
+	<!-- -->
+	<!-- You should have received a copy of the GNU General Public License -->
+	<!-- along with this program. If not, see <http://www.gnu.org/licenses/>. -->
+	<!-- -->
+
 	<display-name>FootballManagerRoles</display-name>
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
@@ -10,8 +30,8 @@
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
 		<param-value>/WEB-INF/classes/com/mcparland/john/footballmanagerroles/config/log4j.properties</param-value>
-	</context-param>	
-	
+	</context-param>
+
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
