@@ -92,6 +92,11 @@
 				<include name="*.properties" />
 			</fileset>
 		</copy>
+		<copy todir="${build.dir}/WEB-INF/classes">
+			<fileset dir="${web.dir}">
+				<include name="RecommendRole*" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="war" depends="copy">

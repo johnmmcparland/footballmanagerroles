@@ -34,6 +34,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.mcparland.john.footballmanagerroles.FootballManagerRoles;
+import com.mcparland.john.footballmanagerroles.parser.PlayerTextParser;
 import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendations;
 import com.mcparland.john.footballmanagerroles.view.FootballManagerRolesView;
 
@@ -65,6 +66,11 @@ public class RecommendRole extends HttpServlet {
     private static final String VIEW_BEAN = "footballManagerRolesView";
 
     /**
+     * The bean which parses the file
+     */
+    private static final String PARSER_BEAN = "parser";
+
+    /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
      *      response)
      */
@@ -76,24 +82,25 @@ public class RecommendRole extends HttpServlet {
                 .getWebApplicationContext(getServletContext()).getBean(MODEL_BEAN);
         FootballManagerRolesView view = (FootballManagerRolesView) WebApplicationContextUtils.getWebApplicationContext(
                 getServletContext()).getBean(VIEW_BEAN);
+        PlayerTextParser parser = (PlayerTextParser) WebApplicationContextUtils.getWebApplicationContext(
+                getServletContext()).getBean(PARSER_BEAN);
 
         // Create a factory for disk-based file items
         FileItemFactory factory = new DiskFileItemFactory();
 
         // Create a new file upload handler
         ServletFileUpload upload = new ServletFileUpload(factory);
-        response.getWriter().append("<html><body>");
         // Parse the request
         try {
             List<FileItem> items = upload.parseRequest(request);
             for (FileItem item : items) {
-                // Get the file inot the server
-                response.getWriter().append("<hr/>");
-                File f = File.createTempFile("fmr_tmp_", item.getName());
+                // Get the file onto the server
+                File f = File.createTempFile("fmr_tmp_" + System.currentTimeMillis(), item.getName());
                 item.write(f);
 
                 // Process the file
                 PlayerRecommendations pr = footballManagerRoles.process(f);
+                pr.getPlayer().setName(parser.getPlayerNameFromFileName(item.getName()));
 
                 // Clean up
                 f.delete();
@@ -105,7 +112,6 @@ public class RecommendRole extends HttpServlet {
             e.printStackTrace();
             response.getWriter().append(e.getLocalizedMessage());
         }
-        response.getWriter().append("</body></html>");
         response.getWriter().close();
     }
 
