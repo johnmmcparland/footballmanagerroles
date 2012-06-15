@@ -1,82 +1,117 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- WARNING: Eclipse auto-generated file.
-              Any modifications will be overwritten.
-              To include a user specific buildfile here, simply create one in the same
-              directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. -->
-<project basedir="." default="build" name="FootballManagerRoles">
-    <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="../../../../../Program Files/Eclipse/eclipse helios/eclipse"/>
-    <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.6"/>
-    <property name="source" value="1.6"/>
-    <path id="FootballManagerRoles.classpath">
-        <pathelement location="bin"/>
-        <pathelement location="thirdparty/commons-logging.jar"/>
-        <pathelement location="thirdparty/log4j-1.2.15.jar"/>
-        <pathelement location="thirdparty/mysql-connector-java-5.0.8-bin.jar"/>
-        <pathelement location="thirdparty/org.springframework.aop-3.0.2.RELEASE.jar"/>
-        <pathelement location="thirdparty/org.springframework.asm-3.0.2.RELEASE.jar"/>
-        <pathelement location="thirdparty/org.springframework.beans-3.0.2.RELEASE.jar"/>
-        <pathelement location="thirdparty/org.springframework.context-3.0.2.RELEASE.jar"/>
-        <pathelement location="thirdparty/org.springframework.core-3.0.2.RELEASE.jar"/>
-        <pathelement location="thirdparty/org.springframework.expression-3.0.2.RELEASE.jar"/>
-        <pathelement location="thirdparty/org.springframework.jdbc-3.0.2.RELEASE.jar"/>
-        <pathelement location="thirdparty/org.springframework.test-3.0.2.RELEASE.jar"/>
-        <pathelement location="thirdparty/org.springframework.transaction-3.0.2.RELEASE.jar"/>
-        <pathelement location="thirdparty/junit-4.7.jar"/>
-    </path>
-    <target name="init">
-        <mkdir dir="bin"/>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="main/packages">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="test/packages">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="clean">
-        <delete dir="bin"/>
-    </target>
-    <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
-    <target name="build-subprojects"/>
-    <target depends="init" name="build-project">
-        <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
-            <src path="main/packages"/>
-            <classpath refid="FootballManagerRoles.classpath"/>
-        </javac>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
-            <src path="test/packages"/>
-            <classpath refid="FootballManagerRoles.classpath"/>
-        </javac>
-    </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
-        <copy todir="${ant.library.dir}">
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </copy>
-        <unzip dest="${ant.library.dir}">
-            <patternset includes="jdtCompilerAdapter.jar"/>
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </unzip>
-    </target>
-    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
-        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-        <antcall target="build"/>
-    </target>
-    <target name="FootballManagerRoles_dev">
-        <java classname="com.mcparland.john.footballmanagerroles.FootballManagerRoles" failonerror="true" fork="yes">
-            <jvmarg line="-DMODE=dev&#13;&#10;-Dlog4j.debug=true -Dlog4j.configuration=com/mcparland/john/footballmanagerroles/config/dev/footballmanagerroles_log4j.properties"/>
-            <arg line="&quot;testFiles/5. Daniel Majstorovic.rtf&quot;"/>
-            <classpath refid="FootballManagerRoles.classpath"/>
-        </java>
-    </target>
+<!-- -->
+<!-- A program to determine the best role for footballer in the Football 
+	Manager game -->
+<!-- Copyright (C) 2011-12 John McParland (johnmmcparland@gmail.com) -->
+<!-- -->
+<!-- This program is free software: you can redistribute it and/or modify -->
+<!-- it under the terms of the GNU General Public License as published by -->
+<!-- the Free Software Foundation, either version 3 of the License, or -->
+<!-- (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program. If not, see <http://www.gnu.org/licenses/>. -->
+<!-- -->
+
+<project basedir="." default="deploy_local" name="FootballManagerRoles">
+
+	<property file="build.properties" />
+
+	<property environment="env" />
+	<property name="ECLIPSE_HOME" value="../../../../../Program Files/Eclipse/eclipse helios/eclipse" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.6" />
+	<property name="source" value="1.6" />
+
+	<path id="FootballManagerRoles.classpath">
+		<pathelement location="bin" />
+		<pathelement location="thirdparty/aopalliance.jar" />
+		<pathelement location="thirdparty/commons-beanutils-1.8.0.jar" />
+		<pathelement location="thirdparty/commons-fileupload.jar" />
+		<pathelement location="thirdparty/commons-io.jar" />
+		<pathelement location="thirdparty/commons-logging.jar" />
+		<!-- <pathelement location="thirdparty/javax.servlet-api-3.0.1.jar"/> -->
+		<pathelement location="thirdparty/servlet-api.jar" />
+		<pathelement location="thirdparty/junit-4.7.jar" />
+		<pathelement location="thirdparty/log4j-1.2.15.jar" />
+		<pathelement location="thirdparty/mysql-connector-java-5.0.8-bin.jar" />
+		<pathelement location="thirdparty/hamcrest-core-1.1.jar" />
+		<pathelement location="thirdparty/hsqldb.jar" />
+		<pathelement location="thirdparty/org.springframework.aop-3.0.2.RELEASE.jar" />
+		<pathelement location="thirdparty/org.springframework.asm-3.0.2.RELEASE.jar" />
+		<pathelement location="thirdparty/org.springframework.beans-3.0.2.RELEASE.jar" />
+		<pathelement location="thirdparty/org.springframework.context-3.0.2.RELEASE.jar" />
+		<pathelement location="thirdparty/org.springframework.core-3.0.2.RELEASE.jar" />
+		<pathelement location="thirdparty/org.springframework.expression-3.0.2.RELEASE.jar" />
+		<pathelement location="thirdparty/org.springframework.jdbc-3.0.2.RELEASE.jar" />
+		<pathelement location="thirdparty/org.springframework.test-3.0.2.RELEASE.jar" />
+		<pathelement location="thirdparty/org.springframework.transaction-3.0.2.RELEASE.jar" />
+		<pathelement location="thirdparty/org.springframework.web-3.0.2.RELEASE.jar" />
+	</path>
+
+	<target name="clean">
+		<echo>Cleaning the ${build.dir}</echo>
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="init" depends="clean">
+		<echo>Creating the build directory</echo>
+		<mkdir dir="${build.dir}/WEB-INF/classes" />
+		<mkdir dir="${build.dir}/WEB-INF/lib" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<target name="compile" depends="init">
+		<echo>Compile the source files</echo>
+		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes">
+			<classpath refid="FootballManagerRoles.classpath" />
+		</javac>
+	</target>
+
+	<target name="copy" depends="compile">
+		<copy todir="${build.dir}/WEB-INF">
+			<fileset dir="${web.dir}/WEB-INF" />
+		</copy>
+		<copy todir="${build.dir}">
+			<fileset dir="${web.dir}" />
+		</copy>
+		<copy todir="${build.dir}/WEB-INF/lib">
+			<fileset dir="${lib.dir}">
+				<exclude name="servlet-api.jar" />
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/WEB-INF/classes/com/mcparland/john/footballmanagerroles/config">
+			<fileset dir="${src.dir}/com/mcparland/john/footballmanagerroles/config">
+				<include name="*.xml" />
+				<include name="*.properties" />
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/WEB-INF/classes">
+			<fileset dir="${web.dir}">
+				<include name="RecommendRole*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="war" depends="copy">
+		<echo>Building the war file</echo>
+		<war destfile="${dist.dir}/${project.name}.war" webxml="${build.dir}/WEB-INF/web.xml">
+			<fileset dir="${build.dir}" />
+		</war>
+	</target>
+
+	<target name="deploy_local" depends="war">
+		<echo>Deploying .war to local Tomcat</echo>
+		<copy todir="${tomcat.dir}">
+			<fileset dir="${dist.dir}">
+				<include name="${project.name}.war" />
+			</fileset>
+		</copy>
+	</target>
 </project>
