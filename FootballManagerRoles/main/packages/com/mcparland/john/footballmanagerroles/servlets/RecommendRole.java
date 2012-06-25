@@ -19,6 +19,8 @@ package com.mcparland.john.footballmanagerroles.servlets;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -36,6 +38,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.mcparland.john.footballmanagerroles.FootballManagerRoles;
 import com.mcparland.john.footballmanagerroles.parser.PlayerTextParser;
 import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendations;
+import com.mcparland.john.footballmanagerroles.support.HtmlErrorReporter;
 import com.mcparland.john.footballmanagerroles.view.FootballManagerRolesView;
 
 /**
@@ -71,6 +74,11 @@ public class RecommendRole extends HttpServlet {
     private static final String PARSER_BEAN = "parser";
 
     /**
+     * Bean for errors
+     */
+    private static final String ERROR_REPORTER_BEAN = "htmlErrorReporter";
+
+    /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
      *      response)
      */
@@ -84,6 +92,9 @@ public class RecommendRole extends HttpServlet {
                 getServletContext()).getBean(VIEW_BEAN);
         PlayerTextParser parser = (PlayerTextParser) WebApplicationContextUtils.getWebApplicationContext(
                 getServletContext()).getBean(PARSER_BEAN);
+        HtmlErrorReporter errorReporter = (HtmlErrorReporter) WebApplicationContextUtils.getWebApplicationContext(
+                getServletContext()).getBean(ERROR_REPORTER_BEAN);
+        errorReporter.setResponse(response);
 
         // Create a factory for disk-based file items
         FileItemFactory factory = new DiskFileItemFactory();
@@ -93,26 +104,62 @@ public class RecommendRole extends HttpServlet {
         // Parse the request
         try {
             List<FileItem> items = upload.parseRequest(request);
-            for (FileItem item : items) {
+            if (1 != items.size()) {
+                errorReporter.report("More than one file was supplied.  Please upload just one file");
+            } else {
+                FileItem item = items.get(0);
                 // Get the file onto the server
                 File f = File.createTempFile("fmr_tmp_" + System.currentTimeMillis(), item.getName());
                 item.write(f);
+                if (isRtfFile(f.getAbsolutePath())) {
+                    // Process the file
+                    PlayerRecommendations pr = footballManagerRoles.process(f);
+                    pr.getPlayer().setName(parser.getPlayerNameFromFileName(item.getName()));
 
-                // Process the file
-                PlayerRecommendations pr = footballManagerRoles.process(f);
-                pr.getPlayer().setName(parser.getPlayerNameFromFileName(item.getName()));
+                    // Clean up
+                    f.delete();
 
-                // Clean up
-                f.delete();
-
-                // Now show the result!
-                view.view(pr, response);
+                    // Now show the result!
+                    view.view(pr, response);
+                } else {
+                    errorReporter.report("Please upload an RTF file only");
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.getWriter().append(e.getLocalizedMessage());
+        } catch (Throwable th) {
+            th.printStackTrace();
+            errorReporter.report("Sorry, something unexpected has happened.  Please check your file and try again", th);
         }
         response.getWriter().close();
+    }
+
+    /**
+     * Get the Mime Type of the file. Obtained from
+     * http://www.rgagnon.com/javadetails/java-0487.html
+     * 
+     * @param fileUrl
+     *            the name of the file - needs full path
+     * @return the type of the file
+     * @throws java.io.IOException
+     *             If there is any problem reading the file
+     */
+    public static String getMimeType(String fileUrl) throws java.io.IOException {
+        FileNameMap fileNameMap = URLConnection.getFileNameMap();
+        String type = fileNameMap.getContentTypeFor(fileUrl);
+
+        return type;
+    }
+
+    /**
+     * Is the given file an RTF file?
+     * 
+     * @param filePath
+     *            the path to the file including its name
+     * @return true if the file is RTF, false otherwise
+     * @throws IOException
+     *             If there is any problem checking the file
+     */
+    public boolean isRtfFile(String filePath) throws IOException {
+        return "application/rtf".equals(getMimeType(filePath));
     }
 
 }

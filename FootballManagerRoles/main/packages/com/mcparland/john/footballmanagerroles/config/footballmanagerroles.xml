@@ -49,12 +49,24 @@ http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
 	<bean id="commandLineErrorReporter"
 		class="com.mcparland.john.footballmanagerroles.support.CmdLineErrorReporter" />
 
+	<!-- Inserts HTML into a template -->
+	<bean id="htmlContentInserter"
+		class="com.mcparland.john.footballmanagerroles.html.HtmlContentInserterImpl">
+		<property name="htmlTopFileName" value="/RecommendRoleTop.html" />
+		<property name="htmlBottomFileName" value="/RecommendRoleBottom.html" />
+	</bean>
+
 	<!-- The Real View (Output) -->
 	<!-- -->
 	<bean id="footballManagerRolesView"
 		class="com.mcparland.john.footballmanagerroles.view.SimpleHTMLFootballManagerRolesView">
-		<property name="htmlTopFileName" value="/RecommendRoleTop.html" />
-		<property name="htmlBottomFileName" value="/RecommendRoleBottom.html" />
+		<property name="htmlContentInserter" ref="htmlContentInserter" />
+	</bean>
+
+	<!-- Error reporter for HTML -->
+	<bean id="htmlErrorReporter"
+		class="com.mcparland.john.footballmanagerroles.support.HtmlErrorReporter">
+		<property name="htmlContentInserter" ref="htmlContentInserter" />
 	</bean>
 
 	<!-- The main object -->

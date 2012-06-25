@@ -17,15 +17,10 @@
  */
 package com.mcparland.john.footballmanagerroles.view;
 
-import java.io.InputStream;
-import java.io.Writer;
-
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.InitializingBean;
-
 import com.mcparland.john.footballmanagerroles.data.roles.Position;
+import com.mcparland.john.footballmanagerroles.html.HtmlContentInserter;
 import com.mcparland.john.footballmanagerroles.recommend.PlayerRecommendations;
 import com.mcparland.john.footballmanagerroles.recommend.Recommendation;
 
@@ -41,68 +36,18 @@ import com.mcparland.john.footballmanagerroles.recommend.Recommendation;
  * 
  * @author John McParland (john.mcparland@gmail.com)
  */
-public class SimpleHTMLFootballManagerRolesView implements FootballManagerRolesView, InitializingBean {
+public class SimpleHTMLFootballManagerRolesView implements FootballManagerRolesView {
 
     /**
-     * Logger for this class
+     * The HTML Content Inserter which handles inserting of the results
      */
-    private static final Logger LOGGER = Logger.getLogger(SimpleHTMLFootballManagerRolesView.class);
-
-    /**
-     * The file containing the "top" of the HTML to print
-     */
-    private String htmlTopFileName = null;
-
-    /**
-     * The file containing the "bottom" of the HTML to print
-     */
-    private String htmlBottomFileName = null;
+    private HtmlContentInserter htmlContentInserter = null;
 
     /**
      * Create a SimpleHTMLFootballManagerRolesView
      */
     public SimpleHTMLFootballManagerRolesView() {
         // Nothing to do
-    }
-
-    /**
-     * Get the HTML Top file name
-     * 
-     * @return name of the file containing the top of the HTML to output
-     */
-    public String getHtmlTopFileName() {
-        return htmlTopFileName;
-    }
-
-    /**
-     * Set the HTML Top file name
-     * 
-     * @param htmlTopFileName
-     *            name of the file containing the top of the HTML to output
-     */
-    public void setHtmlTopFileName(String htmlTopFileName) {
-        this.htmlTopFileName = htmlTopFileName;
-        LOGGER.trace("htmlTopFileName = " + this.htmlTopFileName);
-    }
-
-    /**
-     * Get the name of the file containing the bottom of the HTML to output
-     * 
-     * @return name of the file containing the bottom of the HTML to output
-     */
-    public String getHtmlBottomFileName() {
-        return htmlBottomFileName;
-    }
-
-    /**
-     * Set the name of the file containing the bottom of the HTML to output
-     * 
-     * @param htmlBottomFileName
-     *            name of the file containing the bottom of the HTML to output
-     */
-    public void setHtmlBottomFileName(String htmlBottomFileName) {
-        this.htmlBottomFileName = htmlBottomFileName;
-        LOGGER.trace("htmlBottomFileName = " + this.htmlBottomFileName);
     }
 
     /*
@@ -116,84 +61,42 @@ public class SimpleHTMLFootballManagerRolesView implements FootballManagerRolesV
      */
     @Override
     public void view(PlayerRecommendations playerRecommendations, HttpServletResponse response) throws Exception {
-        // Put the "top" of the file in
-        appendFile(getHtmlTopFileName(), response.getWriter());
+        StringBuilder builder = new StringBuilder();
 
         // Put the main stuff in
         // Header bits
-        response.getWriter().append(
-                "<h3>Recommendations for: " + playerRecommendations.getPlayer().getName() + "</h3><br />");
-        response.getWriter().append("<h4>Positions</h4><br />");
-        response.getWriter().append("<ul>");
+        builder.append("<h3>Recommendations for: " + playerRecommendations.getPlayer().getName() + "</h3><br />");
+        builder.append("<h4>Positions</h4><br />");
+        builder.append("<ul>");
         for (Position pos : playerRecommendations.getPlayer().getPositions()) {
-            response.getWriter().append("<li>" + pos.toString() + "</li>");
+            builder.append("<li>" + pos.toString() + "</li>");
         }
-        response.getWriter().append(
-                "</ul><br /><h4>Preferred Foot</h4><br /><ul><li>" + playerRecommendations.getPlayer().getPreferredFoot()
-                        + "</li></ul><br />");
+        builder.append("</ul><br /><h4>Preferred Foot</h4><br /><ul><li>"
+                + playerRecommendations.getPlayer().getPreferredFoot() + "</li></ul><br />");
 
         // The actual recommendations
-        response.getWriter().append("<table><tr><th>Role</th><th>Duty</th><th>Rating</th></tr>");
+        builder.append("<table><tr><th>Role</th><th>Duty</th><th>Rating</th></tr>");
         for (Recommendation<?> rec : playerRecommendations.getRecommendations().getRecommendations()) {
-            response.getWriter().append(
-                    "<tr><td>" + rec.getPlayerInstruction().getRole() + "</td><td>"
-                            + rec.getPlayerInstruction().getDuty() + "</td><td>" + rec.getRating() + "</td></tr>");
+            builder.append("<tr><td>" + rec.getPlayerInstruction().getRole() + "</td><td>"
+                    + rec.getPlayerInstruction().getDuty() + "</td><td>" + rec.getRating() + "</td></tr>");
         }
-        response.getWriter().append("</table><br />");
-        
-        // Put the "bottom" of the file in
-        appendFile(getHtmlBottomFileName(), response.getWriter());
+        builder.append("</table><br />");
+
+        getHtmlContentInserter().insert(builder.toString(), response);
     }
 
     /**
-     * Append the given input file to the given writer
-     * 
-     * @param inputFile
-     *            the given input file
-     * @param writer
-     *            the given writer
-     * @throws Exception
-     *             any exceptions which may occur
+     * @param htmlContentInserter
+     *            the htmlContentInserter to set
      */
-    private void appendFile(String inputFile, Writer writer) throws Exception {
-        InputStream is = SimpleHTMLFootballManagerRolesView.class.getResourceAsStream(inputFile);
-        int nextChar = 0;
-        while (-1 != (nextChar = is.read())) {
-            writer.append((char) nextChar);
-        }
+    public void setHtmlContentInserter(HtmlContentInserter htmlContentInserter) {
+        this.htmlContentInserter = htmlContentInserter;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+    /**
+     * @return the htmlContentInserter
      */
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        LOGGER.trace("htmlTopFileName = " + this.htmlTopFileName);
-        LOGGER.trace("htmlBottomFileName = " + this.htmlBottomFileName);
-        try {
-            InputStream is = SimpleHTMLFootballManagerRolesView.class.getResourceAsStream(getHtmlTopFileName());
-            if (0 == is.available()) {
-                throw new IllegalArgumentException("The html top file cannot be read or found: " + getHtmlTopFileName());
-            }
-        } catch (NullPointerException npe) {
-            LOGGER.error("NullPointerException caught - is the file name (" + getHtmlTopFileName() + ") null?", npe);
-            throw new IllegalArgumentException("Is the filename (" + getHtmlTopFileName() + ") null? "
-                    + npe.getLocalizedMessage());
-        }
-
-        try {
-            InputStream is = SimpleHTMLFootballManagerRolesView.class.getResourceAsStream(getHtmlBottomFileName());
-            if (0 == is.available()) {
-                throw new IllegalArgumentException("The html bottom file cannot be read or found: "
-                        + getHtmlBottomFileName());
-            }
-        } catch (NullPointerException npe) {
-            LOGGER.error("NullPointerException caught - is the file name (" + getHtmlBottomFileName() + ") null?", npe);
-            throw new IllegalArgumentException("Is the filename (" + getHtmlBottomFileName() + ") null? "
-                    + npe.getLocalizedMessage());
-        }
+    public HtmlContentInserter getHtmlContentInserter() {
+        return htmlContentInserter;
     }
 }
