@@ -25,8 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 
-import com.mcparland.john.footballmanagerroles.view.SimpleHTMLFootballManagerRolesView;
-
 /**
  * The ability to insert content into an HTML page
  * <p>
@@ -114,7 +112,7 @@ public class HtmlContentInserterImpl implements HtmlContentInserter, Initializin
      *             any exceptions which may occur
      */
     private void appendFile(String inputFile, Writer writer) throws Exception {
-        InputStream is = SimpleHTMLFootballManagerRolesView.class.getResourceAsStream(inputFile);
+        InputStream is = HtmlContentInserterImpl.class.getResourceAsStream(inputFile);
         int nextChar = 0;
         while (-1 != (nextChar = is.read())) {
             writer.append((char) nextChar);
