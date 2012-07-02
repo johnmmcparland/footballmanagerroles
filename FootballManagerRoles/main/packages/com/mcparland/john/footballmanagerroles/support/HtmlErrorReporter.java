@@ -90,10 +90,10 @@ public class HtmlErrorReporter implements ErrorReporter {
      */
     @Override
     public void report(String message, Throwable throwable) {
-        String html = "<h3>Whoops!</h3>\n<p>\n" + message + "\n</p><br /><br />\n<p>" + throwable.getMessage()
-                + "</p><br /><br />\n";
-        html += "Here's a really techie bit - don't worry, just contact me with it :)\n+<p>"
-                + getStackTraceString(throwable) + "</p>\n";
+        String html = "<h3>Whoops!</h3>\n" + "<p>\n" + message + "\n" + "</p><br /><br />\n";
+        html += "<p>\n"
+                + "Here's a really techie bit - don't worry, just <a href=\"contact.html\">contact me</a> with it</p><br/ ><br />\n"
+                + "<p>\n" + getStackTraceString(throwable) + "\n</p><br /><br />\n";
         try {
             getHtmlContentInserter().insert(html, getResponse());
         } catch (Throwable th) {

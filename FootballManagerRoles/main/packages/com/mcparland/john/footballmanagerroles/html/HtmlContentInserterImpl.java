@@ -17,6 +17,9 @@
  */
 package com.mcparland.john.footballmanagerroles.html;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Writer;
 
@@ -131,8 +134,17 @@ public class HtmlContentInserterImpl implements HtmlContentInserter, Initializin
         LOGGER.trace("htmlBottomFileName = " + this.htmlBottomFileName);
         try {
             InputStream is = HtmlContentInserterImpl.class.getResourceAsStream(getHtmlTopFileName());
+            if (null == is) {
+                // Yuck! Need this for JUnit
+                try {
+                    is = new FileInputStream(new File("main/war" + getHtmlTopFileName()));
+                } catch (FileNotFoundException fnfe) {
+                    throw new IllegalArgumentException("The html top file cannot be read or found: "
+                            + getHtmlTopFileName());
+                }
+            }
             if (0 == is.available()) {
-                throw new IllegalArgumentException("The html top file cannot be read or found: " + getHtmlTopFileName());
+                throw new IllegalArgumentException("The html top file is empty: " + getHtmlTopFileName());
             }
         } catch (NullPointerException npe) {
             LOGGER.error("NullPointerException caught - is the file name (" + getHtmlTopFileName() + ") null?", npe);
@@ -142,9 +154,17 @@ public class HtmlContentInserterImpl implements HtmlContentInserter, Initializin
 
         try {
             InputStream is = HtmlContentInserterImpl.class.getResourceAsStream(getHtmlBottomFileName());
+            if (null == is) {
+                // Yuck! Need this for JUnit
+                try {
+                    is = new FileInputStream(new File("main/war" + getHtmlBottomFileName()));
+                } catch (FileNotFoundException fnfe) {
+                    throw new IllegalArgumentException("The html bottom file cannot be read or found: "
+                            + getHtmlBottomFileName());
+                }
+            }
             if (0 == is.available()) {
-                throw new IllegalArgumentException("The html bottom file cannot be read or found: "
-                        + getHtmlBottomFileName());
+                throw new IllegalArgumentException("The html bottom file is empty: " + getHtmlBottomFileName());
             }
         } catch (NullPointerException npe) {
             LOGGER.error("NullPointerException caught - is the file name (" + getHtmlBottomFileName() + ") null?", npe);

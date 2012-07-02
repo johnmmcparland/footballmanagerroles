@@ -52,8 +52,8 @@ http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
 	<!-- Inserts HTML into a template -->
 	<bean id="htmlContentInserter"
 		class="com.mcparland.john.footballmanagerroles.html.HtmlContentInserterImpl">
-		<property name="htmlTopFileName" value="/RecommendRoleTop.html" />
-		<property name="htmlBottomFileName" value="/RecommendRoleBottom.html" />
+		<property name="htmlTopFileName" value="${html.topfile}" />
+		<property name="htmlBottomFileName" value="${html.bottomfile}" />
 	</bean>
 
 	<!-- The Real View (Output) -->
