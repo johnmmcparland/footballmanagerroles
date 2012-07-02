@@ -33,6 +33,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.log4j.Logger;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.mcparland.john.footballmanagerroles.FootballManagerRoles;
@@ -52,6 +53,11 @@ import com.mcparland.john.footballmanagerroles.view.FootballManagerRolesView;
  */
 @WebServlet("/RecommendRole")
 public class RecommendRole extends HttpServlet {
+
+    /**
+     * Logger for this class
+     */
+    private static final Logger LOGGER = Logger.getLogger(RecommendRole.class);
 
     /**
      * @see {@link java.io.Serializable}
@@ -102,22 +108,23 @@ public class RecommendRole extends HttpServlet {
         // Create a new file upload handler
         ServletFileUpload upload = new ServletFileUpload(factory);
         // Parse the request
+        List<FileItem> items = null;
+        File f = null;
         try {
-            List<FileItem> items = upload.parseRequest(request);
+            items = upload.parseRequest(request);
             if (1 != items.size()) {
                 errorReporter.report("More than one file was supplied.  Please upload just one file");
             } else {
                 FileItem item = items.get(0);
                 // Get the file onto the server
-                File f = File.createTempFile("fmr_tmp_" + System.currentTimeMillis(), item.getName());
+                f = File.createTempFile("fmr_tmp_" + System.currentTimeMillis(), item.getName());
+                LOGGER.debug("Created temp file: " + f.getAbsolutePath());
                 item.write(f);
+                LOGGER.debug("Wrote temp file: " + f.getAbsolutePath());
                 if (isRtfFile(f.getAbsolutePath())) {
                     // Process the file
                     PlayerRecommendations pr = footballManagerRoles.process(f);
                     pr.getPlayer().setName(parser.getPlayerNameFromFileName(item.getName()));
-
-                    // Clean up
-                    f.delete();
 
                     // Now show the result!
                     view.view(pr, response);
@@ -126,10 +133,35 @@ public class RecommendRole extends HttpServlet {
                 }
             }
         } catch (Throwable th) {
+            LOGGER.error("Caught an unexpected throwable: " + th.getMessage());
             th.printStackTrace();
             errorReporter.report("Sorry, something unexpected has happened.  Please check your file and try again", th);
+        } finally {
+            LOGGER.debug("In finally");
+            // Clean up
+            if (null != f && f.exists() && f.isFile()) {
+                f.delete();
+                LOGGER.debug("Deleted file: " + f.getAbsolutePath());
+            } else {
+                LOGGER.warn("Did not delete file");
+            }
+            cleanUp(items);
+            response.getWriter().close();
         }
-        response.getWriter().close();
+    }
+
+    /**
+     * Clean up the items
+     * 
+     * @param items
+     *            the items to clean up
+     */
+    public void cleanUp(List<FileItem> items) {
+        LOGGER.debug("Cleaning up items");
+        for (FileItem item : items) {
+            item.delete();
+            LOGGER.debug("Deleted item");
+        }
     }
 
     /**

@@ -58,6 +58,8 @@
 		<echo>Cleaning the ${build.dir}</echo>
 		<delete dir="${build.dir}" />
 		<delete dir="${dist.dir}" />
+		<delete file="${tomcat.dir}/${project.name}.war" />
+		<delete dir="${tomcat.dir}/${project.name}" />
 	</target>
 
 	<target name="init" depends="clean">
@@ -95,6 +97,11 @@
 		<copy todir="${build.dir}/WEB-INF/classes">
 			<fileset dir="${web.dir}">
 				<include name="RecommendRole*" />
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/WEB-INF/classes/">
+			<fileset dir="${src.dir}/com/mcparland/john/footballmanagerroles/config">
+				<include name="footballmanagerroles_log4j.properties" />
 			</fileset>
 		</copy>
 	</target>
