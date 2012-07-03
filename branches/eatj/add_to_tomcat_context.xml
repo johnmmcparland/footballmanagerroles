@@ -29,5 +29,5 @@ CHANGE THE PASSWORD
 
 		<Resource name="jdbc/footballmanagerroles" auth="Container"
 		type="javax.sql.DataSource" maxActive="100" maxIdle="30" maxWait="10000"
-		username="fmrolesuser" password="1gNorance" driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost/footballmanagerroles" />
+		username="johnmmcparland" password="s^nH8uZM_VAN" driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3307/johnmmcparland?autoReconnect=true" />

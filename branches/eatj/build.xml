@@ -18,7 +18,7 @@
 <!-- along with this program. If not, see <http://www.gnu.org/licenses/>. -->
 <!-- -->
 
-<project basedir="." default="deploy_local" name="FootballManagerRoles">
+<project basedir="." default="war" name="FootballManagerRoles">
 
 	<property file="build.properties" />
 
@@ -113,6 +113,7 @@
 		</war>
 	</target>
 
+	<!--
 	<target name="deploy_local" depends="war">
 		<echo>Deploying .war to local Tomcat</echo>
 		<copy todir="${tomcat.dir}">
@@ -121,4 +122,5 @@
 			</fileset>
 		</copy>
 	</target>
+	-->
 </project>
