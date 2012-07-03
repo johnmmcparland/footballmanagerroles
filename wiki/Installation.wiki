@@ -16,11 +16,9 @@ This page details how to install the Football Manager Roles software.
  # Create a strong password for fmrolesuser (change it from the default)
 
 == Step 2: Configure JNDI ==
- # Add to tomcat\conf\context.xml the following {{{
-		<Resource name="jdbc/footballmanagerroles" auth="Container"
-		type="javax.sql.DataSource" maxActive="100" maxIdle="30" maxWait="10000"
-		username="fmrolesuser" password="1gNorance" driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost/footballmanagerroles" />
+ # Add to tomcat\conf\context.xml the following 
+{{{
+<Resource name="jdbc/footballmanagerroles" auth="Container" 		type="javax.sql.DataSource" maxActive="100" maxIdle="30" maxWait="10000" username="fmrolesuser" password="1gNorance" driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost/footballmanagerroles" />
 }}}
  # CHANGE THE PASSWORD to be the same as the one in the database
 
