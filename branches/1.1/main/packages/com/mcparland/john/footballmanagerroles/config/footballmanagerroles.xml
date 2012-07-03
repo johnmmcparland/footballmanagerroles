@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- -->
+<!-- A program to determine the best role for footballer in the Football 
+	Manager game -->
+<!-- Copyright (C) 2011-12 John McParland (johnmmcparland@gmail.com) -->
+<!-- -->
+<!-- This program is free software: you can redistribute it and/or modify -->
+<!-- it under the terms of the GNU General Public License as published by -->
+<!-- the Free Software Foundation, either version 3 of the License, or -->
+<!-- (at your option) any later version. -->
+<!-- -->
+<!-- This program is distributed in the hope that it will be useful, -->
+<!-- but WITHOUT ANY WARRANTY; without even the implied warranty of -->
+<!-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the -->
+<!-- GNU General Public License for more details. -->
+<!-- -->
+<!-- You should have received a copy of the GNU General Public License -->
+<!-- along with this program. If not, see <http://www.gnu.org/licenses/>. -->
+<!-- -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd http://www.springframework.org/schema/jdbc 
+http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
+
+	<!-- Load properties -->
+	<bean id="mainAppProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="classpath:com/mcparland/john/footballmanagerroles/config/footballmanagerroles.properties" />
+		<!-- Allow for other property placeholder configurers -->
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+
+	<!-- Command Line I/O -->
+	<!-- -->
+	<!-- The input -->
+	<bean id="commandLineInput"
+		class="com.mcparland.john.footballmanagerroles.input.CmdLineInput" />
+
+	<!-- The output -->
+	<bean id="commandLineOutput"
+		class="com.mcparland.john.footballmanagerroles.output.CmdLineOutput">
+	</bean>
+
+	<!-- An error reporter -->
+	<bean id="commandLineErrorReporter"
+		class="com.mcparland.john.footballmanagerroles.support.CmdLineErrorReporter" />
+
+	<!-- Inserts HTML into a template -->
+	<bean id="htmlContentInserter"
+		class="com.mcparland.john.footballmanagerroles.html.HtmlContentInserterImpl">
+		<property name="htmlTopFileName" value="${html.topfile}" />
+		<property name="htmlBottomFileName" value="${html.bottomfile}" />
+	</bean>
+
+	<!-- The Real View (Output) -->
+	<!-- -->
+	<bean id="footballManagerRolesView"
+		class="com.mcparland.john.footballmanagerroles.view.SimpleHTMLFootballManagerRolesView">
+		<property name="htmlContentInserter" ref="htmlContentInserter" />
+	</bean>
+
+	<!-- Error reporter for HTML -->
+	<bean id="htmlErrorReporter"
+		class="com.mcparland.john.footballmanagerroles.support.HtmlErrorReporter">
+		<property name="htmlContentInserter" ref="htmlContentInserter" />
+	</bean>
+
+	<!-- The main object -->
+	<!-- -->
+	<bean id="footballManagerRoles"
+		class="com.mcparland.john.footballmanagerroles.FootballManagerRoles">
+		<property name="parser" ref="parser" />
+		<property name="attributesService" ref="attributesService" />
+		<property name="playerInstructionsService" ref="playerInstructionsService" />
+		<property name="recommender" ref="recommender" />
+	</bean>
+
+	<!-- Application objects -->
+	<!-- -->
+
+	<!-- Database beans -->
+	<!-- -->
+
+	<!-- JDBC Template for accessing the Football Manager Roles database -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- Input parsing -->
+	<!-- -->
+	<!-- The parser -->
+	<bean id="parser"
+		class="com.mcparland.john.footballmanagerroles.parser.PlayerTextParser">
+		<property name="pitchAreas" ref="pitchAreaCol" />
+	</bean>
+
+	<!-- Pitch Areas -->
+	<bean id="pitchAreaCol"
+		class="com.mcparland.john.footballmanagerroles.data.roles.PitchAreaCollectionImpl"></bean>
+
+	<!-- Attributes beans -->
+	<!-- -->
+
+	<!-- Attribute service for getting the attributes -->
+	<bean id="attributesService"
+		class="com.mcparland.john.footballmanagerroles.data.access.PlayerAttributesService">
+		<property name="DAOs" ref="attributeDaos" />
+	</bean>
+
+	<!-- Data access objects for attributes -->
+	<util:list id="attributeDaos" list-class="java.util.ArrayList">
+		<ref bean="outfieldAttributesDao" />
+		<ref bean="gkAttributesDao" />
+	</util:list>
+
+	<!-- Outfield player attributes DAO -->
+	<bean id="outfieldAttributesDao"
+		class="com.mcparland.john.footballmanagerroles.data.access.DAOImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="queryier" ref="outFieldAttributesQuery" />
+		<property name="query" value="${outfield.attrs.query}" />
+	</bean>
+
+	<!-- Goalkeeper Attributes DAO -->
+	<bean id="gkAttributesDao"
+		class="com.mcparland.john.footballmanagerroles.data.access.DAOImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="queryier" ref="gkAttributesQuery" />
+		<!-- Note the query is different here because we only want the GK attributes -->
+		<property name="query" value="${gk.attrs.query}" />
+	</bean>
+
+	<!-- Query for outfield player attributes -->
+	<bean id="outFieldAttributesQuery"
+		class="com.mcparland.john.footballmanagerroles.data.access.AttributesQuery">
+	</bean>
+
+	<!-- Goalkeeper attributes query -->
+	<bean id="gkAttributesQuery"
+		class="com.mcparland.john.footballmanagerroles.data.access.AttributesQuery">
+	</bean>
+
+	<!-- Player Instruction beans -->
+	<!-- -->
+
+	<!-- The Player Instructions Service -->
+	<bean id="playerInstructionsService"
+		class="com.mcparland.john.footballmanagerroles.data.access.PlayerInstructionServiceImpl">
+		<property name="DAOs" ref="playerInstructionDaos" />
+	</bean>
+
+	<!-- Player Instructions Data Access Objects -->
+	<util:list id="playerInstructionDaos" list-class="java.util.ArrayList">
+		<ref bean="playerInstructionDao" />
+	</util:list>
+
+	<!-- Player Instructions Data Access Object -->
+	<bean id="playerInstructionDao"
+		class="com.mcparland.john.footballmanagerroles.data.access.DAOImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="queryier" ref="playerInstructionQuery" />
+		<!-- N.B This query is incomplete and expects to be build up programmatically -->
+		<property name="query" value="${player.instructions.query}" />
+	</bean>
+
+	<!-- Player Instruction Query -->
+	<bean id="playerInstructionQuery"
+		class="com.mcparland.john.footballmanagerroles.data.access.PlayerInstructionQuery">
+	</bean>
+
+	<!-- Recommendation Beans -->
+	<!-- -->
+
+	<!-- The Recommender -->
+	<bean id="recommender"
+		class="com.mcparland.john.footballmanagerroles.recommend.PlayerInstructionRecommender">
+		<property name="keyAttributesService" ref="keyAttributesService" />
+	</bean>
+
+	<bean id="keyAttributesService"
+		class="com.mcparland.john.footballmanagerroles.data.access.KeyAttributesServiceImpl">
+		<property name="DAOs" ref="keyAttributesDaos" />
+	</bean>
+
+	<util:list id="keyAttributesDaos" list-class="java.util.ArrayList">
+		<ref bean="keyAttributesDao" />
+	</util:list>
+
+	<bean id="keyAttributesDao"
+		class="com.mcparland.john.footballmanagerroles.data.access.DAOImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="query" value="${key.attrs.query}" />
+		<property name="queryier" ref="keyAttributesQueryier" />
+	</bean>
+
+	<bean id="keyAttributesQueryier"
+		class="com.mcparland.john.footballmanagerroles.data.access.AttributesQuery">
+	</bean>
+
+</beans>
