@@ -98,7 +98,7 @@ public class KeyAttributesServiceImpl implements KeyAttributesService {
         if (-1 != queryStart.indexOf("delete")) {
             throw new IllegalArgumentException("The query contains the delete keyword: " + queryStart);
         }
-        return (queryStart + " " + viewName).toLowerCase();
+        return (queryStart + " " + viewName);
     }
 
     /*

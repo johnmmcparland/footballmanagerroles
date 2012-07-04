@@ -79,7 +79,7 @@ public class PlayerInstructionServiceImpl implements PlayerInstructionService {
                 List<PlayerInstruction> instructs = (List<PlayerInstruction>) dao.getJdbcTemplate().query(query,
                         dao.getQueryier());
                 for (PlayerInstruction ins : instructs) {
-                        instructions.addPlayerInstruction(ins);
+                    instructions.addPlayerInstruction(ins);
                 }
             }
         }
@@ -96,7 +96,7 @@ public class PlayerInstructionServiceImpl implements PlayerInstructionService {
      * @return The query as a String
      */
     private String buildPlayerInstructionQuery(String queryStart, Collection<Position> positions) {
-        StringBuilder builder = new StringBuilder(queryStart.toLowerCase());
+        StringBuilder builder = new StringBuilder(queryStart);
         LOGGER.trace("Query start: " + queryStart);
         LOGGER.trace("Number of positions: " + positions.size());
 
