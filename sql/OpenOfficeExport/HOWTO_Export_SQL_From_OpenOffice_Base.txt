@@ -1,4 +1,4 @@
-1. Check out sql/OpenOfficeExport/FootballManagerRoles.sql
+1. Check out sql/OpenOfficeExport/FootballManagerRoles.sql by making a small edit
 
 2.
 
@@ -7,6 +7,12 @@
 -- Go to 'Tools' -> 'SQL'
 -- Place the below in 'Command to execute'
 -- Press 'Execute'
-SCRIPT 'C:\cygwin\home\John\workspace\FootballManagerRoles\sql\OpenOfficeExport\FootballManagerRoles.sql'
+SCRIPT 'C:\cygwin\home\John\workspace\FootballManagerRoles.sql'
 
-3. Commit
+3. cd /home/John/workspace/FootballManagerRoles/
+
+4. cp ../FootballManagerRoles.sql sql/OpenOfficeExport/
+
+5. rm ../FootballManagerRoles.sql
+
+6. Commit
