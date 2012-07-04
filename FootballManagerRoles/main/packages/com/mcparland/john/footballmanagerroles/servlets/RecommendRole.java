@@ -191,7 +191,16 @@ public class RecommendRole extends HttpServlet {
      *             If there is any problem checking the file
      */
     public boolean isRtfFile(String filePath) throws IOException {
-        return "application/rtf".equals(getMimeType(filePath));
+        LOGGER.info("Uploaded file: "+filePath);
+        LOGGER.info("Mime Type: "+getMimeType(filePath));
+        final String mimeType = getMimeType(filePath);
+        if (null == mimeType) {
+            final String extension = filePath.substring(filePath.length()-4);
+            LOGGER.info("Extension: "+extension);
+            return ".rtf".equals(extension.toLowerCase());
+        } else {
+            return "application/rtf".equals(mimeType);   
+        }
     }
 
 }
