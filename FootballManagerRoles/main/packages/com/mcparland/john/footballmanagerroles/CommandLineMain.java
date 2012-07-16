@@ -49,7 +49,7 @@ public class CommandLineMain {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(
                 "com/mcparland/john/footballmanagerroles/config/footballmanagerroles.xml",
-                "com/mcparland/john/footballmanagerroles/config/test_datasource.xml");
+                "tests/com/mcparland/john/footballmanagerroles/config/test_datasource.xml");
         context.registerShutdownHook();
 
         // Main application object
@@ -61,14 +61,15 @@ public class CommandLineMain {
         ErrorReporter errorReporter = (ErrorReporter) context.getBean("commandLineErrorReporter");
 
         // Do the processing
-        input.setInputFromUser(args);
-        try {
-            PlayerRecommendations playerRecommendations = footballManagerRoles.process(input.getInputFile());
+        if (input.setInputFromUser(args)) {
+            try {
+                PlayerRecommendations playerRecommendations = footballManagerRoles.process(input.getInputFile());
 
-            // Output it
-            output.output(playerRecommendations);
-        } catch (Exception ex) {
-            errorReporter.report("Error making recommendations", ex);
+                // Output it
+                output.output(playerRecommendations);
+            } catch (Exception ex) {
+                errorReporter.report("Error making recommendations", ex);
+            }
         }
     }
 }

@@ -41,7 +41,7 @@ public class CmdLineInput extends AbstractInput {
      * Create a new command line input instance
      */
     public CmdLineInput() {
-	super();
+        super();
     }
 
     /**
@@ -51,7 +51,7 @@ public class CmdLineInput extends AbstractInput {
      *            The input file
      */
     public CmdLineInput(File file) {
-	super(file);
+        super(file);
     }
 
     /*
@@ -62,32 +62,40 @@ public class CmdLineInput extends AbstractInput {
      * .lang.String[])
      */
     public boolean setInputFromUser(String[] args) {
-	if (1 != args.length) {
-	    LOGGER.error("Incorrect number of arguments");
-	    printUsage();
-	    return false;
-	}
-	File f = new File(args[0]);
-	if (f.exists() && f.canRead() && f.isFile()) {
-	    setInputFile(f);
-	    LOGGER.info("Set input file as " + f.getAbsolutePath());
-	    return true;
-	} else {
-	    LOGGER.error("Cannot and/or read file " + f.getAbsolutePath());
-	    System.out
-		    .println("Cannot and/or read file " + f.getAbsolutePath());
-	    printUsage();
-	    return false;
-	}
+        if (1 != args.length) {
+            LOGGER.error("Incorrect number of arguments");
+            printUsage();
+            return false;
+        }
+        File f = new File(args[0]);
+
+        // This is just extra debugging
+        if (!f.exists()) {
+            LOGGER.error(f.getAbsolutePath() + " does not EXIST");
+        } else if (!f.canRead()) {
+            LOGGER.error(f.getAbsolutePath() + " cannot be READ");
+        } else if (!f.isFile()) {
+            LOGGER.error(f.getAbsoluteFile() + " isn't a FILE");
+        }
+
+        if (f.exists() && f.canRead() && f.isFile()) {
+            setInputFile(f);
+            LOGGER.info("Set input file as " + f.getAbsolutePath());
+            return true;
+        } else {
+            LOGGER.error("Cannot find and/or read file " + f.getAbsolutePath());
+            System.out.println("Cannot find and/or read file " + f.getAbsolutePath());
+            printUsage();
+            return false;
+        }
     }
 
     /**
      * Print usage information
      */
     public void printUsage() {
-	System.out.println("java -jar FMCoach.jar <inputfile> <player name>");
-	System.out.println("<inputfile> Is the player or coach file to read");
-	System.out.println("<player name> is the name of the player or coach");
+        System.out.println("java -jar FMCoach.jar <inputfile>");
+        System.out.println("<inputfile> Is the player file to read");
     }
 
 }
